@@ -3,70 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thiệp Cưới | Phi Long &amp; Kim Chi</title>
+<meta name="description" content="Thiệp cưới Phi Long và Kim Chi, Chủ Nhật 27 tháng 9 năm 2026.">
+<title>Phi Long & Kim Chi | 27.09.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <p class="eyebrow">SAVE THE DATE</p>
-      <h1 class="names">Phi Long <span class="amp">&amp;</span> Kim Chi</h1>
-      <p class="date">Chủ Nhật, 27 Tháng 9, 2026</p>
+  <header class="hero">
+    <div class="hero-copy reveal">
+      <p class="eyebrow">Trân trọng kính mời</p>
+      <h1 class="hero-names">
+        Phi Long <span class="amp">&amp;</span><br>
+        Kim Chi
+      </h1>
+      <p class="hero-sub">Chúng mình chính thức về chung một nhà và muốn có bạn bên cạnh trong ngày trọng đại nhất.</p>
+      <p class="hero-date"><span>27</span><i>·</i><span>09</span><i>·</i><span>2026</span></p>
+      <a class="btn-primary" href="#chi-tiet">Xem chi tiết</a>
     </div>
-  </section>
-
-  <section class="intro">
-    <p>
-      Tình yêu là hành trình đẹp nhất khi có người đồng hành.
-      Chúng mình trân trọng kính mời bạn đến chung vui trong ngày trọng đại
-      của cuộc đời chúng mình.
-    </p>
-  </section>
-
-  <section class="countdown">
-    <h2>Đếm ngược đến ngày cưới</h2>
-    <div class="countdown-grid" id="countdown">
-      <div class="countdown-item"><span id="days">00</span><small>Ngày</small></div>
-      <div class="countdown-item"><span id="hours">00</span><small>Giờ</small></div>
-      <div class="countdown-item"><span id="minutes">00</span><small>Phút</small></div>
-      <div class="countdown-item"><span id="seconds">00</span><small>Giây</small></div>
-    </div>
-  </section>
-
-  <section class="events">
-    <h2>Chương Trình</h2>
-    <div class="event-grid">
-      <div class="event-card">
-        <h3>Lễ Vu Quy</h3>
-        <p class="event-time">08:00, 27/09/2026</p>
-        <p class="event-place">Nhà Gái — 123 Đường Hoa, Quận 1, TP.HCM</p>
-      </div>
-      <div class="event-card">
-        <h3>Tiệc Cưới</h3>
-        <p class="event-time">18:00, 27/09/2026</p>
-        <p class="event-place">Trung Tâm Tiệc Cưới ABC — 456 Đường Sen, Quận 3, TP.HCM</p>
+    <div class="hero-media reveal">
+      <div class="photo-slot" role="img" aria-label="Vị trí đặt ảnh cưới của Phi Long và Kim Chi">
+        <span class="photo-slot-mark">PL <i>&amp;</i> KC</span>
+        <span class="photo-slot-caption">Thêm ảnh cưới thật của bạn ở đây</span>
       </div>
     </div>
-  </section>
+  </header>
 
-  <section class="rsvp">
-    <h2>Xác Nhận Tham Dự</h2>
-    <p>Sự hiện diện của bạn là niềm vinh hạnh lớn lao đối với chúng mình.</p>
-    <form class="rsvp-form" onsubmit="return false;">
-      <input type="text" placeholder="Họ và tên" required>
-      <select>
-        <option value="yes">Sẽ tham dự</option>
-        <option value="no">Xin phép vắng mặt</option>
-      </select>
-      <input type="number" placeholder="Số lượng khách" min="1" value="1">
-      <button type="submit">Gửi Xác Nhận</button>
-    </form>
-  </section>
+  <main>
+    <section class="intro" aria-labelledby="intro-heading">
+      <h2 id="intro-heading" class="section-heading reveal">Lời ngỏ</h2>
+      <p class="intro-text reveal">
+        Tình yêu là hành trình đẹp nhất khi có người đồng hành.
+        Cảm ơn vì luôn ở đó, để cùng viết tiếp câu chuyện phía trước.
+      </p>
+    </section>
+
+    <section class="countdown" aria-labelledby="countdown-heading">
+      <h2 id="countdown-heading" class="section-heading reveal">Đếm ngược</h2>
+      <div class="countdown-row reveal" id="countdown">
+        <div class="countdown-cell">
+          <span class="countdown-value" id="days">00</span>
+          <span class="countdown-label">Ngày</span>
+        </div>
+        <div class="countdown-cell">
+          <span class="countdown-value" id="hours">00</span>
+          <span class="countdown-label">Giờ</span>
+        </div>
+        <div class="countdown-cell">
+          <span class="countdown-value" id="minutes">00</span>
+          <span class="countdown-label">Phút</span>
+        </div>
+        <div class="countdown-cell">
+          <span class="countdown-value" id="seconds">00</span>
+          <span class="countdown-label">Giây</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="schedule" id="chi-tiet" aria-labelledby="schedule-heading">
+      <h2 id="schedule-heading" class="section-heading reveal">Ngày trọng đại</h2>
+      <div class="schedule-row">
+        <div class="schedule-item reveal">
+          <p class="schedule-time">08:00</p>
+          <h3 class="schedule-name">Lễ Vu Quy</h3>
+          <p class="schedule-place">Nhà Gái<br>123 Đường Hoa, Quận 1, TP.HCM</p>
+        </div>
+        <div class="schedule-divider" aria-hidden="true"></div>
+        <div class="schedule-item reveal">
+          <p class="schedule-time">18:00</p>
+          <h3 class="schedule-name">Tiệc Cưới</h3>
+          <p class="schedule-place">Trung Tâm Tiệc Cưới ABC<br>456 Đường Sen, Quận 3, TP.HCM</p>
+        </div>
+      </div>
+      <p class="schedule-date">Chủ Nhật, 27 tháng 9, 2026</p>
+    </section>
+
+    <section class="gallery" aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading" class="section-heading reveal">Khoảnh khắc</h2>
+      <div class="gallery-grid reveal">
+        <div class="photo-slot gallery-large" role="img" aria-label="Vị trí đặt ảnh kỷ niệm 1">
+          <span class="photo-slot-caption">Ảnh kỷ niệm</span>
+        </div>
+        <div class="photo-slot gallery-small" role="img" aria-label="Vị trí đặt ảnh kỷ niệm 2">
+          <span class="photo-slot-caption">Ảnh kỷ niệm</span>
+        </div>
+        <div class="photo-slot gallery-small" role="img" aria-label="Vị trí đặt ảnh kỷ niệm 3">
+          <span class="photo-slot-caption">Ảnh kỷ niệm</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp" aria-labelledby="rsvp-heading">
+      <h2 id="rsvp-heading" class="section-heading reveal">Xác nhận tham dự</h2>
+      <p class="rsvp-sub reveal">Sự hiện diện của bạn là món quà quý giá nhất với chúng mình.</p>
+      <form class="rsvp-form reveal" onsubmit="return false;">
+        <label class="field">
+          <span>Họ và tên</span>
+          <input type="text" name="fullname" required>
+        </label>
+        <label class="field">
+          <span>Bạn sẽ tham dự chứ?</span>
+          <select name="attending">
+            <option value="yes">Chắc chắn rồi</option>
+            <option value="no">Xin phép vắng mặt</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Số lượng khách</span>
+          <input type="number" name="guests" min="1" value="1">
+        </label>
+        <button type="submit" class="btn-primary">Gửi xác nhận</button>
+      </form>
+    </section>
+  </main>
 
   <footer class="footer">
-    <p class="footer-names">Phi Long &amp; Kim Chi</p>
-    <p>Cảm ơn bạn đã dành thời gian ghé thăm trang thiệp cưới của chúng mình 💍</p>
+    <p class="footer-names">Phi Long <span class="amp">&amp;</span> Kim Chi</p>
+    <p class="footer-note">Cảm ơn bạn đã dành thời gian ghé thăm trang thiệp cưới của chúng mình.</p>
   </footer>
 
   <script src="script.js"></script>
