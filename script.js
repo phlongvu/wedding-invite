@@ -36,6 +36,30 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const envelope = document.getElementById("envelope");
+const sentinel = document.querySelector(".scroll-sentinel");
+
+if (envelope) {
+  if (prefersReducedMotion || !("IntersectionObserver" in window) || !sentinel) {
+    envelope.classList.add("is-open");
+  } else {
+    const envelopeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            envelope.classList.add("is-open");
+            envelopeObserver.disconnect();
+          }
+        });
+      },
+      { rootMargin: "0px 0px -55% 0px" }
+    );
+
+    envelopeObserver.observe(sentinel);
+  }
+}
+
 const revealEls = document.querySelectorAll(".reveal");
 
 if (prefersReducedMotion || !("IntersectionObserver" in window)) {

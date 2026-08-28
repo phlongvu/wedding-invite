@@ -61,6 +61,148 @@ main > section {
   padding: 5rem 1.5rem;
 }
 
+/* Envelope intro */
+.envelope-stage {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.5rem;
+}
+
+/* Perspective sits on the envelope itself so the flap still folds in 3D
+   while the layers keep normal z-index stacking. */
+.envelope {
+  position: relative;
+  width: min(440px, 84vw);
+  aspect-ratio: 3 / 2;
+  perspective: 1400px;
+}
+
+.envelope-body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(155deg, var(--bg-elevated), var(--bg));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.envelope-card {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 7%;
+  height: 84%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 34px rgba(43, 35, 32, 0.14);
+  transform: translateY(0);
+  transition:
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s,
+    z-index 0s 0.8s;
+}
+
+.envelope-mark {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  color: var(--accent);
+  margin: 0;
+  padding-bottom: 0.1rem;
+}
+
+.envelope-mark i {
+  font-style: normal;
+  color: var(--line);
+  padding: 0 0.15em;
+}
+
+.envelope-line {
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.envelope-day {
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  margin: 0;
+}
+
+.envelope-front {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(200deg, var(--bg-elevated), var(--bg));
+  clip-path: polygon(0 0, 50% 47%, 100% 0, 100% 100%, 0 100%);
+  border-radius: var(--radius);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  z-index: 4;
+  background: linear-gradient(180deg, var(--bg-elevated), var(--bg));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition:
+    transform 1.2s cubic-bezier(0.62, 0, 0.3, 1),
+    z-index 0s 0.6s;
+}
+
+.envelope-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 6;
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.envelope.is-open .envelope-flap {
+  transform: rotateX(-172deg);
+  z-index: 0;
+}
+
+.envelope.is-open .envelope-card {
+  transform: translateY(-68%);
+  z-index: 5;
+}
+
+.envelope.is-open .envelope-seal {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+.scroll-sentinel {
+  display: block;
+  height: 1px;
+}
+
 /* Hero */
 .hero {
   display: grid;
@@ -409,6 +551,11 @@ main > section {
   }
   .btn-primary:active {
     transform: none;
+  }
+  .envelope-flap,
+  .envelope-card,
+  .envelope-seal {
+    transition: none;
   }
 }
 
