@@ -1,17 +1,18 @@
-/* Committed single look: a warm sand page carrying a mocha invitation card.
-   The palette comes from the reference stationery, so it stays fixed in
+/* Committed single look: a pale sand page carrying a camel invitation card.
+   The palette is built around the requested #d0b29a, so it stays fixed in
    both colour schemes the way a printed card would. */
 :root {
-  --bg: #ece3d7;
-  --bg-inset: #e2d7c8;
-  --ink: #2a231d;
-  --ink-quiet: #5c5045;
-  --line: rgba(42, 35, 29, 0.18);
+  --bg: #f5ede4;
+  --bg-inset: #e8dacb;
+  --ink: #3a2b1e;
+  --ink-quiet: #6b5544;
+  --line: rgba(58, 43, 30, 0.2);
 
-  --card: #96887a;
-  --card-ink: #1f1915;
-  --card-line: rgba(31, 25, 21, 0.3);
-  --petal: rgba(244, 237, 226, 0.68);
+  /* The camel tone the whole suite is built on */
+  --card: #d0b29a;
+  --card-ink: #33261a;
+  --card-line: rgba(51, 38, 26, 0.32);
+  --petal: rgba(252, 247, 239, 0.85);
 
   --gold: #8c6a2e;
   --gold-light: #b08c45;
@@ -141,25 +142,25 @@ main > section {
 
 .env-flap-top {
   clip-path: polygon(0 0, 100% 0, 50% 50%);
-  background: linear-gradient(180deg, #a1937f, #948670);
+  background: linear-gradient(180deg, #dcc2ac, #cfb199);
   transform-origin: center top;
 }
 
 .env-flap-bottom {
   clip-path: polygon(0 100%, 100% 100%, 50% 50%);
-  background: linear-gradient(0deg, #8d7f70, #857766);
+  background: linear-gradient(0deg, #c7a88f, #bf9f85);
   transform-origin: center bottom;
 }
 
 .env-flap-left {
   clip-path: polygon(0 0, 0 100%, 50% 50%);
-  background: linear-gradient(90deg, #93856f, #8b7d6d);
+  background: linear-gradient(90deg, #cbac93, #c3a48b);
   transform-origin: left center;
 }
 
 .env-flap-right {
   clip-path: polygon(100% 0, 100% 100%, 50% 50%);
-  background: linear-gradient(270deg, #998b7c, #8f8171);
+  background: linear-gradient(270deg, #d5b7a0, #cbad95);
   transform-origin: right center;
 }
 
@@ -245,7 +246,7 @@ main > section {
   font-size: 0.68rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #f6efe1;
+  color: var(--card-ink);
 }
 
 .seal-button:hover .seal-face,
@@ -254,7 +255,7 @@ main > section {
 }
 
 .seal-button:focus-visible {
-  outline: 2px solid #f6efe1;
+  outline: 2px solid var(--card-ink);
   outline-offset: 10px;
   border-radius: var(--radius);
 }
@@ -268,6 +269,7 @@ main > section {
   transform: scale(0.72);
   pointer-events: none;
 }
+
 /* Save the date card */
 .save-the-date {
   min-height: 100dvh;
@@ -292,7 +294,7 @@ main > section {
   border-radius: var(--radius);
   background:
     radial-gradient(120% 80% at 78% 8%, rgba(255, 250, 240, 0.16), transparent 58%),
-    linear-gradient(168deg, #9d8f81 0%, var(--card) 46%, #877a6b 100%);
+    linear-gradient(168deg, #dcc1aa 0%, var(--card) 46%, #c1a289 100%);
   box-shadow: 0 26px 60px rgba(42, 35, 29, 0.26);
 }
 
@@ -628,7 +630,7 @@ main > section {
 }
 
 .btn-primary:hover {
-  background: #443a31;
+  background: #55402c;
 }
 
 .btn-primary:active {
