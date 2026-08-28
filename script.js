@@ -121,11 +121,19 @@ if (sealPhoto && sealFace) {
 
 /* The overlay blocks pointer events and body scroll is locked in CSS, so the
    guest cannot do anything else while the envelope is opening. */
+let pageUnlocked = false;
+
 function unlockPage() {
+  if (pageUnlocked) return;
+  pageUnlocked = true;
+
   document.body.classList.remove("is-sealed");
   document.body.classList.remove("is-revealing");
   document.body.classList.add("invite-open");
-  window.scrollTo(0, 0);
+
+  // The page sets scroll-behavior: smooth, so an animated scroll here would
+  // fight the guest's first gesture. Jump instead.
+  window.scrollTo({ top: 0, behavior: "instant" });
 
   const firstSection = document.querySelector(".save-the-date");
   if (firstSection) {
@@ -153,10 +161,19 @@ if (overlay && openButton) {
       overlay.classList.add("is-opening");
       document.body.classList.add("is-revealing");
 
-      window.setTimeout(() => {
+      /* Release the moment the last flap actually lands. A padded timeout left
+         a gap where the card looked finished but the overlay still swallowed
+         the first scroll. The timeout below is only a safety net. */
+      const lastFlap = overlay.querySelector(".env-flap-bottom");
+      const release = () => {
         overlay.remove();
         unlockPage();
-      }, 2250);
+      };
+
+      if (lastFlap) {
+        lastFlap.addEventListener("transitionend", release, { once: true });
+      }
+      window.setTimeout(release, 2200);
     },
     { once: true }
   );
@@ -213,16 +230,21 @@ if (giftQr && qrMissing) {
 
 wireDialog(giftDialog, openGift, closeGift);
 
-wireDialog(
-  document.getElementById("rsvpDialog"),
-  document.getElementById("openRsvp"),
-  document.getElementById("closeRsvp")
-);
+const rsvpDialog = document.getElementById("rsvpDialog");
+const thanksDialog = document.getElementById("thanksDialog");
+
+wireDialog(rsvpDialog, document.getElementById("openRsvp"), document.getElementById("closeRsvp"));
+wireDialog(thanksDialog, null, document.getElementById("closeThanks"));
+
+const closeThanksBtn = document.getElementById("closeThanksBtn");
+if (closeThanksBtn && thanksDialog) {
+  closeThanksBtn.addEventListener("click", () => thanksDialog.close());
+}
 
 /* The RSVP form: the guest count only appears for someone who is coming, and
    the submit stays shut until there is both a name and an answer. */
 const rsvpForm = document.getElementById("rsvpForm");
-const rsvpDone = document.getElementById("rsvpDone");
+const thanksText = document.getElementById("thanksText");
 const rsvpName = document.getElementById("rsvpName");
 const rsvpSubmit = document.getElementById("rsvpSubmit");
 const guestField = document.getElementById("guestField");
@@ -281,17 +303,28 @@ if (rsvpForm) {
   syncRsvpState();
   syncStepper();
 
-  /* Nowhere to post yet, so it acknowledges in place. */
+  /* Nowhere to post yet. The form closes and the thank you takes its place. */
   rsvpForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (!rsvpDone) return;
 
     const choice = attendingChoice();
-    rsvpDone.textContent =
-      choice && choice.value === "yes"
-        ? "Cảm ơn bạn, chúng mình đã nhận được xác nhận."
-        : "Cảm ơn bạn đã cho chúng mình biết.";
-    rsvpDone.hidden = false;
+    const coming = Boolean(choice) && choice.value === "yes";
+
+    if (thanksText) {
+      thanksText.textContent = coming
+        ? "Chúng mình đã nhận được xác nhận của bạn. Rất mong được gặp bạn trong ngày trọng đại!"
+        : "Chúng mình đã nhận được phản hồi của bạn. Cảm ơn bạn đã cho chúng mình biết.";
+    }
+
+    if (rsvpDialog) rsvpDialog.close();
+
+    if (thanksDialog) {
+      if (typeof thanksDialog.showModal === "function") {
+        thanksDialog.showModal();
+      } else {
+        thanksDialog.setAttribute("open", "");
+      }
+    }
   });
 }
 

@@ -165,16 +165,6 @@
 
         <p class="wi-lunar">(Tức ngày 17 tháng 8 năm Bính Ngọ)</p>
 
-        <dl class="wi-times">
-          <div>
-            <dt>Đón khách</dt>
-            <dd>17:30</dd>
-          </div>
-          <div>
-            <dt>Khai tiệc</dt>
-            <dd>19:00</dd>
-          </div>
-        </dl>
 
         <p class="wi-venue">
           <strong>Riverside Palace</strong><br>
@@ -239,6 +229,48 @@
         </div>
 
         <button type="button" class="btn-primary" id="openRsvp">Xác nhận tham dự</button>
+      </div>
+
+      <div class="map-card reveal">
+        <svg class="map-art" viewBox="0 0 360 220" role="img"
+             aria-label="Sơ đồ minh hoạ: Riverside Palace nằm trên đường Bến Vân Đồn, ven kênh Bến Nghé">
+          <rect width="360" height="220" fill="var(--sand-inset)"/>
+
+          <path d="M-10 128 C 70 104, 150 150, 230 122 C 290 101, 330 108, 370 96 L 370 150 C 330 162, 290 155, 230 176 C 150 204, 70 158, -10 182 Z"
+                fill="var(--tone)" opacity="0.55"/>
+
+          <g stroke="var(--tone-deep)" fill="none" stroke-linecap="round">
+            <path d="M-10 104 C 70 80, 150 126, 230 98 C 290 77, 330 84, 370 72" stroke-width="13"/>
+            <path d="M-10 104 C 70 80, 150 126, 230 98 C 290 77, 330 84, 370 72"
+                  stroke="var(--sand)" stroke-width="1.5" stroke-dasharray="9 9"/>
+          </g>
+
+          <g stroke="var(--tone-deep)" stroke-width="7" fill="none" opacity="0.75" stroke-linecap="round">
+            <path d="M96 -10 L112 88"/>
+            <path d="M268 -10 L252 92"/>
+            <path d="M40 230 L58 168"/>
+          </g>
+
+          <g transform="translate(178 62)">
+            <path d="M0 34 C -13 18, -18 11, -18 2 A 18 18 0 1 1 18 2 C 18 11, 13 18, 0 34 Z"
+                  fill="var(--wax-deep)"/>
+            <circle cx="0" cy="1" r="6.4" fill="var(--sand)"/>
+          </g>
+
+          <g font-size="11" font-family="system-ui, sans-serif" fill="var(--ink)"
+             stroke="var(--sand)" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">
+            <text x="248" y="126">Kênh Bến Nghé</text>
+            <text x="18" y="96">Bến Vân Đồn</text>
+          </g>
+        </svg>
+
+        <div class="map-body">
+          <p class="map-name">Riverside Palace</p>
+          <p class="map-address">360D Bến Vân Đồn, P. Vĩnh Hội, TP. Hồ Chí Minh</p>
+          <a class="map-link"
+             href="https://www.google.com/maps/search/?api=1&amp;query=Riverside+Palace+360D+B%E1%BA%BFn+V%C3%A2n+%C4%90%E1%BB%93n+TP+H%E1%BB%93+Ch%C3%AD+Minh"
+             target="_blank" rel="noopener">Mở chỉ đường</a>
+        </div>
       </div>
     </section>
 
@@ -385,8 +417,21 @@
         </div>
 
         <button type="submit" class="btn-primary rsvp-submit" id="rsvpSubmit" disabled>Gửi xác nhận</button>
-        <p class="rsvp-done" id="rsvpDone" role="status" hidden></p>
       </form>
+    </div>
+  </dialog>
+
+
+  <dialog class="modal thanks-dialog" id="thanksDialog" aria-labelledby="thanks-heading">
+    <div class="modal-inner">
+      <button type="button" class="modal-close" id="closeThanks" aria-label="Đóng">&times;</button>
+
+      <span class="thanks-mark" aria-hidden="true"><svg><use href="#check"/></svg></span>
+
+      <h3 class="modal-title" id="thanks-heading">Cảm ơn bạn!</h3>
+      <p class="thanks-text" id="thanksText"></p>
+
+      <button type="button" class="btn-primary" id="closeThanksBtn">Đóng</button>
     </div>
   </dialog>
 

@@ -629,27 +629,6 @@ body.is-revealing .std-card {
   margin: 0.9rem 0 1.8rem;
 }
 
-.wi-times {
-  display: flex;
-  justify-content: center;
-  gap: clamp(2rem, 8vw, 3.5rem);
-  margin: 0 0 1.4rem;
-}
-
-.wi-times dt {
-  font-size: 0.7rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-quiet);
-  margin-bottom: 0.3rem;
-}
-
-.wi-times dd {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-}
-
 .wi-venue {
   color: var(--ink-quiet);
   font-size: 0.92rem;
@@ -701,6 +680,62 @@ body.is-revealing .std-card {
   border-radius: var(--radius-pill);
   background: var(--wax-deep);
   color: var(--sand);
+}
+
+/* Where it is. The drawing is an illustration of the setting, not a survey,
+   so the address and the directions link carry the real navigation. */
+.map-card {
+  max-width: 460px;
+  margin: 1.75rem auto 0;
+  overflow: hidden;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 44px rgba(58, 43, 30, 0.12);
+}
+
+.map-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map-body {
+  padding: 1.4rem 1.5rem 1.6rem;
+  text-align: center;
+}
+
+.map-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  margin: 0 0 0.3rem;
+}
+
+.map-address {
+  color: var(--ink-quiet);
+  font-size: 0.9rem;
+  margin: 0 0 1.2rem;
+}
+
+.map-link {
+  display: inline-block;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--wax);
+  border-radius: var(--radius-pill);
+}
+
+.map-link:hover {
+  background: var(--tone-light);
+}
+
+.map-link:focus-visible {
+  outline: 2px solid var(--wax);
+  outline-offset: 2px;
 }
 
 /* Reception running order */
@@ -1330,11 +1365,32 @@ body.is-revealing .std-card {
   cursor: default;
 }
 
-.rsvp-done {
-  margin: 0.25rem 0 0;
-  font-size: 0.85rem;
+/* Sent: the form closes and this takes its place */
+.thanks-dialog .modal-inner {
   text-align: center;
+}
+
+.thanks-mark {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  margin: 0.5rem auto 1.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--tone-light);
   color: var(--wax-deep);
+}
+
+.thanks-mark svg {
+  width: 34px;
+  height: 34px;
+}
+
+.thanks-text {
+  color: var(--ink-quiet);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin: 0 0 1.8rem;
 }
 
 .btn-primary {
