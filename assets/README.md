@@ -18,9 +18,8 @@ that press is the user gesture browsers require before audio may play.
 The VietQR image for the groom's account, shown in the gift dialog.
 
 - Export it from your banking app, square, at least 600x600.
+- It should encode the Techcombank account 98666888 (Vũ Phi Long).
 - Without this file the dialog shows a note telling you where to put it.
 
-## Also change before sending the invite out
-
-The bank name, account holder and account number are placeholders in
-`index.html`. Search for `bank-list` and replace all three.
+The bank details in `index.html` are already the real ones:
+Techcombank, Vũ Phi Long, 98666888.
