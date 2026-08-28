@@ -37,27 +37,48 @@ setInterval(updateCountdown, 1000);
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const envelope = document.getElementById("envelope");
-const sentinel = document.querySelector(".scroll-sentinel");
+const overlay = document.getElementById("envelopeOverlay");
+const openButton = document.getElementById("openInvite");
 
-if (envelope) {
-  if (prefersReducedMotion || !("IntersectionObserver" in window) || !sentinel) {
-    envelope.classList.add("is-open");
-  } else {
-    const envelopeObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            envelope.classList.add("is-open");
-            envelopeObserver.disconnect();
-          }
-        });
-      },
-      { rootMargin: "0px 0px -55% 0px" }
-    );
+/* The overlay itself blocks pointer events and body scroll is locked in CSS,
+   so the guest cannot do anything else while the envelope is opening. */
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
 
-    envelopeObserver.observe(sentinel);
+function unlockPage() {
+  document.body.classList.add("invite-open");
+  window.scrollTo(0, 0);
+
+  const firstSection = document.querySelector(".save-the-date");
+  if (firstSection) {
+    firstSection.setAttribute("tabindex", "-1");
+    firstSection.focus({ preventScroll: true });
   }
+}
+
+if (overlay && openButton) {
+  openButton.addEventListener(
+    "click",
+    () => {
+      openButton.disabled = true;
+
+      if (prefersReducedMotion) {
+        overlay.remove();
+        unlockPage();
+        return;
+      }
+
+      overlay.classList.add("is-opening");
+      window.setTimeout(() => {
+        overlay.remove();
+        unlockPage();
+      }, 1950);
+    },
+    { once: true }
+  );
+} else {
+  document.body.classList.add("invite-open");
 }
 
 const revealEls = document.querySelectorAll(".reveal");

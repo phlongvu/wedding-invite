@@ -33,6 +33,7 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Locked until the seal is pressed, so nothing moves behind the envelope. */
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -41,6 +42,11 @@ body {
   color: var(--ink);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+body.invite-open {
+  overflow: visible;
 }
 
 .svg-defs {
@@ -90,118 +96,178 @@ main > section {
   padding-left: 0.08em;
 }
 
-/* Envelope intro */
-.envelope-stage {
-  min-height: 100dvh;
+/* Sealed envelope overlay: the whole viewport is the envelope until the
+   guest presses the wax seal. Scroll stays locked until it finishes. */
+.envelope-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
   display: grid;
   place-items: center;
-  padding: 2rem 1.5rem;
+  /* The four flaps tile the sheet, so both the overlay and the sheet stay
+     transparent and the invitation is revealed as the flaps fold away. */
+  background: transparent;
 }
 
-/* Perspective sits on the envelope itself so the flap folds in 3D
-   while the layers keep normal z-index stacking. */
-.envelope {
+.env-sheet {
   position: relative;
-  width: min(440px, 84vw);
-  aspect-ratio: 3 / 2;
-  perspective: 1400px;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  perspective: 1800px;
 }
 
-.envelope-body {
+/* On wider screens the envelope shrinks to sit exactly over the card it
+   hides, so folding it open uncovers the invitation in place. */
+@media (min-width: 861px) {
+  .env-sheet {
+    --sheet-h: min(86dvh, 760px);
+    height: var(--sheet-h);
+    width: min(86vw, calc(var(--sheet-h) * 0.5625));
+    border-radius: var(--radius);
+    box-shadow: 0 26px 60px rgba(42, 35, 29, 0.26);
+  }
+}
+
+/* The back face stays visible so the fold reads all the way out of frame,
+   the way a real flap shows its inner side as it opens. */
+.env-flap {
   position: absolute;
   inset: 0;
-  background: linear-gradient(155deg, var(--card), #8a7c6d);
-  border-radius: var(--radius);
-  box-shadow: 0 18px 44px rgba(42, 35, 29, 0.22);
+  transition: transform 1.25s cubic-bezier(0.5, 0, 0.3, 1) 0.34s;
 }
 
-.envelope-peek {
-  position: absolute;
-  left: 6%;
-  right: 6%;
-  bottom: 6%;
-  height: 86%;
-  z-index: 2;
-  background: linear-gradient(180deg, #f6efe4, #eee5d7);
-  border: 1px solid rgba(140, 106, 46, 0.35);
-  border-radius: var(--radius);
-  box-shadow: 0 10px 26px rgba(42, 35, 29, 0.2);
-  display: flex;
-  justify-content: center;
-  padding-top: 20%;
-  transform: translateY(0);
-  transition:
-    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s,
-    z-index 0s 0.8s;
+.env-flap-top {
+  clip-path: polygon(0 0, 100% 0, 50% 50%);
+  background: linear-gradient(180deg, #a1937f, #948670);
+  transform-origin: center top;
 }
 
-.peek-mark {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  letter-spacing: 0.18em;
-  color: var(--gold);
+.env-flap-bottom {
+  clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+  background: linear-gradient(0deg, #8d7f70, #857766);
+  transform-origin: center bottom;
 }
 
-.peek-mark i {
-  font-style: normal;
-  padding: 0 0.3em;
-  opacity: 0.5;
+.env-flap-left {
+  clip-path: polygon(0 0, 0 100%, 50% 50%);
+  background: linear-gradient(90deg, #93856f, #8b7d6d);
+  transform-origin: left center;
 }
 
-.envelope-front {
+.env-flap-right {
+  clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+  background: linear-gradient(270deg, #998b7c, #8f8171);
+  transform-origin: right center;
+}
+
+.is-opening .env-flap-top { transform: rotateX(-180deg); }
+.is-opening .env-flap-bottom { transform: rotateX(180deg); }
+.is-opening .env-flap-left { transform: rotateY(180deg); }
+.is-opening .env-flap-right { transform: rotateY(-180deg); }
+
+.env-seams {
   position: absolute;
   inset: 0;
-  z-index: 3;
-  background: linear-gradient(200deg, #9c8e80, var(--card));
-  clip-path: polygon(0 0, 50% 47%, 100% 0, 100% 100%, 0 100%);
-  border-radius: var(--radius);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
-.envelope-flap {
+.env-bloom {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  z-index: 4;
-  background: linear-gradient(180deg, #9c8e80, #8b7d6e);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transform-origin: top center;
-  transform: rotateX(0deg);
-  transition:
-    transform 1.2s cubic-bezier(0.62, 0, 0.3, 1),
-    z-index 0s 0.6s;
+  width: min(52%, 420px);
+  aspect-ratio: 5 / 6;
+  color: var(--petal);
+  pointer-events: none;
+  transition: opacity 0.6s ease 0.1s;
 }
 
-.envelope-seal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 6;
-  margin: -28px 0 0 -28px;
-  transition: opacity 0.45s ease, transform 0.45s ease;
+.env-bloom-tr {
+  top: -6%;
+  right: -10%;
+  transform: rotate(24deg);
 }
 
-.envelope.is-open .envelope-flap {
-  transform: rotateX(-172deg);
-  z-index: 0;
+.env-bloom-bl {
+  bottom: -7%;
+  left: -12%;
+  transform: rotate(-156deg);
 }
 
-.envelope.is-open .envelope-peek {
-  transform: translateY(-70%);
-  z-index: 5;
-}
-
-.envelope.is-open .envelope-seal {
+.is-opening .env-seams,
+.is-opening .env-bloom {
   opacity: 0;
-  transform: scale(0.7);
 }
 
-.scroll-sentinel {
-  display: block;
-  height: 1px;
+/* The wax seal is the control that opens the invitation */
+.seal-button {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
+.seal-face {
+  display: grid;
+  place-items: center;
+  width: clamp(92px, 24vw, 124px);
+  aspect-ratio: 1;
+  border-radius: 47% 53% 51% 49% / 50% 47% 53% 50%;
+  background:
+    radial-gradient(circle at 34% 28%, var(--gold-light), var(--gold) 58%, #64491c 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 244, 214, 0.4),
+    inset 0 -3px 6px rgba(58, 40, 12, 0.45),
+    0 10px 26px rgba(42, 35, 29, 0.4);
+  transition: transform 0.4s ease;
+}
+
+.seal-leaf {
+  width: 42%;
+  aspect-ratio: 40 / 52;
+  fill: rgba(94, 68, 24, 0.72);
+}
+
+.seal-hint {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #f6efe1;
+}
+
+.seal-button:hover .seal-face,
+.seal-button:focus-visible .seal-face {
+  transform: scale(1.04);
+}
+
+.seal-button:focus-visible {
+  outline: 2px solid #f6efe1;
+  outline-offset: 10px;
+  border-radius: var(--radius);
+}
+
+.seal-button:active .seal-face {
+  transform: scale(0.97);
+}
+
+.envelope-overlay.is-opening .seal-button {
+  opacity: 0;
+  transform: scale(0.72);
+  pointer-events: none;
+}
 /* Save the date card */
 .save-the-date {
   min-height: 100dvh;
@@ -614,9 +680,12 @@ main > section {
   .btn-primary:active {
     transform: none;
   }
-  .envelope-flap,
-  .envelope-peek,
-  .envelope-seal {
+  .envelope-overlay,
+  .env-flap,
+  .env-seams,
+  .env-bloom,
+  .seal-button,
+  .seal-face {
     transition: none;
   }
 }
