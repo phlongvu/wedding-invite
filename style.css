@@ -727,7 +727,7 @@ body.is-revealing .std-card {
   right: 8px;
   bottom: 26px;
   top: 44px;
-  border-radius: 2px;
+  border-radius: var(--radius);
   background: linear-gradient(165deg, var(--tone-light), var(--tone-deep));
   box-shadow: 0 12px 26px rgba(58, 43, 30, 0.24);
 }
@@ -738,7 +738,7 @@ body.is-revealing .std-card {
   right: 0;
   top: 26px;
   height: 30px;
-  border-radius: 2px;
+  border-radius: var(--radius);
   background: linear-gradient(165deg, var(--tone), var(--tone-deep));
   box-shadow: 0 4px 10px rgba(58, 43, 30, 0.22);
   transform-origin: center bottom;
