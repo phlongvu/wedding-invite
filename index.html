@@ -143,27 +143,102 @@
       </div>
     </section>
 
-    <section class="schedule band" id="chi-tiet" aria-labelledby="schedule-heading">
-      <h2 id="schedule-heading" class="section-heading reveal">Ngày trọng đại</h2>
-      <div class="schedule-row">
-        <div class="schedule-item reveal">
-          <p class="schedule-time">08:00</p>
-          <h3 class="schedule-name">Lễ Vu Quy</h3>
-          <p class="schedule-place">Nhà Gái<br>123 Đường Hoa, Quận 1, TP.HCM</p>
+    <section class="wedding-info band" id="chi-tiet" aria-labelledby="wi-heading">
+      <div class="wi-panel reveal">
+        <h2 id="wi-heading" class="wi-title">Thông tin tiệc cưới</h2>
+        <p class="wi-lead">Tiệc cưới sẽ diễn ra vào lúc</p>
+
+        <p class="wi-when"><span>Chủ Nhật</span><i aria-hidden="true"></i><span>17:30</span></p>
+
+        <p class="wi-date">
+          <span class="wi-daynum">27</span>
+          <span class="wi-monthyear">Tháng 09<i>2026</i></span>
+        </p>
+
+        <p class="wi-lunar">(Tức ngày 17 tháng 8 năm Bính Ngọ)</p>
+
+        <dl class="wi-times">
+          <div>
+            <dt>Đón khách</dt>
+            <dd>17:30</dd>
+          </div>
+          <div>
+            <dt>Khai tiệc</dt>
+            <dd>19:00</dd>
+          </div>
+        </dl>
+
+        <p class="wi-venue">Trung Tâm Tiệc Cưới ABC<br>456 Đường Sen, Quận 3, TP.HCM</p>
+
+        <div class="calendar">
+          <p class="cal-caption">Tháng 9 / 2026</p>
+          <table>
+            <thead>
+              <tr><th>T2</th><th>T3</th><th>T4</th><th>T5</th><th>T6</th><th>T7</th><th>CN</th></tr>
+            </thead>
+            <tbody>
+        <tr>
+          <td></td>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>8</td>
+          <td>9</td>
+          <td>10</td>
+          <td>11</td>
+          <td>12</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>15</td>
+          <td>16</td>
+          <td>17</td>
+          <td>18</td>
+          <td>19</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>21</td>
+          <td>22</td>
+          <td>23</td>
+          <td>24</td>
+          <td>25</td>
+          <td>26</td>
+          <td><span class="cal-day">27</span></td>
+        </tr>
+        <tr>
+          <td>28</td>
+          <td>29</td>
+          <td>30</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="schedule-divider" aria-hidden="true"></div>
-        <div class="schedule-item reveal">
-          <p class="schedule-time">17:30</p>
-          <h3 class="schedule-name">Tiệc Cưới</h3>
-          <p class="schedule-place">Trung Tâm Tiệc Cưới ABC<br>456 Đường Sen, Quận 3, TP.HCM</p>
-        </div>
+
+        <button type="button" class="btn-primary" id="openRsvp">Xác nhận tham dự</button>
       </div>
-      <p class="schedule-date reveal">Chủ Nhật, ngày 27 tháng 9 năm 2026</p>
     </section>
 
     <section class="timeline-section" aria-labelledby="timeline-heading">
-      <h2 id="timeline-heading" class="section-heading reveal">Lịch trình buổi tiệc</h2>
+      <h2 id="timeline-heading" class="section-heading reveal">Lịch trình ngày cưới</h2>
       <ol class="timeline reveal">
+        <li class="timeline-step">
+          <span class="timeline-time">08:00</span>
+          <span class="timeline-label">Lễ Vu Quy
+            <small>Nhà Gái, 123 Đường Hoa, Quận 1, TP.HCM</small>
+          </span>
+        </li>
         <li class="timeline-step">
           <span class="timeline-time">17:30</span>
           <span class="timeline-label">Đón khách</span>
@@ -212,28 +287,6 @@
       </button>
     </section>
 
-    <section class="rsvp band" aria-labelledby="rsvp-heading">
-      <h2 id="rsvp-heading" class="section-heading reveal">Xác nhận tham dự</h2>
-      <p class="rsvp-sub reveal">Sự hiện diện của bạn là món quà quý giá nhất với chúng mình.</p>
-      <form class="rsvp-form reveal" onsubmit="return false;">
-        <label class="field">
-          <span>Họ và tên</span>
-          <input type="text" name="fullname" required>
-        </label>
-        <label class="field">
-          <span>Bạn sẽ tham dự chứ?</span>
-          <select name="attending">
-            <option value="yes">Chắc chắn rồi</option>
-            <option value="no">Xin phép vắng mặt</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Số lượng khách</span>
-          <input type="number" name="guests" min="1" value="1">
-        </label>
-        <button type="submit" class="btn-primary">Gửi xác nhận</button>
-      </form>
-    </section>
   </main>
 
   <footer class="footer">
@@ -242,12 +295,12 @@
   </footer>
 
   <!-- Still to add: assets/qr-phi-long.png, the VietQR image for the account below -->
-  <dialog class="gift-dialog" id="giftDialog" aria-labelledby="gift-dialog-heading">
-    <div class="gift-dialog-inner">
-      <button type="button" class="gift-close" id="closeGift" aria-label="Đóng">&times;</button>
+  <dialog class="modal gift-dialog" id="giftDialog" aria-labelledby="gift-dialog-heading">
+    <div class="modal-inner">
+      <button type="button" class="modal-close" id="closeGift" aria-label="Đóng">&times;</button>
 
-      <p class="gift-dialog-role">Chú rể</p>
-      <h3 class="gift-dialog-name" id="gift-dialog-heading">Phi Long</h3>
+      <p class="modal-eyebrow">Chú rể</p>
+      <h3 class="modal-title" id="gift-dialog-heading">Phi Long</h3>
 
       <div class="qr-frame">
         <img class="qr-image" id="giftQr" src="assets/qr-phi-long.png" alt="Mã QR chuyển khoản tới Phi Long">
@@ -274,6 +327,36 @@
         </div>
       </dl>
 
+    </div>
+  </dialog>
+
+
+  <dialog class="modal rsvp-dialog" id="rsvpDialog" aria-labelledby="rsvp-dialog-heading">
+    <div class="modal-inner">
+      <button type="button" class="modal-close" id="closeRsvp" aria-label="Đóng">&times;</button>
+
+      <h3 class="modal-title" id="rsvp-dialog-heading">Xác nhận tham dự</h3>
+      <p class="rsvp-sub">Sự hiện diện của bạn là món quà quý giá nhất với chúng mình.</p>
+
+      <form class="rsvp-form" id="rsvpForm">
+        <label class="field">
+          <span>Họ và tên</span>
+          <input type="text" name="fullname" required>
+        </label>
+        <label class="field">
+          <span>Bạn sẽ tham dự chứ?</span>
+          <select name="attending">
+            <option value="yes">Chắc chắn rồi</option>
+            <option value="no">Xin phép vắng mặt</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Số lượng khách</span>
+          <input type="number" name="guests" min="1" value="1">
+        </label>
+        <button type="submit" class="btn-primary">Gửi xác nhận</button>
+        <p class="rsvp-done" id="rsvpDone" role="status" hidden>Cảm ơn bạn, chúng mình đã nhận được xác nhận.</p>
+      </form>
     </div>
   </dialog>
 

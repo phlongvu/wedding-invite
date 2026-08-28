@@ -164,7 +164,32 @@ if (overlay && openButton) {
   document.body.classList.add("invite-open");
 }
 
-/* ---------- Gift dialog ---------- */
+/* ---------- Dialogs ---------- */
+
+/* One opener for every dialog on the page */
+function wireDialog(dialog, opener, closer) {
+  if (!dialog) return;
+
+  if (opener) {
+    opener.addEventListener("click", () => {
+      if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute("open", "");
+      }
+    });
+  }
+
+  if (closer) {
+    closer.addEventListener("click", () => dialog.close());
+  }
+
+  // Clicking the backdrop area closes it too
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+}
+
 
 const giftDialog = document.getElementById("giftDialog");
 const openGift = document.getElementById("openGift");
@@ -186,32 +211,22 @@ if (giftQr && qrMissing) {
   }
 }
 
-if (giftDialog && openGift) {
-  openGift.addEventListener("click", () => {
-    if (typeof giftDialog.showModal === "function") {
-      giftDialog.showModal();
-    } else {
-      giftDialog.setAttribute("open", "");
-    }
-  });
-}
+wireDialog(giftDialog, openGift, closeGift);
 
-if (giftDialog && closeGift) {
-  closeGift.addEventListener("click", () => {
-    if (typeof giftDialog.close === "function") {
-      giftDialog.close();
-    } else {
-      giftDialog.removeAttribute("open");
-    }
-  });
-}
+wireDialog(
+  document.getElementById("rsvpDialog"),
+  document.getElementById("openRsvp"),
+  document.getElementById("closeRsvp")
+);
 
-/* Clicking the backdrop area closes the dialog too */
-if (giftDialog) {
-  giftDialog.addEventListener("click", (event) => {
-    if (event.target === giftDialog) {
-      giftDialog.close();
-    }
+/* The form has nowhere to post yet, so it acknowledges in place */
+const rsvpForm = document.getElementById("rsvpForm");
+const rsvpDone = document.getElementById("rsvpDone");
+
+if (rsvpForm && rsvpDone) {
+  rsvpForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    rsvpDone.hidden = false;
   });
 }
 
