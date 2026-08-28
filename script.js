@@ -37,16 +37,76 @@ setInterval(updateCountdown, 1000);
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const overlay = document.getElementById("envelopeOverlay");
-const openButton = document.getElementById("openInvite");
-
-/* The overlay itself blocks pointer events and body scroll is locked in CSS,
-   so the guest cannot do anything else while the envelope is opening. */
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
 
+/* ---------- Background music ---------- */
+
+const music = document.getElementById("bgMusic");
+const musicToggle = document.getElementById("musicToggle");
+let musicAvailable = Boolean(music && musicToggle);
+
+function setMusicState(playing) {
+  if (!musicToggle) return;
+  musicToggle.setAttribute("aria-pressed", playing ? "true" : "false");
+}
+
+/* Nothing to offer if the track file is missing, so the control stays hidden. */
+if (music) {
+  music.addEventListener("error", () => {
+    musicAvailable = false;
+    if (musicToggle) musicToggle.hidden = true;
+  });
+}
+
+function startMusic() {
+  if (!musicAvailable || !music) return;
+
+  music.volume = 0.45;
+  const attempt = music.play();
+
+  if (attempt && typeof attempt.then === "function") {
+    attempt
+      .then(() => {
+        musicToggle.hidden = false;
+        setMusicState(true);
+      })
+      .catch(() => {
+        // Autoplay refused: still offer the control so the guest can start it.
+        musicToggle.hidden = false;
+        setMusicState(false);
+      });
+  }
+}
+
+if (musicToggle) {
+  musicToggle.addEventListener("click", () => {
+    if (!music) return;
+
+    if (music.paused) {
+      const attempt = music.play();
+      if (attempt && typeof attempt.then === "function") {
+        attempt.then(() => setMusicState(true)).catch(() => setMusicState(false));
+      } else {
+        setMusicState(true);
+      }
+    } else {
+      music.pause();
+      setMusicState(false);
+    }
+  });
+}
+
+/* ---------- Sealed envelope ---------- */
+
+const overlay = document.getElementById("envelopeOverlay");
+const openButton = document.getElementById("openInvite");
+
+/* The overlay blocks pointer events and body scroll is locked in CSS, so the
+   guest cannot do anything else while the envelope is opening. */
 function unlockPage() {
+  document.body.classList.remove("is-sealed");
   document.body.classList.add("invite-open");
   window.scrollTo(0, 0);
 
@@ -58,10 +118,14 @@ function unlockPage() {
 }
 
 if (overlay && openButton) {
+  document.body.classList.add("is-sealed");
+
   openButton.addEventListener(
     "click",
     () => {
       openButton.disabled = true;
+      // The press is a real user gesture, so audio is allowed to start here.
+      startMusic();
 
       if (prefersReducedMotion) {
         overlay.remove();
@@ -70,16 +134,95 @@ if (overlay && openButton) {
       }
 
       overlay.classList.add("is-opening");
+      document.body.classList.add("is-revealing");
+
       window.setTimeout(() => {
         overlay.remove();
         unlockPage();
-      }, 1950);
+      }, 2250);
     },
     { once: true }
   );
 } else {
   document.body.classList.add("invite-open");
 }
+
+/* ---------- Gift dialog ---------- */
+
+const giftDialog = document.getElementById("giftDialog");
+const openGift = document.getElementById("openGift");
+const closeGift = document.getElementById("closeGift");
+const giftQr = document.getElementById("giftQr");
+const qrMissing = document.getElementById("qrMissing");
+
+if (giftQr && qrMissing) {
+  const showQrFallback = () => {
+    giftQr.hidden = true;
+    qrMissing.hidden = false;
+  };
+
+  giftQr.addEventListener("error", showQrFallback);
+
+  // The image may have already failed before this script ran.
+  if (giftQr.complete && giftQr.naturalWidth === 0) {
+    showQrFallback();
+  }
+}
+
+if (giftDialog && openGift) {
+  openGift.addEventListener("click", () => {
+    if (typeof giftDialog.showModal === "function") {
+      giftDialog.showModal();
+    } else {
+      giftDialog.setAttribute("open", "");
+    }
+  });
+}
+
+if (giftDialog && closeGift) {
+  closeGift.addEventListener("click", () => {
+    if (typeof giftDialog.close === "function") {
+      giftDialog.close();
+    } else {
+      giftDialog.removeAttribute("open");
+    }
+  });
+}
+
+/* Clicking the backdrop area closes the dialog too */
+if (giftDialog) {
+  giftDialog.addEventListener("click", (event) => {
+    if (event.target === giftDialog) {
+      giftDialog.close();
+    }
+  });
+}
+
+const copyBank = document.getElementById("copyBank");
+const bankNumber = document.getElementById("bankNumber");
+
+if (copyBank && bankNumber && navigator.clipboard) {
+  copyBank.addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(bankNumber.textContent.trim())
+      .then(() => {
+        copyBank.textContent = "Đã chép";
+        window.setTimeout(() => {
+          copyBank.textContent = "Sao chép";
+        }, 1800);
+      })
+      .catch(() => {
+        copyBank.textContent = "Không chép được";
+        window.setTimeout(() => {
+          copyBank.textContent = "Sao chép";
+        }, 1800);
+      });
+  });
+} else if (copyBank) {
+  copyBank.hidden = true;
+}
+
+/* ---------- Scroll reveal ---------- */
 
 const revealEls = document.querySelectorAll(".reveal");
 
