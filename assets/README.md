@@ -25,6 +25,7 @@ A photograph of the wax stamp, used as the button that opens the invitation.
 The VietQR image for the groom's account, shown in the gift dialog.
 
 - Export it from your banking app, square, at least 600x600.
+- Upload it the same way you uploaded seal.png and music.mp3.
 - It should encode the Techcombank account 98666888 (Vũ Phi Long).
 - Without this file the dialog shows a note telling you where to put it.
 

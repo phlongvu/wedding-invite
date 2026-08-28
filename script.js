@@ -219,13 +219,78 @@ wireDialog(
   document.getElementById("closeRsvp")
 );
 
-/* The form has nowhere to post yet, so it acknowledges in place */
+/* The RSVP form: the guest count only appears for someone who is coming, and
+   the submit stays shut until there is both a name and an answer. */
 const rsvpForm = document.getElementById("rsvpForm");
 const rsvpDone = document.getElementById("rsvpDone");
+const rsvpName = document.getElementById("rsvpName");
+const rsvpSubmit = document.getElementById("rsvpSubmit");
+const guestField = document.getElementById("guestField");
+const guestCount = document.getElementById("guestCount");
+const guestMinus = document.getElementById("guestMinus");
+const guestPlus = document.getElementById("guestPlus");
 
-if (rsvpForm && rsvpDone) {
+function attendingChoice() {
+  return rsvpForm ? rsvpForm.querySelector('input[name="attending"]:checked') : null;
+}
+
+function syncRsvpState() {
+  if (!rsvpForm) return;
+
+  const choice = attendingChoice();
+  const coming = Boolean(choice) && choice.value === "yes";
+
+  // Backs up the :has() styling for browsers that lack it
+  rsvpForm.querySelectorAll(".choice-row").forEach((row) => {
+    const input = row.querySelector('input[type="radio"]');
+    row.classList.toggle("is-selected", Boolean(input && input.checked));
+  });
+
+  if (guestField) guestField.hidden = !coming;
+  if (rsvpSubmit) {
+    rsvpSubmit.disabled = !(rsvpName && rsvpName.value.trim() && choice);
+  }
+}
+
+function syncStepper() {
+  if (!guestCount) return;
+
+  const value = Number(guestCount.value) || 1;
+  const min = Number(guestCount.min) || 1;
+  const max = Number(guestCount.max) || 20;
+  const clamped = Math.min(Math.max(value, min), max);
+
+  if (clamped !== value) guestCount.value = String(clamped);
+  if (guestMinus) guestMinus.disabled = clamped <= min;
+  if (guestPlus) guestPlus.disabled = clamped >= max;
+}
+
+function stepGuests(delta) {
+  if (!guestCount) return;
+  guestCount.value = String((Number(guestCount.value) || 1) + delta);
+  syncStepper();
+}
+
+if (rsvpForm) {
+  rsvpForm.addEventListener("change", syncRsvpState);
+  if (rsvpName) rsvpName.addEventListener("input", syncRsvpState);
+  if (guestCount) guestCount.addEventListener("input", syncStepper);
+  if (guestMinus) guestMinus.addEventListener("click", () => stepGuests(-1));
+  if (guestPlus) guestPlus.addEventListener("click", () => stepGuests(1));
+
+  syncRsvpState();
+  syncStepper();
+
+  /* Nowhere to post yet, so it acknowledges in place. */
   rsvpForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    if (!rsvpDone) return;
+
+    const choice = attendingChoice();
+    rsvpDone.textContent =
+      choice && choice.value === "yes"
+        ? "Cảm ơn bạn, chúng mình đã nhận được xác nhận."
+        : "Cảm ơn bạn đã cho chúng mình biết.";
     rsvpDone.hidden = false;
   });
 }

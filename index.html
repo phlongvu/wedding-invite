@@ -50,6 +50,14 @@
       <circle cx="20" cy="8" r="2.6"/>
     </symbol>
 
+    <symbol id="check" viewBox="0 0 24 24">
+      <path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="cross" viewBox="0 0 24 24">
+      <path d="M7 7 L17 17 M17 7 L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+
     <symbol id="note" viewBox="0 0 24 24">
       <path d="M10 17.5 V6.4 L19 4.5 V15.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
       <circle cx="7.6" cy="17.6" r="2.6"/>
@@ -168,7 +176,11 @@
           </div>
         </dl>
 
-        <p class="wi-venue">Trung Tâm Tiệc Cưới ABC<br>456 Đường Sen, Quận 3, TP.HCM</p>
+        <p class="wi-venue">
+          <strong>Riverside Palace</strong><br>
+          Sảnh Amur &amp; Danube<br>
+          360D Bến Vân Đồn, P. Vĩnh Hội, TP. Hồ Chí Minh
+        </p>
 
         <div class="calendar">
           <p class="cal-caption">Tháng 9 / 2026</p>
@@ -336,26 +348,44 @@
       <button type="button" class="modal-close" id="closeRsvp" aria-label="Đóng">&times;</button>
 
       <h3 class="modal-title" id="rsvp-dialog-heading">Xác nhận tham dự</h3>
-      <p class="rsvp-sub">Sự hiện diện của bạn là món quà quý giá nhất với chúng mình.</p>
+      <p class="rsvp-sub">
+        Sự hiện diện của bạn là niềm vinh hạnh cho gia đình chúng tôi.
+        Xin xác nhận để chúng tôi chuẩn bị chu đáo nhất.
+      </p>
 
-      <form class="rsvp-form" id="rsvpForm">
-        <label class="field">
-          <span>Họ và tên</span>
-          <input type="text" name="fullname" required>
-        </label>
-        <label class="field">
-          <span>Bạn sẽ tham dự chứ?</span>
-          <select name="attending">
-            <option value="yes">Chắc chắn rồi</option>
-            <option value="no">Xin phép vắng mặt</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Số lượng khách</span>
-          <input type="number" name="guests" min="1" value="1">
-        </label>
-        <button type="submit" class="btn-primary">Gửi xác nhận</button>
-        <p class="rsvp-done" id="rsvpDone" role="status" hidden>Cảm ơn bạn, chúng mình đã nhận được xác nhận.</p>
+      <form class="rsvp-form" id="rsvpForm" novalidate>
+        <div class="field">
+          <label for="rsvpName">Tên của bạn</label>
+          <input type="text" id="rsvpName" name="fullname" placeholder="Nhập tên của bạn" autocomplete="name" required>
+        </div>
+
+        <fieldset class="choice">
+          <legend>Bạn sẽ đến chứ?</legend>
+
+          <label class="choice-row">
+            <input type="radio" name="attending" value="yes" required>
+            <span class="choice-mark" aria-hidden="true"><svg><use href="#check"/></svg></span>
+            <span class="choice-text">Tôi sẽ đến</span>
+          </label>
+
+          <label class="choice-row">
+            <input type="radio" name="attending" value="no">
+            <span class="choice-mark" aria-hidden="true"><svg><use href="#cross"/></svg></span>
+            <span class="choice-text">Rất tiếc, tôi không thể đến</span>
+          </label>
+        </fieldset>
+
+        <div class="field guest-field" id="guestField" hidden>
+          <label for="guestCount">Số lượng khách (bao gồm bạn)</label>
+          <div class="stepper">
+            <button type="button" class="step" id="guestMinus" aria-label="Bớt một khách">&minus;</button>
+            <input type="number" id="guestCount" name="guests" min="1" max="20" value="1" inputmode="numeric">
+            <button type="button" class="step" id="guestPlus" aria-label="Thêm một khách">+</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary rsvp-submit" id="rsvpSubmit" disabled>Gửi xác nhận</button>
+        <p class="rsvp-done" id="rsvpDone" role="status" hidden></p>
       </form>
     </div>
   </dialog>
