@@ -13,6 +13,13 @@ that press is the user gesture browsers require before audio may play.
 - Make sure you have the right to use the recording on a public page.
 - Without this file the music button hides itself.
 
+## `seal.png`
+
+A photograph of the wax stamp, used as the button that opens the invitation.
+
+- Square, transparent background (PNG), around 400x400.
+- Without this file the page falls back to the wax seal drawn in CSS.
+
 ## `qr-phi-long.png`
 
 The VietQR image for the groom's account, shown in the gift dialog.

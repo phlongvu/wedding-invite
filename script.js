@@ -102,11 +102,28 @@ if (musicToggle) {
 
 const overlay = document.getElementById("envelopeOverlay");
 const openButton = document.getElementById("openInvite");
+const sealPhoto = document.getElementById("sealPhoto");
+const sealFace = document.getElementById("sealFace");
+
+/* A photograph of the real stamp takes over from the drawn wax when present */
+if (sealPhoto && sealFace) {
+  const useSealPhoto = () => {
+    sealPhoto.hidden = false;
+    sealFace.classList.add("has-photo");
+  };
+
+  if (sealPhoto.complete) {
+    if (sealPhoto.naturalWidth > 0) useSealPhoto();
+  } else {
+    sealPhoto.addEventListener("load", useSealPhoto);
+  }
+}
 
 /* The overlay blocks pointer events and body scroll is locked in CSS, so the
    guest cannot do anything else while the envelope is opening. */
 function unlockPage() {
   document.body.classList.remove("is-sealed");
+  document.body.classList.remove("is-revealing");
   document.body.classList.add("invite-open");
   window.scrollTo(0, 0);
 
