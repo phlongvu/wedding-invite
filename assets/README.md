@@ -28,8 +28,6 @@ The couple's monogram, shown at the top of the save-the-date card.
 - Transparent PNG, dark mark on a clear background. The current file is
   394x589; the page sizes it by height, so any similar proportion works.
 - Without this file the page falls back to the mark drawn in `index.html`.
-  The small wax seal on the card always uses that drawn version, since a dark
-  artwork would not read against the wax.
 
 ## `qr-phi-long.png` and `qr-kim-chi.png`
 
@@ -40,9 +38,10 @@ The VietQR images shown side by side in the gift dialog, one per account.
 - Square, at least 600x600.
 - Upload them the same way you uploaded seal.png and music.mp3.
 - `qr-phi-long.png` should encode Techcombank 98666888 (Vũ Phi Long).
-- `qr-kim-chi.png` should encode NCB 109966298838 (Kim Chi).
+- `qr-kim-chi.png` should encode NCB 109966298838 (Quách Đoàn Kim Chi).
 - A missing file hides that side's QR and its save link. The account details
   stay on screen either way, so guests can still transfer by hand.
 
 The bank details in `index.html` are already the real ones:
-Techcombank, Vũ Phi Long, 98666888 and NCB, Kim Chi, 109966298838.
+Techcombank, Vũ Phi Long, 98666888 and NCB, Quách Đoàn Kim Chi,
+109966298838.
