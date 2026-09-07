@@ -46,6 +46,21 @@ desktops the 2000px one.
 - Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
+## `gallery-1-*.jpg`, `gallery-2-*.jpg`, `gallery-3-*.jpg`
+
+The three photographs in the Khoảnh khắc grid, each in a 1400px and an 800px
+copy handed out by `srcset`. Generated from uploads, the same way the
+countdown pair is: three originals totalling 32.3 MB became 1.07 MB.
+
+- `gallery-1` is the tall slot on the left. It is **portrait**, and the phone
+  layout gives it a 3:4 box of its own so it is not cropped through the middle.
+- `gallery-2` and `gallery-3` are the two smaller slots on the right, both
+  **3:2 landscape**, which is exactly the shape of their slots. They are not
+  cropped at all.
+- To swap one out, upload a new original over the matching name and the pair
+  gets regenerated. Match the shape of the slot: portrait for 1, landscape for
+  2 and 3.
+
 ## `qr-phi-long.png` and `qr-kim-chi.png`
 
 The VietQR images shown side by side in the gift dialog, one per account.

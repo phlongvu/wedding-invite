@@ -878,27 +878,17 @@ body.is-revealing .std-card {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: 1.25fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: 0.75rem;
-  height: clamp(320px, 55vw, 560px);
+  height: clamp(360px, 58vw, 640px);
 }
 
-.photo-slot {
-  display: grid;
-  place-items: center;
-  background:
-    radial-gradient(circle at 32% 22%, rgba(154, 111, 82, 0.12), transparent 58%),
-    linear-gradient(160deg, var(--sand-inset), var(--sand));
-  border: 1px solid var(--line);
+.gallery-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: var(--radius);
-}
-
-.photo-slot-caption {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1rem;
-  color: var(--ink-quiet);
 }
 
 .gallery-large {
@@ -1638,10 +1628,16 @@ body.is-revealing .std-card {
     height: auto;
   }
 
-  .gallery-large,
+  /* One column on a phone, each photograph in its own shape rather than a
+     single ratio that would crop the portrait one through the middle. */
+  .gallery-large {
+    grid-row: auto;
+    aspect-ratio: 3 / 4;
+  }
+
   .gallery-small {
     grid-row: auto;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
   }
 
   .countdown-row {
