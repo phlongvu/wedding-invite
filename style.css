@@ -387,13 +387,20 @@ main > section > * {
   width: auto;
 }
 
+.logo-mark[hidden] {
+  display: none;
+}
+
 .logo-mark {
   aspect-ratio: 210 / 230;
   color: var(--card-ink);
   fill: currentColor;
 }
 
+/* The supplied artwork is far narrower than the drawn mark, so at a shared
+   height it read small. Size it off the card instead, which is itself in svh. */
 .logo-photo {
+  height: clamp(68px, 11svh, 104px);
   object-fit: contain;
 }
 

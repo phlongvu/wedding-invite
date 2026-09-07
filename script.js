@@ -124,9 +124,11 @@ const logoMark = document.getElementById("logoMark");
 
 /* Artwork of the real monogram replaces the drawn one when it is supplied */
 if (logoPhoto && logoMark) {
+  // .hidden is an HTMLElement property; logoMark is an SVG element, so
+  // assigning it would set a stray JS property and leave the mark on screen.
   const useLogoPhoto = () => {
     logoPhoto.hidden = false;
-    logoMark.hidden = true;
+    logoMark.setAttribute("hidden", "");
   };
 
   if (logoPhoto.complete) {

@@ -25,8 +25,11 @@ A photograph of the wax stamp, used as the button that opens the invitation.
 
 The couple's monogram, shown at the top of the save-the-date card.
 
-- Transparent PNG or SVG, roughly 400x430, dark mark on a clear background.
-- Without this file the page draws its own version of the mark.
+- Transparent PNG, dark mark on a clear background. The current file is
+  394x589; the page sizes it by height, so any similar proportion works.
+- Without this file the page falls back to the mark drawn in `index.html`.
+  The small wax seal on the card always uses that drawn version, since a dark
+  artwork would not read against the wax.
 
 ## `qr-phi-long.png` and `qr-kim-chi.png`
 
