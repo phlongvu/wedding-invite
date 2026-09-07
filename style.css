@@ -529,25 +529,34 @@ body.is-revealing .std-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Faces usually sit above the middle of a portrait of two people */
-  object-position: center 35%;
+  /* Keep the couple high in the frame, clear of the text below them */
+  object-position: center 28%;
 }
 
-/* Darkest through the band the text crosses, lighter at the edges so the
-   photograph still breathes. Measured against a blown-white photo, the worst
-   case a scrim has to survive. */
+/* Light where the couple are, heavy where the text sits. Centring the text
+   over them buried the faces under the heading and put a number on each of
+   their chests, so the copy is anchored low and the scrim follows it down. */
 .countdown-scrim {
   background: linear-gradient(
     180deg,
-    rgba(var(--scrim), 0.46) 0%,
-    rgba(var(--scrim), 0.68) 30%,
-    rgba(var(--scrim), 0.68) 74%,
-    rgba(var(--scrim), 0.46) 100%
+    rgba(var(--scrim), 0.14) 0%,
+    rgba(var(--scrim), 0.22) 32%,
+    rgba(var(--scrim), 0.62) 60%,
+    rgba(var(--scrim), 0.8) 80%,
+    rgba(var(--scrim), 0.86) 100%
   );
 }
 
 .countdown.has-photo {
-  padding-block: clamp(6rem, 16svh, 9rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(420px, 66svh, 640px);
+  padding-block: 2.5rem 3rem;
+}
+
+.countdown.has-photo .section-heading {
+  margin-bottom: 1.75rem;
 }
 
 .countdown.has-photo .section-heading,

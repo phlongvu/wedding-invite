@@ -29,20 +29,21 @@ The couple's monogram, shown at the top of the save-the-date card.
   394x589; the page sizes it by height, so any similar proportion works.
 - Without this file the page falls back to the mark drawn in `index.html`.
 
-## `countdown.jpg`
+## `countdown-2000.jpg` and `countdown-1200.jpg`
 
-The photograph behind the countdown, full width across the page.
+The photograph behind the countdown, full width across the page. Two sizes of
+the same picture: `srcset` hands phones and tablets the 1200px file and only
+desktops the 2000px one.
 
-- **Landscape**, roughly 3:2. It is cropped to a wide band, so anything near
-  the top or bottom edge of the original will be cut.
-- Leave the middle reasonably clear: the heading and the four numbers sit
-  across the centre of the band.
-- Upload the file straight from the camera or phone. It will be resized to
-  about 1600px wide and compressed before being committed, so guests on mobile
-  data are not waiting on an 8 MB download.
-- Faces are assumed to sit a little above centre (`object-position: center
-  35%` in `style.css`). If the crop cuts heads off, that is the number to move.
-- Without this file the countdown stays the plain section it was, with dark
+- These are generated, not uploaded. Upload the original at any size and it
+  gets resized and compressed into this pair. The current one came from a
+  5410x3606 original of 13.3 MB, which became 512 KB and 225 KB.
+- **Landscape**, roughly 3:2. The band crops to a wide strip, so the top and
+  bottom of the original are cut.
+- Keep the couple in the upper half. The countdown sits along the bottom of
+  the band, under a scrim that is heaviest there, so faces belong above it.
+  `object-position: center 28%` in `style.css` is what decides that crop.
+- Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
 ## `qr-phi-long.png` and `qr-kim-chi.png`
