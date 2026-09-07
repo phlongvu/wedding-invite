@@ -200,18 +200,44 @@ if (overlay && openButton) {
 
 /* ---------- Dialogs ---------- */
 
+/* showModal() does not stop the page behind it from scrolling, so the body has
+   to be pinned. Reading the open dialogs rather than counting opens and closes
+   keeps this right no matter the order: close() queues its event, so a form
+   that closes one dialog and opens the next would otherwise unlock underneath
+   the new one. */
+let scrollLocked = false;
+
+function syncScrollLock() {
+  const anyOpen = document.querySelector("dialog[open]") !== null;
+  if (anyOpen === scrollLocked) return;
+  scrollLocked = anyOpen;
+
+  if (anyOpen) {
+    // Hiding the scrollbar would otherwise shift the whole page sideways.
+    const gap = window.innerWidth - document.documentElement.clientWidth;
+    if (gap > 0) document.body.style.paddingRight = gap + "px";
+    document.body.classList.add("modal-open");
+  } else {
+    document.body.classList.remove("modal-open");
+    document.body.style.paddingRight = "";
+  }
+}
+
+function openDialog(dialog) {
+  if (typeof dialog.showModal === "function") {
+    dialog.showModal();
+  } else {
+    dialog.setAttribute("open", "");
+  }
+  syncScrollLock();
+}
+
 /* One opener for every dialog on the page */
 function wireDialog(dialog, opener, closer) {
   if (!dialog) return;
 
   if (opener) {
-    opener.addEventListener("click", () => {
-      if (typeof dialog.showModal === "function") {
-        dialog.showModal();
-      } else {
-        dialog.setAttribute("open", "");
-      }
-    });
+    opener.addEventListener("click", () => openDialog(dialog));
   }
 
   if (closer) {
@@ -222,6 +248,9 @@ function wireDialog(dialog, opener, closer) {
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) dialog.close();
   });
+
+  // Covers the close button, the backdrop and the Escape key alike
+  dialog.addEventListener("close", syncScrollLock);
 }
 
 
@@ -341,14 +370,7 @@ if (rsvpForm) {
     }
 
     if (rsvpDialog) rsvpDialog.close();
-
-    if (thanksDialog) {
-      if (typeof thanksDialog.showModal === "function") {
-        thanksDialog.showModal();
-      } else {
-        thanksDialog.setAttribute("open", "");
-      }
-    }
+    if (thanksDialog) openDialog(thanksDialog);
   });
 }
 
