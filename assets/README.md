@@ -1,7 +1,8 @@
 # Assets to drop in
 
-The page looks for two files here. Both are optional: the site degrades
-gracefully without them, but the invitation is not finished until they exist.
+The page looks for a handful of files here. All of them are optional: the site
+degrades gracefully without them, but the invitation is not finished until they
+exist.
 
 ## `music.mp3`
 
@@ -20,14 +21,25 @@ A photograph of the wax stamp, used as the button that opens the invitation.
 - Square, transparent background (PNG), around 400x400.
 - Without this file the page falls back to the wax seal drawn in CSS.
 
-## `qr-phi-long.png`
+## `logo-lc.png`
 
-The VietQR image for the groom's account, shown in the gift dialog.
+The couple's monogram, shown at the top of the save-the-date card.
 
-- Export it from your banking app, square, at least 600x600.
-- Upload it the same way you uploaded seal.png and music.mp3.
-- It should encode the Techcombank account 98666888 (Vũ Phi Long).
-- Without this file the dialog shows a note telling you where to put it.
+- Transparent PNG or SVG, roughly 400x430, dark mark on a clear background.
+- Without this file the page draws its own version of the mark.
+
+## `qr-phi-long.png` and `qr-kim-chi.png`
+
+The VietQR images shown side by side in the gift dialog, one per account.
+
+- Export each from the banking app itself. Do not have them generated for you:
+  a wrong bank code or checksum sends a guest's money to the wrong account.
+- Square, at least 600x600.
+- Upload them the same way you uploaded seal.png and music.mp3.
+- `qr-phi-long.png` should encode Techcombank 98666888 (Vũ Phi Long).
+- `qr-kim-chi.png` should encode NCB 109966298838 (Kim Chi).
+- A missing file hides that side's QR and its save link. The account details
+  stay on screen either way, so guests can still transfer by hand.
 
 The bank details in `index.html` are already the real ones:
-Techcombank, Vũ Phi Long, 98666888.
+Techcombank, Vũ Phi Long, 98666888 and NCB, Kim Chi, 109966298838.

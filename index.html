@@ -50,6 +50,40 @@
       <circle cx="20" cy="8" r="2.6"/>
     </symbol>
 
+    <symbol id="monogram" viewBox="0 0 210 230">
+      <!-- Drawn as paths, not text: the mark must keep its proportions even
+           when the webfont is slow or blocked. -->
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <g stroke-width="4.6">
+          <path d="M45 78 L73 78"/>
+          <path d="M59 78 C 57 112, 57 152, 60 188 C 62 204, 75 212, 103 212"/>
+          <path d="M170 108 C 160 88, 132 82, 113 100 C 92 120, 90 170, 110 196 C 127 218, 158 217, 170 196"/>
+        </g>
+
+        <g stroke-width="3.2">
+          <path d="M103 62 C 104 42, 107 22, 109 4"/>
+          <path d="M105 48 C 118 46, 128 36, 130 24 C 116 26, 106 36, 105 48 Z"/>
+          <path d="M104 36 C 91 33, 82 23, 81 11 C 94 14, 103 24, 104 36 Z"/>
+          <path d="M107 26 C 117 22, 124 13, 124 3 C 113 6, 107 16, 107 26 Z"/>
+        </g>
+      </g>
+
+      <g fill="currentColor">
+        <circle cx="91" cy="4" r="3"/>
+        <circle cx="125" cy="47" r="2.8"/>
+        <circle cx="79" cy="30" r="2.4"/>
+      </g>
+    </symbol>
+
+    <symbol id="monogram-letters" viewBox="40 73 135 145">
+      <g fill="none" stroke="currentColor" stroke-width="4.6"
+         stroke-linecap="round" stroke-linejoin="round">
+        <path d="M45 78 L73 78"/>
+        <path d="M59 78 C 57 112, 57 152, 60 188 C 62 204, 75 212, 103 212"/>
+        <path d="M170 108 C 160 88, 132 82, 113 100 C 92 120, 90 170, 110 196 C 127 218, 158 217, 170 196"/>
+      </g>
+    </symbol>
+
     <symbol id="check" viewBox="0 0 24 24">
       <path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
@@ -95,7 +129,10 @@
     <article class="std-card">
       <span class="std-frame" aria-hidden="true"></span>
 
-      <p class="std-monogram">L<i>|</i>C</p>
+      <p class="std-monogram">
+        <img class="logo-photo" id="logoPhoto" src="assets/logo-lc.png" alt="Phi Long và Kim Chi" hidden>
+        <svg class="logo-mark" id="logoMark" role="img" aria-label="Phi Long và Kim Chi"><use href="#monogram"/></svg>
+      </p>
 
       <div class="std-middle">
         <p class="std-script">Chúng mình cưới!</p>
@@ -116,7 +153,9 @@
         <p class="std-note">Thông tin chi tiết<br>ở ngay bên dưới</p>
       </div>
 
-      <span class="wax-seal std-seal" aria-hidden="true">L<i>C</i></span>
+      <span class="wax-seal std-seal" aria-hidden="true">
+        <svg class="seal-mark"><use href="#monogram-letters"/></svg>
+      </span>
     </article>
   </header>
 
@@ -343,34 +382,65 @@
     <div class="modal-inner">
       <button type="button" class="modal-close" id="closeGift" aria-label="Đóng">&times;</button>
 
-      <p class="modal-eyebrow">Chú rể</p>
-      <h3 class="modal-title" id="gift-dialog-heading">Phi Long</h3>
+      <h3 class="modal-title" id="gift-dialog-heading">Mừng cưới</h3>
 
-      <div class="qr-frame">
-        <img class="qr-image" id="giftQr" src="assets/qr-phi-long.png" alt="Mã QR chuyển khoản tới Phi Long">
-        <span class="qr-missing" id="qrMissing" hidden>
-          Đặt ảnh mã QR vào<br><code>assets/qr-phi-long.png</code>
-        </span>
+      <div class="gift-accounts">
+        <section class="gift-account">
+          <p class="modal-eyebrow">Chú rể</p>
+          <h4 class="gift-name">Phi Long</h4>
+
+          <div class="qr-frame" id="groomQrFrame" hidden>
+            <img class="qr-image" id="groomQr" src="assets/qr-phi-long.png"
+                 alt="Mã QR chuyển khoản tới Vũ Phi Long">
+          </div>
+
+          <a class="qr-save" id="groomQrSave" href="assets/qr-phi-long.png"
+             download="ma-qr-phi-long.png" hidden>Lưu mã QR</a>
+
+          <dl class="bank-list">
+            <div class="bank-row">
+              <dt>Ngân hàng</dt>
+              <dd>Techcombank</dd>
+            </div>
+            <div class="bank-row">
+              <dt>Chủ tài khoản</dt>
+              <dd>Vũ Phi Long</dd>
+            </div>
+            <div class="bank-row">
+              <dt>Số tài khoản</dt>
+              <dd>98666888</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="gift-account">
+          <p class="modal-eyebrow">Cô dâu</p>
+          <h4 class="gift-name">Kim Chi</h4>
+
+          <div class="qr-frame" id="brideQrFrame" hidden>
+            <img class="qr-image" id="brideQr" src="assets/qr-kim-chi.png"
+                 alt="Mã QR chuyển khoản tới Kim Chi">
+          </div>
+
+          <a class="qr-save" id="brideQrSave" href="assets/qr-kim-chi.png"
+             download="ma-qr-kim-chi.png" hidden>Lưu mã QR</a>
+
+          <dl class="bank-list">
+            <div class="bank-row">
+              <dt>Ngân hàng</dt>
+              <dd>NCB</dd>
+            </div>
+            <div class="bank-row">
+              <dt>Chủ tài khoản</dt>
+              <dd>Kim Chi</dd>
+            </div>
+            <div class="bank-row">
+              <dt>Số tài khoản</dt>
+              <dd>109966298838</dd>
+            </div>
+          </dl>
+        </section>
       </div>
-
-      <dl class="bank-list">
-        <div class="bank-row">
-          <dt>Ngân hàng</dt>
-          <dd>Techcombank</dd>
-        </div>
-        <div class="bank-row">
-          <dt>Chủ tài khoản</dt>
-          <dd>Vũ Phi Long</dd>
-        </div>
-        <div class="bank-row">
-          <dt>Số tài khoản</dt>
-          <dd>
-            <span id="bankNumber">98666888</span>
-            <button type="button" class="copy-btn" id="copyBank">Sao chép</button>
-          </dd>
-        </div>
-      </dl>
-
     </div>
   </dialog>
 

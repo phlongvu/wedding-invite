@@ -119,6 +119,23 @@ if (sealPhoto && sealFace) {
   }
 }
 
+const logoPhoto = document.getElementById("logoPhoto");
+const logoMark = document.getElementById("logoMark");
+
+/* Artwork of the real monogram replaces the drawn one when it is supplied */
+if (logoPhoto && logoMark) {
+  const useLogoPhoto = () => {
+    logoPhoto.hidden = false;
+    logoMark.hidden = true;
+  };
+
+  if (logoPhoto.complete) {
+    if (logoPhoto.naturalWidth > 0) useLogoPhoto();
+  } else {
+    logoPhoto.addEventListener("load", useLogoPhoto);
+  }
+}
+
 /* The overlay blocks pointer events and body scroll is locked in CSS, so the
    guest cannot do anything else while the envelope is opening. */
 let pageUnlocked = false;
@@ -211,22 +228,29 @@ function wireDialog(dialog, opener, closer) {
 const giftDialog = document.getElementById("giftDialog");
 const openGift = document.getElementById("openGift");
 const closeGift = document.getElementById("closeGift");
-const giftQr = document.getElementById("giftQr");
-const qrMissing = document.getElementById("qrMissing");
 
-if (giftQr && qrMissing) {
-  const showQrFallback = () => {
-    giftQr.hidden = true;
-    qrMissing.hidden = false;
+/* A QR only earns its space once the image is actually there. The save link
+   rides with it, since there is nothing to save otherwise. */
+function wireQr(imageId, frameId, saveId) {
+  const image = document.getElementById(imageId);
+  const frame = document.getElementById(frameId);
+  const save = document.getElementById(saveId);
+  if (!image || !frame || !save) return;
+
+  const show = () => {
+    frame.hidden = false;
+    save.hidden = false;
   };
 
-  giftQr.addEventListener("error", showQrFallback);
-
-  // The image may have already failed before this script ran.
-  if (giftQr.complete && giftQr.naturalWidth === 0) {
-    showQrFallback();
+  if (image.complete) {
+    if (image.naturalWidth > 0) show();
+  } else {
+    image.addEventListener("load", show, { once: true });
   }
 }
+
+wireQr("groomQr", "groomQrFrame", "groomQrSave");
+wireQr("brideQr", "brideQrFrame", "brideQrSave");
 
 wireDialog(giftDialog, openGift, closeGift);
 
@@ -326,30 +350,6 @@ if (rsvpForm) {
       }
     }
   });
-}
-
-const copyBank = document.getElementById("copyBank");
-const bankNumber = document.getElementById("bankNumber");
-
-if (copyBank && bankNumber && navigator.clipboard) {
-  copyBank.addEventListener("click", () => {
-    navigator.clipboard
-      .writeText(bankNumber.textContent.trim())
-      .then(() => {
-        copyBank.textContent = "Đã chép";
-        window.setTimeout(() => {
-          copyBank.textContent = "Sao chép";
-        }, 1800);
-      })
-      .catch(() => {
-        copyBank.textContent = "Không chép được";
-        window.setTimeout(() => {
-          copyBank.textContent = "Sao chép";
-        }, 1800);
-      });
-  });
-} else if (copyBank) {
-  copyBank.hidden = true;
 }
 
 /* ---------- Scroll reveal ---------- */

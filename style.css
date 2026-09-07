@@ -105,15 +105,12 @@ main > section > * {
     inset 0 1px 2px rgba(255, 238, 220, 0.34),
     0 4px 12px rgba(58, 43, 30, 0.28);
   color: rgba(46, 30, 18, 0.62);
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  line-height: 1;
 }
 
-.wax-seal i {
-  font-style: italic;
-  padding-left: 0.08em;
+/* The same mark the card opens with, pressed into the wax */
+.seal-mark {
+  width: 52%;
+  aspect-ratio: 135 / 145;
 }
 
 /* Sealed envelope overlay: the envelope is all there is until the guest
@@ -372,24 +369,34 @@ main > section > * {
   z-index: 1;
 }
 
+/* The couple's mark. A supplied artwork file takes over from the drawn one. */
 .std-monogram {
-  font-family: var(--font-display);
-  font-size: 1rem;
-  letter-spacing: 0.2em;
+  display: flex;
+  justify-content: center;
   margin: 0;
 }
 
-.std-monogram i {
-  font-style: normal;
-  padding: 0 0.35em;
-  opacity: 0.55;
+.logo-mark,
+.logo-photo {
+  height: clamp(58px, 15vw, 82px);
+  width: auto;
+}
+
+.logo-mark {
+  aspect-ratio: 210 / 230;
+  color: var(--card-ink);
+  fill: currentColor;
+}
+
+.logo-photo {
+  object-fit: contain;
 }
 
 .std-middle {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(0.5rem, 1.4vh, 0.9rem);
+  gap: clamp(0.5rem, 1.4svh, 0.9rem);
   width: 100%;
 }
 
@@ -480,7 +487,6 @@ main > section > * {
   bottom: clamp(1.2rem, 4.4vw, 2rem);
   width: 46px;
   height: 46px;
-  font-size: 0.82rem;
 }
 
 /* While the envelope is still sealed the card waits, then settles in */
@@ -982,6 +988,12 @@ body.is-revealing .std-card {
   box-shadow: 0 30px 70px rgba(58, 43, 30, 0.4);
 }
 
+.gift-dialog {
+  width: min(680px, 92vw);
+  max-height: 88svh;
+  overflow-y: auto;
+}
+
 .modal::backdrop {
   background: rgba(46, 33, 22, 0.55);
 }
@@ -1006,8 +1018,7 @@ body.is-revealing .std-card {
 }
 
 /* The contents settle a beat after the panel lands */
-.modal[open] .qr-frame,
-.modal[open] .bank-list,
+.modal[open] .gift-account,
 .modal[open] .rsvp-form {
   animation: gift-content-in 0.5s ease 0.16s backwards;
 }
@@ -1059,16 +1070,46 @@ body.is-revealing .std-card {
   margin: 0.2rem 0 1.5rem;
 }
 
+/* A rule between the two, not two boxes: only one side has a QR today, and
+   boxes would frame the gap where the other one is missing. */
+.gift-accounts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+}
+
+.gift-account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.gift-account + .gift-account {
+  border-left: 1px solid var(--line);
+}
+
+.gift-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin: 0.15rem 0 1rem;
+}
+
 .qr-frame {
   display: grid;
   place-items: center;
-  width: min(210px, 62vw);
+  width: min(190px, 100%);
   aspect-ratio: 1;
-  margin: 0 auto 1.75rem;
-  padding: 0.7rem;
+  margin: 0 auto 0.85rem;
+  padding: 0.6rem;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: var(--radius);
+}
+
+.qr-frame[hidden] {
+  display: none;
 }
 
 .qr-image {
@@ -1077,19 +1118,30 @@ body.is-revealing .std-card {
   object-fit: contain;
 }
 
-.qr-missing {
-  font-size: 0.78rem;
-  line-height: 1.7;
-  color: var(--ink-quiet);
-  text-align: center;
+/* Saving the code beats reading a long number off a screen */
+.qr-save {
+  margin-bottom: 1.1rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--sand);
+  background: var(--wax-deep);
+  border-radius: var(--radius-pill);
 }
 
-.qr-missing code {
-  font-size: 0.72rem;
-  color: var(--ink);
+.qr-save:hover {
+  background: var(--ink);
+}
+
+.qr-save:focus-visible {
+  outline: 2px solid var(--wax);
+  outline-offset: 3px;
 }
 
 .bank-list {
+  width: 100%;
   margin: 0;
   text-align: left;
 }
@@ -1098,43 +1150,25 @@ body.is-revealing .std-card {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 1rem;
-  padding: 0.75rem 0;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
   border-bottom: 1px solid var(--line);
 }
 
+.bank-row:last-child {
+  border-bottom: none;
+}
+
 .bank-row dt {
-  font-size: 0.8rem;
+  font-size: 0.76rem;
   color: var(--ink-quiet);
+  white-space: nowrap;
 }
 
 .bank-row dd {
   margin: 0;
-  font-weight: 400;
+  font-size: 0.86rem;
   text-align: right;
-}
-
-.copy-btn {
-  margin-left: 0.6rem;
-  padding: 0.28rem 0.7rem;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  color: var(--sand);
-  background: var(--wax);
-  border: none;
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-}
-
-.copy-btn:hover {
-  background: var(--wax-deep);
-}
-
-.gift-dialog-note {
-  margin: 1.25rem 0 0;
-  font-size: 0.72rem;
-  line-height: 1.7;
-  color: var(--ink-quiet);
 }
 
 /* Music toggle */
@@ -1487,8 +1521,7 @@ body.is-revealing .std-card {
   }
   .modal[open],
   .modal[open]::backdrop,
-  .modal[open] .qr-frame,
-  .modal[open] .bank-list,
+  .modal[open] .gift-account,
   .modal[open] .rsvp-form {
     animation: none;
   }
@@ -1504,6 +1537,22 @@ body.is-revealing .std-card {
 @media (max-width: 860px) {
   main > section {
     padding: 4rem 1.25rem;
+  }
+
+  /* Two account columns will not hold a QR side by side on a phone */
+  .gift-accounts {
+    grid-template-columns: 1fr;
+  }
+
+  .gift-account {
+    padding: 0;
+  }
+
+  .gift-account + .gift-account {
+    margin-top: 1.75rem;
+    padding-top: 1.75rem;
+    border-left: none;
+    border-top: 1px solid var(--line);
   }
 
   .timeline::before {
