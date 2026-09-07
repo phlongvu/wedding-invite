@@ -29,6 +29,22 @@ The couple's monogram, shown at the top of the save-the-date card.
   394x589; the page sizes it by height, so any similar proportion works.
 - Without this file the page falls back to the mark drawn in `index.html`.
 
+## `countdown.jpg`
+
+The photograph behind the countdown, full width across the page.
+
+- **Landscape**, roughly 3:2. It is cropped to a wide band, so anything near
+  the top or bottom edge of the original will be cut.
+- Leave the middle reasonably clear: the heading and the four numbers sit
+  across the centre of the band.
+- Upload the file straight from the camera or phone. It will be resized to
+  about 1600px wide and compressed before being committed, so guests on mobile
+  data are not waiting on an 8 MB download.
+- Faces are assumed to sit a little above centre (`object-position: center
+  35%` in `style.css`). If the crop cuts heads off, that is the number to move.
+- Without this file the countdown stays the plain section it was, with dark
+  text on sand. Nothing breaks.
+
 ## `qr-phi-long.png` and `qr-kim-chi.png`
 
 The VietQR images shown side by side in the gift dialog, one per account.

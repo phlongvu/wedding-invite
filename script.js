@@ -119,6 +119,21 @@ if (sealPhoto && sealFace) {
   }
 }
 
+const countdownSection = document.getElementById("countdownSection");
+const countdownPhoto = document.getElementById("countdownPhoto");
+
+/* The countdown becomes a photo band only once there is a photo to band with.
+   Until then it stays the flat section it is now, rather than showing a hole. */
+if (countdownSection && countdownPhoto) {
+  const usePhoto = () => countdownSection.classList.add("has-photo");
+
+  if (countdownPhoto.complete) {
+    if (countdownPhoto.naturalWidth > 0) usePhoto();
+  } else {
+    countdownPhoto.addEventListener("load", usePhoto, { once: true });
+  }
+}
+
 const logoPhoto = document.getElementById("logoPhoto");
 const logoMark = document.getElementById("logoMark");
 
