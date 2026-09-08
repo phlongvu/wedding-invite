@@ -61,6 +61,19 @@ countdown pair is: three originals totalling 32.3 MB became 1.07 MB.
   gets regenerated. Match the shape of the slot: portrait for 1, landscape for
   2 and 3.
 
+## `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png`
+
+The browser-tab and home-screen icons, generated from `logo-lc.png` on a sand
+square so the mark reads against both a light and a dark browser theme.
+
+- Regenerated from `logo-lc.png`, so replacing the logo means regenerating
+  these too. The tab sizes are cropped tight; the Apple icon keeps a wider
+  margin because iOS adds none of its own.
+- The monogram is a fine-line mark half again as tall as it is wide. At 16 and
+  32 pixels the sprig between the letters cannot survive and reads as texture.
+  The icon is recognisable, not legible, at tab size. It reads properly on a
+  home screen at 180px.
+
 ## `qr-phi-long.png` and `qr-kim-chi.png`
 
 The VietQR images shown side by side in the gift dialog, one per account.
