@@ -99,14 +99,22 @@ set over it. Two sizes of the same picture, handed out by `srcset`.
 - These are generated, not uploaded. Upload the original at any size and it
   gets resized and compressed into this pair, the same way the countdown
   photograph was.
-- **Landscape.** The footer cuts a wide band out of it, between 340 and 500
-  pixels tall depending on the window, so the top and bottom of the original
-  are cropped away. `object-position: center 32%` in `style.css` decides where.
-- Keep the couple in the upper half. The names and the thank-you sit along the
-  bottom of the band under a scrim that is heaviest there, so faces belong
-  above it. That scrim is what carries the white type to 5:1 against the
-  brightest thing behind it; if the photograph is replaced with a much paler
-  one, measure it again before shipping.
+- **Landscape.** The current pair came from a 5398x3599 original of 11.2 MB,
+  which became 415 KB and 187 KB. The original is not kept, the same as the
+  album and the cut-out: it is in the history if it is ever wanted again.
+- The footer cuts a wide band out of it, between 340 and 520 pixels tall
+  depending on the window, which on a desktop throws away more than half the
+  height. `object-position: center 10%` in `style.css` decides which part
+  survives. That number is low for a reason: at 32% the band began below the
+  groom's hairline and took the top of his head off. On a phone the band is
+  taller than the picture is wide, so it crops the sides instead and the number
+  has no effect there.
+- Keep the couple in the upper half, heads well clear of the top edge. The
+  names and the thank-you sit along the bottom of the band under a scrim that
+  is heaviest there, so faces belong above it. That scrim is what carries the
+  white type to 5.91:1 at its worst against the brightest thing behind it; if
+  the photograph is replaced with a much paler one, measure it again before
+  shipping rather than assuming it still passes.
 - Use a picture that is not already the countdown, the Lời ngỏ portrait or one
   of the twelve in the album, or the same photograph appears twice on one page.
 - Without these files the footer drops back to the plain one it replaced, dark

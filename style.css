@@ -1758,7 +1758,7 @@ body.is-revealing .std-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: clamp(340px, 48svh, 500px);
+  min-height: clamp(340px, 54svh, 520px);
   padding: 3rem var(--section-pad) 3.5rem;
   text-align: center;
   background: rgb(var(--scrim));
@@ -1797,8 +1797,12 @@ body.is-revealing .std-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Keep the couple high in the frame, clear of the names below them */
-  object-position: center 32%;
+  /* The band is a wide strip out of a 3:2 picture, so on a desktop it throws
+     away three fifths of the height. At 32% it started below the groom's
+     hairline and took the top of his head off; 10% keeps both of them whole
+     with room above. On a phone the strip is taller than the picture is at
+     that width, so it crops the sides instead and this has no effect there. */
+  object-position: center 10%;
 }
 
 /* Light where the couple are, heavy where the words sit. A flat wash over the
