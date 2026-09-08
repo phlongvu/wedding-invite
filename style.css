@@ -491,30 +491,43 @@ body.is-revealing .std-card {
 }
 
 /* Intro */
-/* A portrait photograph beside the words, which on their own were two lines
-   of text stranded on a flat ground. */
+/* A portrait photograph above the words, which on their own were two lines of
+   text stranded on a flat ground. Centred, because every other section on the
+   page is: one asymmetric block among eight symmetric ones read as a mistake
+   rather than a decision. */
 .intro-split {
   display: grid;
-  grid-template-columns: 0.72fr 1fr;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: center;
-  text-align: left;
+  gap: 2.25rem;
+  justify-items: center;
+  text-align: center;
+}
+
+/* Mounted, not dropped on. The card, the details panel, the calendar and the
+   map all sit inside a hairline rule; a bare rectangle was the one element on
+   the page with no edge of its own. */
+.intro-mount {
+  max-width: 100%;
+  padding: 12px;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 28px rgba(58, 43, 30, 0.1);
 }
 
 .intro-photo {
-  width: 100%;
+  display: block;
+  width: clamp(220px, 24vw, 290px);
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  border-radius: var(--radius);
+  border-radius: var(--radius-inset);
 }
 
 .intro-split .section-heading {
-  text-align: left;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.1rem;
 }
 
 .intro-text {
-  margin: 0;
+  margin: 0 auto;
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
@@ -1607,27 +1620,6 @@ body.is-revealing .std-card {
 @media (max-width: 860px) {
   main > section {
     padding: 4rem 1.25rem;
-  }
-
-  /* One column, and the photograph sits inset rather than full width: a
-     full-bleed portrait here would eat the screen and repeat the shape the
-     gallery already uses. */
-  .intro-split {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .intro-photo {
-    width: 62%;
-    margin-inline: auto;
-  }
-
-  .intro-split .section-heading {
-    text-align: center;
-  }
-
-  .intro-text {
-    margin-inline: auto;
   }
 
   /* Two account columns will not hold a QR side by side on a phone */

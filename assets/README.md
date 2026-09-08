@@ -53,9 +53,8 @@ handed out by `srcset`. Generated from a 10.2 MB upload.
 
 - **Portrait.** The slot is 3:4 and the source is 2:3, so a little comes off
   the top and bottom. Keep faces away from the very top and bottom edges.
-- On a phone it sits inset at 62% of the width with the words underneath,
-  rather than full width. A full-bleed portrait here would take most of the
-  screen and repeat the shape the gallery already uses.
+- It sits mounted and centred above the words at every width, inside a sand
+  mat and a hairline rule, like a photograph mounted on the invitation.
 - Use a different photograph from the three in the gallery, or the same
   picture appears twice on one page.
 
