@@ -1,4 +1,8 @@
-const weddingDate = new Date("2026-09-27T08:00:00").getTime();
+/* The offset is not optional. Without it the browser reads the string in the
+   guest's own timezone, so the same page counted down to 09:00 in Saigon, in
+   Tokyo and in California alike. 09:00 +07:00 is the Lễ Vu Quy, the first
+   event on the day's schedule. */
+const weddingDate = new Date("2026-09-27T09:00:00+07:00").getTime();
 
 function updateCountdown() {
   const now = new Date().getTime();
