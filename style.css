@@ -522,10 +522,6 @@ body.is-revealing .std-card {
   border-radius: var(--radius-inset);
 }
 
-.intro-split .section-heading {
-  margin-bottom: 1.1rem;
-}
-
 .intro-text {
   margin: 0 auto;
   font-family: var(--font-display);
