@@ -490,12 +490,22 @@ if (albumRail) {
     albumRail.style.scrollSnapType = "";
   };
 
-  /* Held inside the middle run, which leaves a whole run of runway on either
-     side for a fling to travel through before the next reposition is due. */
+  /* Where the rail rests with the first plate of the middle run centred. */
+  const home = () => centreOf(plates[count]);
+
+  /* How far the rail has wandered from that resting place, rounded to whole
+     runs and put back. Rounding is what keeps it steady: the rail is allowed
+     half a run either way before it is carried round, so resting sits as far
+     from both edges as it can. A band that merely started at the resting
+     place left the rail on its own boundary at some widths, and any nudge
+     tripped a reposition mid-glide -- which is what made stepping from the
+     first photograph to the second jump. Rounding also unwinds several runs
+     at once, so a drag that outruns the observer cannot leave the rail
+     stranded a run or two out. */
   const keepCentred = () => {
     if (!runWidth) return;
-    if (albumRail.scrollLeft < runWidth) shift(runWidth);
-    else if (albumRail.scrollLeft >= runWidth * 2) shift(-runWidth);
+    const runs = Math.round((albumRail.scrollLeft - home()) / runWidth);
+    if (runs) shift(-runs * runWidth);
   };
 
   /* Which plate is centred, as a position in the whole cloned run rather than

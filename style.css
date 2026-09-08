@@ -960,14 +960,22 @@ body.is-revealing .std-card {
   display: none;
 }
 
-@media (min-width: 901px) {
+/* Only from 1024px: the schedule is a fixed 460px column in the middle of the
+   section, so the room beside it is whatever the window has spare. Below this
+   there is not enough of it, and a figure sized to fit would be a thumbnail --
+   worse than the full-width one the flow already gives. */
+@media (min-width: 1024px) {
   .timeline-cutout {
     position: absolute;
     /* 5.5rem is the section's own block padding, so they stand on the bottom
        of the last row rather than on the section below. */
     bottom: 5.5rem;
-    right: max(var(--section-pad), calc(50% - var(--container) / 2));
-    width: clamp(228px, 23vw, 300px);
+    right: var(--section-pad);
+    /* Sized off that spare room rather than guessed at: half the window, less
+       the padding, less half the schedule column, less the gutter that keeps
+       them clear of the two addresses. Guessing left them lapping over "Đón
+       khách" just above 900px and a hair from the addresses on a laptop. */
+    width: min(420px, calc(50vw - var(--section-pad) - 262px));
     margin: 0;
   }
 }

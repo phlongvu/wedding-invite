@@ -81,6 +81,11 @@ The couple cut out of their background, standing beside the day's schedule.
   saved as WebP with alpha, 59 KB against 547 KB for the same picture as PNG.
 - The mask ran out mid-calf against the road, so the CSS fades the bottom of
   the image into the ground. A hard edge there would read as a mistake.
+- From 1024px it stands in the margin beside the schedule, sized off the room
+  actually left over rather than a guessed clamp: the schedule is a fixed
+  460px column in the middle of the section, so the space beside it is
+  whatever the window has spare. Below 1024px there is not enough of that
+  room, and it drops into the flow under the last row instead.
 - To replace it, upload a new original and it gets cut and converted again.
   A plain, contrasting background cuts cleanly; a translucent veil against
   busy foliage does not.
