@@ -78,13 +78,16 @@ body.modal-open {
   overflow: hidden;
 }
 
+/* margin-inline must stay auto: the section centres its children with it, and
+   a margin shorthand here silently reset it, ranging every heading on the page
+   to the left of the container on any viewport wider than it. */
 .section-heading {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(1.8rem, 3.4vw, 2.5rem);
   letter-spacing: 0.01em;
   text-align: center;
-  margin: 0 0 2.5rem;
+  margin: 0 auto 2.5rem;
 }
 
 main > section {
@@ -904,23 +907,141 @@ body.is-revealing .std-card {
   text-align: center;
 }
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 0.75rem;
-  height: clamp(360px, 58vw, 640px);
+/* The album is a rail rather than a grid: photographs keep their own
+   proportions, so a portrait and a landscape can sit side by side without
+   either being cropped to fit a cell. */
+/* Full width of the viewport, not of the container: the rail's own padding
+   brings the first plate back into line with everything else. max-width has
+   to be released or the section's own rule keeps the box at container width
+   and the negative margins just shove it off centre. */
+.album {
+  max-width: none;
+  margin-inline: calc(50% - 50vw);
 }
 
-.gallery-photo {
-  width: 100%;
-  height: 100%;
+.album-rail {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  list-style: none;
+  margin: 0;
+  /* A starting value only. Script replaces it with half the rail minus half
+     the end plate, which is what lets the first and last plates reach the
+     centre; without it a centred rail opens on whichever plate happens to
+     straddle the midpoint, which is plate two on anything but a phone. */
+  padding-inline: max(1.5rem, calc(50vw - var(--container) / 2));
+  padding-block: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.album-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.album-rail:focus-visible {
+  outline: 2px solid var(--wax);
+  outline-offset: 4px;
+}
+
+.album-plate {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+
+
+.album-plate img {
+  display: block;
+  height: clamp(300px, 46vw, 460px);
+  width: auto;
+  max-width: 88vw;
   object-fit: cover;
   border-radius: var(--radius);
 }
 
-.gallery-large {
-  grid-row: 1 / 3;
+/* The photograph the guest has landed on stands forward and the rest sit
+   back, driven by the rail's own scroll position rather than by script. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .album-plate {
+      animation: plate-focus linear both;
+      animation-timeline: view(inline);
+      animation-range: entry 10% exit 90%;
+    }
+  }
+}
+
+@keyframes plate-focus {
+  0% { opacity: 0.3; transform: scale(0.88); }
+  44%, 56% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.3; transform: scale(0.88); }
+}
+
+.album-bar[hidden] {
+  display: none;
+}
+
+.album-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.album-step {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink-quiet);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.album-step svg {
+  width: 20px;
+  height: 20px;
+}
+
+.album-next svg {
+  transform: scaleX(-1);
+}
+
+.album-step:hover:not(:disabled) {
+  color: var(--ink);
+  border-color: var(--tone-deep);
+}
+
+.album-step:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.album-step:focus-visible {
+  outline: 2px solid var(--wax);
+  outline-offset: 3px;
+}
+
+.album-count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.album-count i {
+  font-style: normal;
+  color: var(--ink-quiet);
 }
 
 /* Gift box */
@@ -1648,24 +1769,6 @@ body.is-revealing .std-card {
 
   .timeline-label {
     font-size: 1.15rem;
-  }
-
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    height: auto;
-  }
-
-  /* One column on a phone, each photograph in its own shape rather than a
-     single ratio that would crop the portrait one through the middle. */
-  .gallery-large {
-    grid-row: auto;
-    aspect-ratio: 3 / 4;
-  }
-
-  .gallery-small {
-    grid-row: auto;
-    aspect-ratio: 3 / 2;
   }
 
   .countdown-row {

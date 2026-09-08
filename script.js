@@ -413,6 +413,112 @@ if (rsvpForm) {
   });
 }
 
+/* ---------- Album rail ---------- */
+
+/* The rail scrolls itself: snapping, momentum and keyboard arrows are all the
+   browser's own. Script only steps between plates and keeps the count honest. */
+const albumRail = document.getElementById("albumRail");
+
+if (albumRail) {
+  const plates = [...albumRail.querySelectorAll(".album-plate")];
+  const prev = document.getElementById("albumPrev");
+  const next = document.getElementById("albumNext");
+  const index = document.getElementById("albumIndex");
+  const total = document.getElementById("albumTotal");
+  const bar = document.querySelector(".album-bar");
+  const pad = (n) => String(n).padStart(2, "0");
+
+  let current = -1;
+
+  if (total) total.textContent = pad(plates.length);
+
+  /* Every plate can reach the centre, including the first and the last, which
+     is what makes the album open on plate one at any width. */
+  const padRail = () => {
+    const first = plates[0];
+    const last = plates[plates.length - 1];
+    if (!first || !last) return;
+    const room = albumRail.clientWidth;
+    albumRail.style.paddingInlineStart = Math.max(0, (room - first.clientWidth) / 2) + "px";
+    albumRail.style.paddingInlineEnd = Math.max(0, (room - last.clientWidth) / 2) + "px";
+  };
+
+  /* Distance from the centre, not overlap: on a wide screen several plates are
+     fully visible at once, and asking an observer alone which one was showing
+     left the count stuck on the last plate to report. */
+  const settledOn = () => {
+    const mid = albumRail.scrollLeft + albumRail.clientWidth / 2;
+    let best = 0;
+    let nearest = Infinity;
+
+    plates.forEach((plate, n) => {
+      const away = Math.abs(plate.offsetLeft + plate.clientWidth / 2 - mid);
+      if (away < nearest) {
+        nearest = away;
+        best = n;
+      }
+    });
+
+    return best;
+  };
+
+  const sync = () => {
+    const n = settledOn();
+    if (n === current) return;
+    current = n;
+    if (index) index.textContent = pad(n + 1);
+    if (prev) prev.disabled = n === 0;
+    if (next) next.disabled = n === plates.length - 1;
+  };
+
+  const goTo = (n) => {
+    const plate = plates[Math.min(Math.max(n, 0), plates.length - 1)];
+    if (!plate) return;
+    // scrollIntoView would move the page as well as the rail
+    albumRail.scrollTo({
+      left: plate.offsetLeft - (albumRail.clientWidth - plate.clientWidth) / 2,
+      behavior: prefersReducedMotion ? "instant" : "smooth",
+    });
+  };
+
+  if (prev) prev.addEventListener("click", () => goTo(current - 1));
+  if (next) next.addEventListener("click", () => goTo(current + 1));
+
+  /* The observer is only a signal that the rail moved; the answer comes from
+     the measurement above. A scroll listener would do the same job worse. */
+  if ("IntersectionObserver" in window) {
+    const watcher = new IntersectionObserver(sync, {
+      root: albumRail,
+      threshold: [0, 0.25, 0.5, 0.75, 1],
+    });
+
+    plates.forEach((plate) => watcher.observe(plate));
+  }
+
+  /* Nothing to step through if every plate already fits */
+  const fitsWhole = () => {
+    if (bar) bar.hidden = albumRail.scrollWidth <= albumRail.clientWidth + 1;
+  };
+
+  /* Watch the plates, not just the rail. The rail's own box does not change
+     when a photograph finally arrives, only what it contains does, so
+     observing the rail alone measured an empty rail and hid the controls. */
+  if ("ResizeObserver" in window) {
+    const resized = new ResizeObserver(() => {
+      padRail();
+      fitsWhole();
+      sync();
+    });
+
+    resized.observe(albumRail);
+    plates.forEach((plate) => resized.observe(plate));
+  }
+
+  padRail();
+  fitsWhole();
+  sync();
+}
+
 /* ---------- Scroll reveal ---------- */
 
 const revealEls = document.querySelectorAll(".reveal");

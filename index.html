@@ -96,6 +96,11 @@
       </g>
     </symbol>
 
+    <symbol id="arrow" viewBox="0 0 24 24">
+      <path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+
     <symbol id="check" viewBox="0 0 24 24">
       <path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
@@ -377,22 +382,39 @@
 
     <section class="gallery band" aria-labelledby="gallery-heading">
       <h2 id="gallery-heading" class="section-heading reveal">Khoảnh khắc</h2>
-      <div class="gallery-grid reveal">
-        <img class="gallery-photo gallery-large"
-             src="assets/gallery-1-1400.jpg"
-             srcset="assets/gallery-1-800.jpg 800w, assets/gallery-1-1400.jpg 1400w"
-             sizes="(max-width: 860px) 100vw, 46vw"
-             alt="Phi Long và Kim Chi đọc lời thề" loading="lazy" decoding="async">
-        <img class="gallery-photo gallery-small"
-             src="assets/gallery-2-1400.jpg"
-             srcset="assets/gallery-2-800.jpg 800w, assets/gallery-2-1400.jpg 1400w"
-             sizes="(max-width: 860px) 100vw, 37vw"
-             alt="Phi Long và Kim Chi trong vườn hoa" loading="lazy" decoding="async">
-        <img class="gallery-photo gallery-small"
-             src="assets/gallery-3-1400.jpg"
-             srcset="assets/gallery-3-800.jpg 800w, assets/gallery-3-1400.jpg 1400w"
-             sizes="(max-width: 860px) 100vw, 37vw"
-             alt="Phi Long và Kim Chi bên bờ biển" loading="lazy" decoding="async">
+
+      <div class="album reveal">
+        <ul class="album-rail" id="albumRail" role="region"
+            aria-label="Album ảnh cưới, cuộn ngang" tabindex="0">
+          <li class="album-plate">
+            <img src="assets/gallery-1-1400.jpg"
+                 srcset="assets/gallery-1-800.jpg 800w, assets/gallery-1-1400.jpg 1400w"
+                 sizes="(max-width: 860px) 80vw, 700px"
+                 alt="Phi Long và Kim Chi cầm lời thề trong vườn" decoding="async">
+          </li>
+          <li class="album-plate">
+            <img src="assets/gallery-2-1400.jpg"
+                 srcset="assets/gallery-2-800.jpg 800w, assets/gallery-2-1400.jpg 1400w"
+                 sizes="(max-width: 860px) 80vw, 700px"
+                 alt="Phi Long và Kim Chi giữa vườn hoa" loading="lazy" decoding="async">
+          </li>
+          <li class="album-plate">
+            <img src="assets/gallery-3-1400.jpg"
+                 srcset="assets/gallery-3-800.jpg 800w, assets/gallery-3-1400.jpg 1400w"
+                 sizes="(max-width: 860px) 80vw, 700px"
+                 alt="Phi Long và Kim Chi bên bờ biển" loading="lazy" decoding="async">
+          </li>
+        </ul>
+
+        <div class="album-bar">
+          <button type="button" class="album-step" id="albumPrev" aria-label="Ảnh trước">
+            <svg aria-hidden="true"><use href="#arrow"/></svg>
+          </button>
+          <p class="album-count"><span id="albumIndex">01</span><i>/</i><span id="albumTotal">03</span></p>
+          <button type="button" class="album-step album-next" id="albumNext" aria-label="Ảnh sau">
+            <svg aria-hidden="true"><use href="#arrow"/></svg>
+          </button>
+        </div>
       </div>
     </section>
 

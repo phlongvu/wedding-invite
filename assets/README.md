@@ -46,6 +46,19 @@ desktops the 2000px one.
 - Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
+## `gallery-1-*.jpg` … (the album rail)
+
+The photographs in the Khoảnh khắc rail, each in a 1400px and an 800px copy.
+The rail keeps every photograph's own proportions, so portrait and landscape
+can sit side by side and nothing is cropped to fit a cell.
+
+- To add more, upload originals and they get compressed into the same pair.
+  Order on the page follows the order of the list in `index.html`.
+- Only the first plate loads eagerly; the rest wait until the guest swipes, so
+  a guest who never opens the album pays for one photograph.
+- Keep two shots from the same set apart in the order, or the rail reads as
+  the same picture twice.
+
 ## `intro-1000.jpg` and `intro-600.jpg`
 
 The portrait photograph beside the Lời ngỏ text, in a 1000px and a 600px copy
