@@ -170,6 +170,22 @@ if (timelineCutout) {
   });
 }
 
+/* The band is painted the deep tone underneath, so the white names are legible
+   from the first paint rather than flashing white on sand while the bytes are
+   in the air. If the file never arrives at all, the footer drops back to the
+   plain one it replaced. Lazy is right here and wrong for the countdown and
+   the cut-out: this one sits in the flow at the foot of the page, so a guest
+   who has scrolled this far has already asked for it. */
+const footerPhoto = document.getElementById("footerPhoto");
+const footer = document.getElementById("footer");
+
+if (footerPhoto && footer) {
+  footerPhoto.addEventListener("error", () => {
+    footerPhoto.hidden = true;
+    footer.classList.add("no-photo");
+  });
+}
+
 const logoPhoto = document.getElementById("logoPhoto");
 const logoMark = document.getElementById("logoMark");
 

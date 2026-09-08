@@ -494,9 +494,19 @@
 
   </main>
 
-  <footer class="footer">
-    <p class="footer-names">Phi Long &amp; Kim Chi</p>
-    <p class="footer-note">Cảm ơn bạn đã dành thời gian ghé thăm trang thiệp cưới của chúng mình.</p>
+  <!-- The page ends on the couple rather than on a bank transfer dialog: a
+       photograph across the foot of it with the names set over them. -->
+  <footer class="footer" id="footer">
+    <img class="footer-photo" id="footerPhoto"
+         src="assets/closing-1200.jpg"
+         srcset="assets/closing-1200.jpg 1200w, assets/closing-2000.jpg 2000w"
+         sizes="100vw" width="2000" height="1125"
+         alt="" aria-hidden="true" loading="lazy" decoding="async">
+    <div class="footer-scrim" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <p class="footer-names">Phi Long &amp; Kim Chi</p>
+      <p class="footer-note">Cảm ơn bạn đã dành thời gian ghé thăm trang thiệp cưới của chúng mình.</p>
+    </div>
   </footer>
 
   <dialog class="modal gift-dialog" id="giftDialog" aria-labelledby="gift-dialog-heading">

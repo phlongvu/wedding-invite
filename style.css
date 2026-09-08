@@ -1745,24 +1745,97 @@ body.is-revealing .std-card {
 }
 
 /* Footer */
+/* The page closes on a photograph with the names set over it. The footer is
+   painted the deep tone underneath, so the white type is readable from the
+   first paint and stays readable if the file never arrives: no flash of white
+   on sand while the bytes are in the air, and no second layout once they land.
+   The height is stated here rather than left to the image, for the same
+   reason. */
 .footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(340px, 48svh, 500px);
+  padding: 3rem var(--section-pad) 3.5rem;
   text-align: center;
-  padding: 4rem 1.5rem 5rem;
+  background: rgb(var(--scrim));
+  color: var(--on-photo);
+}
+
+/* Until the file exists the band would be a slab of solid brown, which is a
+   worse footer than the one this replaces. So the absent case falls all the
+   way back to the plain footer, and it flips both the ground and the ink at
+   the same moment: the state before the file loads is white on deep tone, the
+   state without it is dark on sand, and neither is ever half of the other. */
+.footer.no-photo {
+  min-height: 0;
+  padding: 4rem var(--section-pad) 5rem;
+  background: none;
+  color: inherit;
   border-top: 1px solid var(--line);
 }
+
+.footer.no-photo .footer-note {
+  color: var(--ink-quiet);
+}
+
+.footer.no-photo .footer-scrim {
+  display: none;
+}
+
+.footer-photo,
+.footer-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.footer-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keep the couple high in the frame, clear of the names below them */
+  object-position: center 32%;
+}
+
+/* Light where the couple are, heavy where the words sit. A flat wash over the
+   whole picture would dull the faces to buy contrast the type only needs along
+   the bottom. */
+.footer-scrim {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--scrim), 0.10) 0%,
+    rgba(var(--scrim), 0.28) 34%,
+    rgba(var(--scrim), 0.70) 68%,
+    rgba(var(--scrim), 0.86) 100%
+  );
+}
+
+.footer-inner {
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
 
 .footer-names {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
-  font-size: 1.6rem;
-  margin: 0 0 0.5rem;
+  font-size: clamp(1.7rem, 4.4vw, 2.2rem);
+  /* Italic descenders in "Long" and "g" need the room */
+  line-height: 1.25;
+  padding-bottom: 0.15em;
+  margin: 0 0 0.6rem;
 }
 
 .footer-note {
-  color: var(--ink-quiet);
-  font-size: 0.9rem;
-  margin: 0;
+  color: var(--on-photo-quiet);
+  font-size: 0.95rem;
+  max-width: 34ch;
+  margin: 0 auto;
 }
 
 /* Scroll reveal */

@@ -91,6 +91,29 @@ The couple cut out of their background, standing beside the day's schedule.
   busy foliage does not.
 - Without the file the schedule stays exactly as it was.
 
+## `closing-2000.jpg` and `closing-1200.jpg`
+
+The photograph the page closes on, full width across the footer with the names
+set over it. Two sizes of the same picture, handed out by `srcset`.
+
+- These are generated, not uploaded. Upload the original at any size and it
+  gets resized and compressed into this pair, the same way the countdown
+  photograph was.
+- **Landscape.** The footer cuts a wide band out of it, between 340 and 500
+  pixels tall depending on the window, so the top and bottom of the original
+  are cropped away. `object-position: center 32%` in `style.css` decides where.
+- Keep the couple in the upper half. The names and the thank-you sit along the
+  bottom of the band under a scrim that is heaviest there, so faces belong
+  above it. That scrim is what carries the white type to 5:1 against the
+  brightest thing behind it; if the photograph is replaced with a much paler
+  one, measure it again before shipping.
+- Use a picture that is not already the countdown, the Lời ngỏ portrait or one
+  of the twelve in the album, or the same photograph appears twice on one page.
+- Without these files the footer drops back to the plain one it replaced, dark
+  type on sand with a hairline above it. It never shows white type on sand
+  while the file is in the air: the band is painted the deep tone underneath
+  from the first paint, and the fallback flips the ground and the ink together.
+
 ## `og-card.jpg`
 
 The 1200x630 card that Zalo, Messenger and Facebook show when the link is
