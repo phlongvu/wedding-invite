@@ -944,12 +944,10 @@ body.is-revealing .std-card {
   gap: clamp(0.75rem, 2vw, 1.25rem);
   list-style: none;
   margin: 0;
-  /* A starting value only. Script replaces it with half the rail minus half
-     the end plate, which is what lets the first and last plates reach the
-     centre; without it a centred rail opens on whichever plate happens to
-     straddle the midpoint, which is plate two on anything but a phone. */
-  padding-inline: max(var(--section-pad), calc(50% - var(--container) / 2));
-  padding-block: 0;
+  /* No end padding: the rail is endless, so there is always a photograph on
+     both sides and never a bare margin to pad away. */
+  padding: 0;
+  cursor: grab;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -958,6 +956,18 @@ body.is-revealing .std-card {
 
 .album-rail::-webkit-scrollbar {
   display: none;
+}
+
+.album-rail.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+/* A dragged rail should move, not start a browser image drag or select things */
+.album-plate img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .album-rail:focus-visible {

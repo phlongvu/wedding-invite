@@ -415,36 +415,70 @@ if (rsvpForm) {
 
 /* ---------- Album rail ---------- */
 
-/* The rail scrolls itself: snapping, momentum and keyboard arrows are all the
-   browser's own. Script only steps between plates and keeps the count honest. */
+/* An endless rail. Snapping, momentum, touch and arrow keys stay the
+   browser's own; script clones the plates so there is always a photograph on
+   both sides, jumps the scroll position back to the middle copy when the
+   guest reaches an edge, and lets a mouse drag the rail the way a finger
+   already could. */
 const albumRail = document.getElementById("albumRail");
 
 if (albumRail) {
-  const plates = [...albumRail.querySelectorAll(".album-plate")];
+  const source = [...albumRail.querySelectorAll(".album-plate")];
+  const count = source.length;
   const prev = document.getElementById("albumPrev");
   const next = document.getElementById("albumNext");
   const index = document.getElementById("albumIndex");
   const total = document.getElementById("albumTotal");
-  const bar = document.querySelector(".album-bar");
   const pad = (n) => String(n).padStart(2, "0");
 
+  if (total) total.textContent = pad(count);
+
+  /* A copy of the run before and after the real one. The clones are scenery:
+     they carry no alt text and are hidden from assistive technology, so the
+     album is still twelve photographs to a screen reader, not thirty-six. */
+  const copies = [document.createDocumentFragment(), document.createDocumentFragment()];
+  source.forEach((plate) => {
+    copies.forEach((into) => {
+      const clone = plate.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      const image = clone.querySelector("img");
+      if (image) image.alt = "";
+      into.appendChild(clone);
+    });
+  });
+  albumRail.insertBefore(copies[0], albumRail.firstChild);
+  albumRail.appendChild(copies[1]);
+
+  const plates = [...albumRail.querySelectorAll(".album-plate")];
+  const middle = (n) => plates[count + n];
+
+  let runWidth = 0;
   let current = -1;
 
-  if (total) total.textContent = pad(plates.length);
-
-  /* Every plate can reach the centre, including the first and the last, which
-     is what makes the album open on plate one at any width. */
-  const padRail = () => {
-    const first = plates[0];
-    const last = plates[plates.length - 1];
-    if (!first || !last) return;
-    const room = albumRail.clientWidth;
-    albumRail.style.paddingInlineStart = Math.max(0, (room - first.clientWidth) / 2) + "px";
-    albumRail.style.paddingInlineEnd = Math.max(0, (room - last.clientWidth) / 2) + "px";
+  const measure = () => {
+    runWidth = plates[count].offsetLeft - plates[0].offsetLeft;
   };
 
-  /* Distance from the centre, not overlap: on a wide screen several plates are
-     fully visible at once, and asking an observer alone which one was showing
+  const centreOf = (plate) =>
+    plate.offsetLeft - (albumRail.clientWidth - plate.clientWidth) / 2;
+
+  /* Moving the scroll position by exactly one run lands on an identical
+     photograph, so the jump is invisible. Snapping has to be off for the
+     instant it takes, or the browser fights the reposition. */
+  const shift = (by) => {
+    albumRail.style.scrollSnapType = "none";
+    albumRail.scrollLeft += by;
+    albumRail.style.scrollSnapType = "";
+  };
+
+  const keepCentred = () => {
+    if (!runWidth) return;
+    if (albumRail.scrollLeft < runWidth * 0.5) shift(runWidth);
+    else if (albumRail.scrollLeft > runWidth * 2.5) shift(-runWidth);
+  };
+
+  /* Distance from the centre, not overlap: several plates are fully visible at
+     once on a wide screen, and asking an observer alone which one was showing
      left the count stuck on the last plate to report. */
   const settledOn = () => {
     const mid = albumRail.scrollLeft + albumRail.clientWidth / 2;
@@ -459,33 +493,31 @@ if (albumRail) {
       }
     });
 
-    return best;
+    return ((best % count) + count) % count;
   };
 
   const sync = () => {
+    keepCentred();
     const n = settledOn();
     if (n === current) return;
     current = n;
     if (index) index.textContent = pad(n + 1);
-    if (prev) prev.disabled = n === 0;
-    if (next) next.disabled = n === plates.length - 1;
   };
 
-  const goTo = (n) => {
-    const plate = plates[Math.min(Math.max(n, 0), plates.length - 1)];
+  const step = (by) => {
+    const plate = middle(((current + by) % count + count) % count);
     if (!plate) return;
-    // scrollIntoView would move the page as well as the rail
     albumRail.scrollTo({
-      left: plate.offsetLeft - (albumRail.clientWidth - plate.clientWidth) / 2,
+      left: centreOf(plate),
       behavior: prefersReducedMotion ? "instant" : "smooth",
     });
   };
 
-  if (prev) prev.addEventListener("click", () => goTo(current - 1));
-  if (next) next.addEventListener("click", () => goTo(current + 1));
+  if (prev) prev.addEventListener("click", () => step(-1));
+  if (next) next.addEventListener("click", () => step(1));
 
-  /* The observer is only a signal that the rail moved; the answer comes from
-     the measurement above. A scroll listener would do the same job worse. */
+  /* The observer is only the signal that the rail moved; the answers come from
+     the measurements above. A scroll handler would do the same job worse. */
   if ("IntersectionObserver" in window) {
     const watcher = new IntersectionObserver(sync, {
       root: albumRail,
@@ -495,28 +527,57 @@ if (albumRail) {
     plates.forEach((plate) => watcher.observe(plate));
   }
 
-  /* Nothing to step through if every plate already fits */
-  const fitsWhole = () => {
-    if (bar) bar.hidden = albumRail.scrollWidth <= albumRail.clientWidth + 1;
+  /* A finger can already drag the rail. A mouse could only press the arrows,
+     so it gets the same grip. Touch is left alone: the browser does it better. */
+  let holding = false;
+  let grabbedAt = 0;
+  let grabbedFrom = 0;
+
+  const release = () => {
+    if (!holding) return;
+    holding = false;
+    albumRail.classList.remove("is-dragging");
+    // restoring the property lets the browser settle on the nearest plate
+    albumRail.style.scrollSnapType = "";
   };
 
-  /* Watch the plates, not just the rail. The rail's own box does not change
-     when a photograph finally arrives, only what it contains does, so
-     observing the rail alone measured an empty rail and hid the controls. */
-  if ("ResizeObserver" in window) {
-    const resized = new ResizeObserver(() => {
-      padRail();
-      fitsWhole();
-      sync();
-    });
+  albumRail.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    holding = true;
+    grabbedAt = event.clientX;
+    grabbedFrom = albumRail.scrollLeft;
+    albumRail.classList.add("is-dragging");
+    albumRail.style.scrollSnapType = "none";
+    albumRail.setPointerCapture(event.pointerId);
+  });
 
+  albumRail.addEventListener("pointermove", (event) => {
+    if (!holding) return;
+    event.preventDefault();
+    albumRail.scrollLeft = grabbedFrom - (event.clientX - grabbedAt);
+  });
+
+  albumRail.addEventListener("pointerup", release);
+  albumRail.addEventListener("pointercancel", release);
+
+  const settle = () => {
+    measure();
+    if (current < 0) {
+      albumRail.scrollLeft = centreOf(middle(0));
+      current = 0;
+      if (index) index.textContent = pad(1);
+    } else {
+      albumRail.scrollLeft = centreOf(middle(current));
+    }
+  };
+
+  if ("ResizeObserver" in window) {
+    const resized = new ResizeObserver(() => settle());
     resized.observe(albumRail);
     plates.forEach((plate) => resized.observe(plate));
   }
 
-  padRail();
-  fitsWhole();
-  sync();
+  settle();
 }
 
 /* ---------- Scroll reveal ---------- */

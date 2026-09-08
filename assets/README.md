@@ -56,6 +56,10 @@ copy handed out by `srcset`. Twelve originals totalling 13.3 MB became 2.7 MB.
   a guest who never opens the album pays for one photograph.
 - The rail keeps each photograph's own proportions, so a landscape can be
   dropped in among these portraits without either being cropped.
+- The rail is endless. Script clones the run either side of the real one, so
+  there is always a photograph on both sides and the album never sits with a
+  bare margin down one edge. Add or remove plates in `index.html` and the
+  clones, the count and the wrap-around all follow.
 
 ## `intro-1000.jpg` and `intro-600.jpg`
 
