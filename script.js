@@ -102,6 +102,18 @@ if (musicToggle) {
   });
 }
 
+/* Run once the image has pixels, whether it already has them or is still to
+   get them. The obvious spelling, "if complete, check naturalWidth, else wait
+   for load", quietly drops any image that has no src yet: such an image counts
+   as complete with a natural width of zero, so neither branch ever fires. */
+function whenLoaded(image, run) {
+  if (image.complete && image.naturalWidth > 0) {
+    run();
+  } else {
+    image.addEventListener("load", run, { once: true });
+  }
+}
+
 /* ---------- Sealed envelope ---------- */
 
 const overlay = document.getElementById("envelopeOverlay");
@@ -116,11 +128,20 @@ if (sealPhoto && sealFace) {
     sealFace.classList.add("has-photo");
   };
 
-  if (sealPhoto.complete) {
-    if (sealPhoto.naturalWidth > 0) useSealPhoto();
-  } else {
-    sealPhoto.addEventListener("load", useSealPhoto);
-  }
+  whenLoaded(sealPhoto, useSealPhoto);
+}
+
+/* Images the page can do without until the guest asks for them. They cannot
+   be lazy-loaded: each is hidden until it loads, and a lazy image inside a
+   display:none box never enters the viewport, so it would wait for a scroll
+   that can never reach it. Both features already need JS to appear at all, so
+   holding the URL back costs nothing. */
+function loadDeferred(image) {
+  if (!image || !image.dataset.src) return;
+  if (image.dataset.srcset) image.srcset = image.dataset.srcset;
+  image.src = image.dataset.src;
+  delete image.dataset.src;
+  delete image.dataset.srcset;
 }
 
 const countdownSection = document.getElementById("countdownSection");
@@ -131,11 +152,7 @@ const countdownPhoto = document.getElementById("countdownPhoto");
 if (countdownSection && countdownPhoto) {
   const usePhoto = () => countdownSection.classList.add("has-photo");
 
-  if (countdownPhoto.complete) {
-    if (countdownPhoto.naturalWidth > 0) usePhoto();
-  } else {
-    countdownPhoto.addEventListener("load", usePhoto, { once: true });
-  }
+  whenLoaded(countdownPhoto, usePhoto);
 }
 
 const logoPhoto = document.getElementById("logoPhoto");
@@ -150,11 +167,7 @@ if (logoPhoto && logoMark) {
     logoMark.setAttribute("hidden", "");
   };
 
-  if (logoPhoto.complete) {
-    if (logoPhoto.naturalWidth > 0) useLogoPhoto();
-  } else {
-    logoPhoto.addEventListener("load", useLogoPhoto);
-  }
+  whenLoaded(logoPhoto, useLogoPhoto);
 }
 
 /* The overlay blocks pointer events and body scroll is locked in CSS, so the
@@ -172,6 +185,8 @@ function unlockPage() {
   // The page sets scroll-behavior: smooth, so an animated scroll here would
   // fight the guest's first gesture. Jump instead.
   window.scrollTo({ top: 0, behavior: "instant" });
+
+  loadDeferred(countdownPhoto);
 
   const firstSection = document.querySelector(".save-the-date");
   if (firstSection) {
@@ -292,17 +307,20 @@ function wireQr(imageId, frameId, saveId) {
     save.hidden = false;
   };
 
-  if (image.complete) {
-    if (image.naturalWidth > 0) show();
-  } else {
-    image.addEventListener("load", show, { once: true });
-  }
+  whenLoaded(image, show);
 }
 
 wireQr("groomQr", "groomQrFrame", "groomQrSave");
 wireQr("brideQr", "brideQrFrame", "brideQrSave");
 
 wireDialog(giftDialog, openGift, closeGift);
+
+if (openGift) {
+  openGift.addEventListener("click", () => {
+    loadDeferred(document.getElementById("groomQr"));
+    loadDeferred(document.getElementById("brideQr"));
+  });
+}
 
 const rsvpDialog = document.getElementById("rsvpDialog");
 const thanksDialog = document.getElementById("thanksDialog");

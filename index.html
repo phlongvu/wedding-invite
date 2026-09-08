@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Thiệp cưới Phi Long và Kim Chi, Chủ Nhật 27 tháng 9 năm 2026.">
 <title>Phi Long & Kim Chi | 27.09.2026</title>
+
+<!-- The invitation travels by being pasted into Zalo, Messenger and Facebook,
+     where a link with no card is just a bare URL. -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Phi Long & Kim Chi">
+<meta property="og:title" content="Phi Long & Kim Chi | 27.09.2026">
+<meta property="og:description" content="Trân trọng kính mời bạn đến chung vui cùng chúng mình, Chủ Nhật 27.09.2026 tại Riverside Palace.">
+<meta property="og:url" content="https://phlongvu.github.io/wedding-invite/">
+<meta property="og:image" content="https://phlongvu.github.io/wedding-invite/assets/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Thiệp cưới Phi Long và Kim Chi, 27.09.2026">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- The page carries two bank account numbers and both families' addresses.
+     Guests arrive from a link they were sent, never from a search engine. -->
+<meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
@@ -173,8 +191,8 @@
 
     <section class="countdown" id="countdownSection" aria-labelledby="countdown-heading">
       <img class="countdown-photo" id="countdownPhoto"
-           src="assets/countdown-2000.jpg"
-           srcset="assets/countdown-1200.jpg 1200w, assets/countdown-2000.jpg 2000w"
+           data-src="assets/countdown-2000.jpg"
+           data-srcset="assets/countdown-1200.jpg 1200w, assets/countdown-2000.jpg 2000w"
            sizes="100vw"
            alt="" aria-hidden="true" decoding="async">
       <span class="countdown-scrim" aria-hidden="true"></span>
@@ -399,7 +417,6 @@
     <p class="footer-note">Cảm ơn bạn đã dành thời gian ghé thăm trang thiệp cưới của chúng mình.</p>
   </footer>
 
-  <!-- Still to add: assets/qr-phi-long.png, the VietQR image for the account below -->
   <dialog class="modal gift-dialog" id="giftDialog" aria-labelledby="gift-dialog-heading">
     <div class="modal-inner">
       <button type="button" class="modal-close" id="closeGift" aria-label="Đóng">&times;</button>
@@ -412,7 +429,7 @@
           <h4 class="gift-name">Phi Long</h4>
 
           <div class="qr-frame" id="groomQrFrame" hidden>
-            <img class="qr-image" id="groomQr" src="assets/qr-phi-long.png"
+            <img class="qr-image" id="groomQr" data-src="assets/qr-phi-long.png"
                  alt="Mã QR chuyển khoản tới Vũ Phi Long">
           </div>
 
@@ -440,7 +457,7 @@
           <h4 class="gift-name">Kim Chi</h4>
 
           <div class="qr-frame" id="brideQrFrame" hidden>
-            <img class="qr-image" id="brideQr" src="assets/qr-kim-chi.png"
+            <img class="qr-image" id="brideQr" data-src="assets/qr-kim-chi.png"
                  alt="Mã QR chuyển khoản tới Kim Chi">
           </div>
 

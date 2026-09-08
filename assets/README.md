@@ -73,6 +73,18 @@ countdown pair is: three originals totalling 32.3 MB became 1.07 MB.
   gets regenerated. Match the shape of the slot: portrait for 1, landscape for
   2 and 3.
 
+## `og-card.jpg`
+
+The 1200x630 card that Zalo, Messenger and Facebook show when the link is
+pasted into a chat. Generated, not uploaded: the intro photograph on the left,
+the monogram, names, date and venue set in the site's own typefaces on the
+right.
+
+- Regenerated whenever the names, date or venue change. The meta tags in
+  `index.html` point at it by absolute URL, which those services require.
+- Chat previews are cached hard. After replacing it, re-scrape the link with
+  Facebook's Sharing Debugger, or the old card keeps appearing.
+
 ## `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png`
 
 The browser-tab and home-screen icons, generated from `logo-lc.png` on a sand
