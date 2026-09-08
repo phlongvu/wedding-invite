@@ -46,6 +46,19 @@ desktops the 2000px one.
 - Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
+## `intro-1000.jpg` and `intro-600.jpg`
+
+The portrait photograph beside the Lời ngỏ text, in a 1000px and a 600px copy
+handed out by `srcset`. Generated from a 10.2 MB upload.
+
+- **Portrait.** The slot is 3:4 and the source is 2:3, so a little comes off
+  the top and bottom. Keep faces away from the very top and bottom edges.
+- On a phone it sits inset at 62% of the width with the words underneath,
+  rather than full width. A full-bleed portrait here would take most of the
+  screen and repeat the shape the gallery already uses.
+- Use a different photograph from the three in the gallery, or the same
+  picture appears twice on one page.
+
 ## `gallery-1-*.jpg`, `gallery-2-*.jpg`, `gallery-3-*.jpg`
 
 The three photographs in the Khoảnh khắc grid, each in a 1400px and an 800px
