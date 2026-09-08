@@ -73,6 +73,19 @@ handed out by `srcset`. Generated from a 10.2 MB upload.
 - Use a different photograph from the three in the gallery, or the same
   picture appears twice on one page.
 
+## `couple-cutout.webp`
+
+The couple cut out of their background, standing beside the day's schedule.
+
+- Generated, not uploaded: the original `couple.jpg` was cut with rembg and
+  saved as WebP with alpha, 59 KB against 547 KB for the same picture as PNG.
+- The mask ran out mid-calf against the road, so the CSS fades the bottom of
+  the image into the ground. A hard edge there would read as a mistake.
+- To replace it, upload a new original and it gets cut and converted again.
+  A plain, contrasting background cuts cleanly; a translucent veil against
+  busy foliage does not.
+- Without the file the schedule stays exactly as it was.
+
 ## `og-card.jpg`
 
 The 1200x630 card that Zalo, Messenger and Facebook show when the link is

@@ -155,6 +155,21 @@ if (countdownSection && countdownPhoto) {
   whenLoaded(countdownPhoto, usePhoto);
 }
 
+/* Held back like the countdown photograph, and for the same reason: it is
+   hidden until it loads, and a lazy image inside a display:none box never
+   enters the viewport, so it would wait for a scroll that can never reach it. */
+const timelineCutout = document.getElementById("timelineCutout");
+
+if (timelineCutout) {
+  whenLoaded(timelineCutout, () => {
+    timelineCutout.classList.add("is-ready");
+  });
+
+  timelineCutout.addEventListener("error", () => {
+    timelineCutout.hidden = true;
+  });
+}
+
 const logoPhoto = document.getElementById("logoPhoto");
 const logoMark = document.getElementById("logoMark");
 
@@ -187,6 +202,7 @@ function unlockPage() {
   window.scrollTo({ top: 0, behavior: "instant" });
 
   loadDeferred(countdownPhoto);
+  loadDeferred(timelineCutout);
 
   const firstSection = document.querySelector(".save-the-date");
   if (firstSection) {
@@ -454,6 +470,9 @@ if (albumRail) {
 
   let runWidth = 0;
   let current = -1;
+  let at = count;
+  let gliding = false;
+  let glideTimer = 0;
 
   const measure = () => {
     runWidth = plates[count].offsetLeft - plates[0].offsetLeft;
@@ -471,15 +490,18 @@ if (albumRail) {
     albumRail.style.scrollSnapType = "";
   };
 
+  /* Held inside the middle run, which leaves a whole run of runway on either
+     side for a fling to travel through before the next reposition is due. */
   const keepCentred = () => {
     if (!runWidth) return;
-    if (albumRail.scrollLeft < runWidth * 0.5) shift(runWidth);
-    else if (albumRail.scrollLeft > runWidth * 2.5) shift(-runWidth);
+    if (albumRail.scrollLeft < runWidth) shift(runWidth);
+    else if (albumRail.scrollLeft >= runWidth * 2) shift(-runWidth);
   };
 
-  /* Distance from the centre, not overlap: several plates are fully visible at
-     once on a wide screen, and asking an observer alone which one was showing
-     left the count stuck on the last plate to report. */
+  /* Which plate is centred, as a position in the whole cloned run rather than
+     as a photograph number. Distance from the centre, not overlap: several
+     plates are fully visible at once on a wide screen, and asking an observer
+     alone which one was showing left the count stuck on the last to report. */
   const settledOn = () => {
     const mid = albumRail.scrollLeft + albumRail.clientWidth / 2;
     let best = 0;
@@ -493,24 +515,49 @@ if (albumRail) {
       }
     });
 
-    return ((best % count) + count) % count;
+    return best;
   };
 
   const sync = () => {
-    keepCentred();
-    const n = settledOn();
+    // never mid-glide: moving the scroll position then cancels the animation
+    if (!gliding) keepCentred();
+    at = settledOn();
+    const n = ((at % count) + count) % count;
     if (n === current) return;
     current = n;
     if (index) index.textContent = pad(n + 1);
   };
 
+  /* Step to the plate physically next door, not to that photograph's copy in
+     the middle run. Aiming at the middle copy meant going on from the twelfth
+     ran the rail all the way back across the other eleven to reach the first,
+     which is the opposite of carrying on. */
   const step = (by) => {
-    const plate = middle(((current + by) % count + count) % count);
+    const plate = plates[settledOn() + by];
     if (!plate) return;
+
+    /* The rail is repositioned by whole runs to fake the loop, and doing that
+       while a smooth scroll is in flight cancels it: the arrows did nothing at
+       all. Hold the reposition until the glide has landed. */
+    gliding = true;
+    window.clearTimeout(glideTimer);
+
     albumRail.scrollTo({
       left: centreOf(plate),
       behavior: prefersReducedMotion ? "instant" : "smooth",
     });
+
+    const done = () => {
+      gliding = false;
+      keepCentred();
+    };
+
+    if ("onscrollend" in albumRail && !prefersReducedMotion) {
+      albumRail.addEventListener("scrollend", done, { once: true });
+      glideTimer = window.setTimeout(done, 1200);
+    } else {
+      glideTimer = window.setTimeout(done, prefersReducedMotion ? 30 : 600);
+    }
   };
 
   if (prev) prev.addEventListener("click", () => step(-1));
@@ -555,6 +602,10 @@ if (albumRail) {
     if (!holding) return;
     event.preventDefault();
     albumRail.scrollLeft = grabbedFrom - (event.clientX - grabbedAt);
+    // a drag can outrun the observer, so it carries the run round itself
+    const was = albumRail.scrollLeft;
+    keepCentred();
+    grabbedFrom += albumRail.scrollLeft - was;
   });
 
   albumRail.addEventListener("pointerup", release);

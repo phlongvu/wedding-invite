@@ -921,6 +921,57 @@ body.is-revealing .std-card {
   color: var(--ink-quiet);
 }
 
+/* The couple, cut out and standing beside the schedule. The list is 460px wide
+   inside a 1080px container, so on a wide screen they take the empty right
+   margin and the list does not move: every heading on the page stays on its
+   centre line, which one asymmetric block would break. */
+.timeline-section {
+  position: relative;
+}
+
+/* The width and height attributes give the box its shape before the file is
+   fetched, so the space is already held and revealing it moves nothing. On a
+   phone this sits in the flow, and hiding it outright made the page grow by
+   its whole height the moment it arrived. */
+.timeline-cutout {
+  display: block;
+  width: min(70%, 290px);
+  height: auto;
+  opacity: 0;
+  margin: 2.5rem auto 0;
+  /* The cut-out ends mid-calf, where the mask ran out against the road. A hard
+     edge there reads as a mistake; dissolving into the ground reads as intent. */
+  mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+}
+
+.timeline-cutout.is-ready {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .timeline-cutout {
+    transition: opacity 0.5s ease;
+  }
+}
+
+/* Only a file that never arrives collapses the space it was holding */
+.timeline-cutout[hidden] {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .timeline-cutout {
+    position: absolute;
+    /* 5.5rem is the section's own block padding, so they stand on the bottom
+       of the last row rather than on the section below. */
+    bottom: 5.5rem;
+    right: max(var(--section-pad), calc(50% - var(--container) / 2));
+    width: clamp(228px, 23vw, 300px);
+    margin: 0;
+  }
+}
+
 /* Gallery */
 .gallery {
   text-align: center;
