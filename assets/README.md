@@ -46,18 +46,26 @@ desktops the 2000px one.
 - Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
-## `gallery-1-*.jpg` … (the album rail)
+## `album-01-*.jpg` … `album-12-*.jpg`
 
-The photographs in the Khoảnh khắc rail, each in a 1400px and an 800px copy.
-The rail keeps every photograph's own proportions, so portrait and landscape
-can sit side by side and nothing is cropped to fit a cell.
+The twelve photographs in the Khoảnh khắc rail, each in a 900px and a 500px
+copy handed out by `srcset`. Twelve originals totalling 13.3 MB became 2.7 MB.
 
-- To add more, upload originals and they get compressed into the same pair.
-  Order on the page follows the order of the list in `index.html`.
+- Order on the page follows the numbering. Renumber the files to reorder.
 - Only the first plate loads eagerly; the rest wait until the guest swipes, so
   a guest who never opens the album pays for one photograph.
-- Keep two shots from the same set apart in the order, or the rail reads as
-  the same picture twice.
+- The rail keeps each photograph's own proportions, so a landscape can be
+  dropped in among these portraits without either being cropped.
+
+## `gallery-1-*.jpg`, `gallery-2-*.jpg`, `gallery-3-*.jpg`
+
+The three photographs the album held before the twelve arrived: one portrait
+and two landscapes. **Nothing on the page references them now.** They are kept
+rather than deleted because they are wedding photographs and that is not a
+decision to make quietly. Fold them into the rail by adding plates for them,
+or delete the six files: `gallery-1-800.jpg`, `gallery-1-1400.jpg`,
+`gallery-2-800.jpg`, `gallery-2-1400.jpg`, `gallery-3-800.jpg`,
+`gallery-3-1400.jpg`.
 
 ## `intro-1000.jpg` and `intro-600.jpg`
 
