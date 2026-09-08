@@ -40,6 +40,7 @@
   --font-script: "Dancing Script", "Cormorant Garamond", cursive;
   --font-body: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --container: 1080px;
+  --section-pad: 1.5rem;
 }
 
 * {
@@ -53,6 +54,7 @@ html {
 /* Locked until the seal is pressed, so nothing moves behind the envelope. */
 body {
   margin: 0;
+  -webkit-tap-highlight-color: transparent;
   font-family: var(--font-body);
   font-weight: 300;
   background: var(--sand);
@@ -81,6 +83,17 @@ body.modal-open {
 /* margin-inline must stay auto: the section centres its children with it, and
    a margin shorthand here silently reset it, ranging every heading on the page
    to the left of the container on any viewport wider than it. */
+/* Tapping a control should not paint a selection over its label */
+button,
+.qr-save,
+.map-link,
+.choice-row,
+.gift-box {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .section-heading {
   font-family: var(--font-display);
   font-weight: 500;
@@ -91,7 +104,7 @@ body.modal-open {
 }
 
 main > section {
-  padding: 5.5rem 1.5rem;
+  padding: 5.5rem var(--section-pad);
 }
 
 main > section > * {
@@ -519,7 +532,7 @@ body.is-revealing .std-card {
 
 .intro-photo {
   display: block;
-  width: clamp(220px, 24vw, 290px);
+  width: clamp(268px, 30vw, 360px);
   aspect-ratio: 3 / 4;
   object-fit: cover;
   border-radius: var(--radius-inset);
@@ -536,8 +549,23 @@ body.is-revealing .std-card {
 }
 
 /* Countdown */
+/* The band reserves its full height from the start, with or without the
+   photograph. The picture arrives late by design, and letting the section grow
+   when it lands threw everything below it down the page mid-scroll. */
 .countdown {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: clamp(420px, 66svh, 640px);
+  padding-block: 2.5rem 3rem;
+}
+
+/* Only once there is a photograph does the copy drop to the foot of the band,
+   under the heaviest part of the scrim. Height is reserved either way, so the
+   picture arriving never moves the page. */
+.countdown.has-photo {
+  justify-content: flex-end;
 }
 
 /* Hidden with display, not lazy-loaded: a lazy image inside a display:none
@@ -578,15 +606,7 @@ body.is-revealing .std-card {
   );
 }
 
-.countdown.has-photo {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: clamp(420px, 66svh, 640px);
-  padding-block: 2.5rem 3rem;
-}
-
-.countdown.has-photo .section-heading {
+.countdown .section-heading {
   margin-bottom: 1.75rem;
 }
 
@@ -910,13 +930,13 @@ body.is-revealing .std-card {
 /* The album is a rail rather than a grid: photographs keep their own
    proportions, so a portrait and a landscape can sit side by side without
    either being cropped to fit a cell. */
-/* Full width of the viewport, not of the container: the rail's own padding
-   brings the first plate back into line with everything else. max-width has
-   to be released or the section's own rule keeps the box at container width
-   and the negative margins just shove it off centre. */
+/* Bleeds by the section's own padding, never by vw. vw counts the vertical
+   scrollbar and the layout viewport does not, so a full-bleed measured in vw
+   sits a scrollbar's width too wide on any desktop with classic scrollbars and
+   hands the whole page a horizontal scrollbar. */
 .album {
   max-width: none;
-  margin-inline: calc(50% - 50vw);
+  margin-inline: calc(-1 * var(--section-pad));
 }
 
 .album-rail {
@@ -929,7 +949,7 @@ body.is-revealing .std-card {
      the end plate, which is what lets the first and last plates reach the
      centre; without it a centred rail opens on whichever plate happens to
      straddle the midpoint, which is plate two on anything but a phone. */
-  padding-inline: max(1.5rem, calc(50vw - var(--container) / 2));
+  padding-inline: max(var(--section-pad), calc(50% - var(--container) / 2));
   padding-block: 0;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -1736,7 +1756,8 @@ body.is-revealing .std-card {
 /* Mobile */
 @media (max-width: 860px) {
   main > section {
-    padding: 4rem 1.25rem;
+    --section-pad: 1.25rem;
+    padding: 4rem var(--section-pad);
   }
 
   /* Two account columns will not hold a QR side by side on a phone */
