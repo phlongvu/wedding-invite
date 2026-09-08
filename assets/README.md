@@ -57,16 +57,6 @@ copy handed out by `srcset`. Twelve originals totalling 13.3 MB became 2.7 MB.
 - The rail keeps each photograph's own proportions, so a landscape can be
   dropped in among these portraits without either being cropped.
 
-## `gallery-1-*.jpg`, `gallery-2-*.jpg`, `gallery-3-*.jpg`
-
-The three photographs the album held before the twelve arrived: one portrait
-and two landscapes. **Nothing on the page references them now.** They are kept
-rather than deleted because they are wedding photographs and that is not a
-decision to make quietly. Fold them into the rail by adding plates for them,
-or delete the six files: `gallery-1-800.jpg`, `gallery-1-1400.jpg`,
-`gallery-2-800.jpg`, `gallery-2-1400.jpg`, `gallery-3-800.jpg`,
-`gallery-3-1400.jpg`.
-
 ## `intro-1000.jpg` and `intro-600.jpg`
 
 The portrait photograph beside the Lời ngỏ text, in a 1000px and a 600px copy
@@ -78,21 +68,6 @@ handed out by `srcset`. Generated from a 10.2 MB upload.
   mat and a hairline rule, like a photograph mounted on the invitation.
 - Use a different photograph from the three in the gallery, or the same
   picture appears twice on one page.
-
-## `gallery-1-*.jpg`, `gallery-2-*.jpg`, `gallery-3-*.jpg`
-
-The three photographs in the Khoảnh khắc grid, each in a 1400px and an 800px
-copy handed out by `srcset`. Generated from uploads, the same way the
-countdown pair is: three originals totalling 32.3 MB became 1.07 MB.
-
-- `gallery-1` is the tall slot on the left. It is **portrait**, and the phone
-  layout gives it a 3:4 box of its own so it is not cropped through the middle.
-- `gallery-2` and `gallery-3` are the two smaller slots on the right, both
-  **3:2 landscape**, which is exactly the shape of their slots. They are not
-  cropped at all.
-- To swap one out, upload a new original over the matching name and the pair
-  gets regenerated. Match the shape of the slot: portrait for 1, landscape for
-  2 and 3.
 
 ## `og-card.jpg`
 
