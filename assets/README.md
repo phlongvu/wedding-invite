@@ -100,10 +100,15 @@ set over it. Two sizes of the same picture, handed out by `srcset`.
   has no effect there.
 - Keep the couple in the upper half, heads well clear of the top edge. The
   names and the thank-you sit along the bottom of the band under a scrim that
-  is heaviest there, so faces belong above it. That scrim is what carries the
-  white type to 6.29:1 at its worst against the brightest thing behind it; if
-  the photograph is replaced with a much paler one, measure it again before
-  shipping rather than assuming it still passes.
+  is heaviest there, so faces belong above it. The band's own gradient is not
+  what carries the type, though: the letter over it is four blocks long and
+  wraps to half as many lines again on a phone, so its opening climbs to where
+  a gradient measured in percentages is still light, which read at 2.60:1 over
+  the bride's dress. The type sits on its own pool of shade instead, sized to
+  the letter and feathered well past it, so the reading holds however the words
+  wrap. Worst measured 5.00:1 across four widths; if the photograph is replaced
+  with a much paler one, measure it again before shipping rather than assuming
+  it still passes.
 - Use a picture that is not already the countdown, the Lời ngỏ portrait or one
   of the twelve in the album, or the same photograph appears twice on one page.
 - Without these files the footer drops back to the plain one it replaced, dark

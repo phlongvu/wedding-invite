@@ -1701,7 +1701,7 @@ body.is-revealing .std-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: clamp(340px, 54svh, 520px);
+  min-height: clamp(430px, 66svh, 620px);
   padding: 3rem var(--section-pad) 3.5rem;
   text-align: center;
   background: rgb(var(--scrim));
@@ -1721,11 +1721,14 @@ body.is-revealing .std-card {
   border-top: 1px solid var(--line);
 }
 
-.footer.no-photo .footer-note {
+.footer.no-photo .footer-greeting,
+.footer.no-photo .footer-note,
+.footer.no-photo .footer-signoff {
   color: var(--ink-quiet);
 }
 
-.footer.no-photo .footer-scrim {
+.footer.no-photo .footer-scrim,
+.footer.no-photo .footer-inner::before {
   display: none;
 }
 
@@ -1750,39 +1753,87 @@ body.is-revealing .std-card {
 
 /* Light where the couple are, heavy where the words sit. A flat wash over the
    whole picture would dull the faces to buy contrast the type only needs along
-   the bottom. */
+   the bottom. It carries the ground; the pool below carries the type. */
 .footer-scrim {
   background: linear-gradient(
     180deg,
-    rgba(var(--scrim), 0.10) 0%,
-    rgba(var(--scrim), 0.28) 34%,
-    rgba(var(--scrim), 0.70) 68%,
-    rgba(var(--scrim), 0.86) 100%
+    rgba(var(--scrim), 0.08) 0%,
+    rgba(var(--scrim), 0.18) 36%,
+    rgba(var(--scrim), 0.52) 70%,
+    rgba(var(--scrim), 0.66) 100%
   );
 }
 
+/* A letter, so it keeps a letter's measure rather than the container's: at
+   full width the paragraph would run to a hundred characters a line across a
+   desktop, which nobody reads. */
 .footer-inner {
-  max-width: var(--container);
+  position: relative;
+  max-width: 46ch;
   margin-inline: auto;
 }
 
+/* The type gets its own pool of shade, sized to the letter rather than to the
+   band. The band's own gradient is measured in percentages, and the letter is
+   not the same height everywhere: on a phone it wraps to half as many lines
+   again and its opening climbs to where that gradient is still light, which
+   read at 2.60:1 over the bride's dress. This follows the words instead, so
+   the reading stays the same however they wrap. An ellipse feathered well past
+   the text on every side, so there is no edge to see. */
+.footer-inner::before {
+  content: "";
+  position: absolute;
+  inset: -3rem -34% -4rem;
+  z-index: -1;
+  pointer-events: none;
+  /* closest-side, not the default farthest-corner: with the corner as the
+     reference the gradient is still part-opaque where it meets the top of its
+     own box, and that cut showed as a straight seam across the photograph.
+     Measured to the sides, it reaches nothing exactly at the edge. */
+  background: radial-gradient(
+    ellipse closest-side at center,
+    rgba(var(--scrim), 0.80) 0%,
+    rgba(var(--scrim), 0.74) 48%,
+    rgba(var(--scrim), 0.38) 74%,
+    rgba(var(--scrim), 0) 92%
+  );
+}
 
+.footer-greeting {
+  color: var(--on-photo-quiet);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  margin: 0 0 1rem;
+}
+
+.footer-signoff {
+  color: var(--on-photo-quiet);
+  font-size: 0.95rem;
+  margin: 1.6rem 0 0.4rem;
+}
+
+
+/* The signature at the foot of the letter, so it comes last and stays the one
+   thing set in the display face. */
 .footer-names {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.7rem, 4.4vw, 2.2rem);
+  font-size: clamp(1.6rem, 4.2vw, 2rem);
   /* Italic descenders in "Long" and "g" need the room */
   line-height: 1.25;
   padding-bottom: 0.15em;
-  margin: 0 0 0.6rem;
+  margin: 0;
 }
 
+/* Body face, not the display italic the intro uses: this is fifty words over a
+   photograph, and an italic serif at reading size is the wrong tool for that. */
 .footer-note {
   color: var(--on-photo-quiet);
   font-size: 0.95rem;
-  max-width: 34ch;
-  margin: 0 auto;
+  line-height: 1.8;
+  margin: 0;
+  text-wrap: pretty;
 }
 
 /* Scroll reveal */
