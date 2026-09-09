@@ -48,11 +48,11 @@ desktops the 2000px one.
 - Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
-## `album-01-*.jpg` … `album-17-*.jpg`
+## `album-01-*.jpg` … `album-23-*.jpg`
 
-The seventeen photographs in the Khoảnh khắc carousel, each in a 900px and a
-500px copy handed out by `srcset`. Seventeen originals totalling 15.1 MB became
-4.2 MB.
+The twenty-three photographs in the Khoảnh khắc carousel, each in a 900px and
+a 500px copy handed out by `srcset`. The originals totalled 17.5 MB and became
+5.1 MB.
 
 - Order on the page follows the numbering. Renumber the files to reorder.
 - **Portrait.** They are shown at their own proportions with no crop, so a
@@ -64,6 +64,11 @@ The seventeen photographs in the Khoảnh khắc carousel, each in a 900px and a
   bare margin down one edge. Add or remove plates in `index.html` and the
   clones, the wrap-around and the row of marks under it all follow: the marks
   are built from the rail, not written out, so they cannot fall out of step.
+- The marks narrow with the window so the row stays a single line. Watch that
+  if the count grows much further: at a fixed 16px, twenty-three of them wanted
+  368px and broke onto a ragged second row below 390px, and there is a floor of
+  11px below which they stop being marks. Past roughly thirty photographs the
+  row is the wrong component, not the wrong size.
 - The photographs turn away from the one in front as the rail scrolls, driven
   by the rail's own scroll position through a scroll-driven animation rather
   than by script. Two things about that are load-bearing. The perspective is
@@ -135,7 +140,7 @@ set over it. Two sizes of the same picture, handed out by `srcset`.
   photograph is replaced with a much paler one, measure it again before shipping
   rather than assuming it still passes.
 - Use a picture that is not already the countdown, the Lời ngỏ portrait or one
-  of the seventeen in the album, or the same photograph appears twice on one page.
+  of the twenty-three in the album, or the same photograph appears twice on one page.
 - Without these files the footer drops back to the plain one it replaced, dark
   type on sand with a hairline above it. It never shows white type on sand
   while the file is in the air: the band is painted the deep tone underneath

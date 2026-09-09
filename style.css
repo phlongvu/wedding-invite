@@ -1107,8 +1107,10 @@ body.is-revealing .std-card {
 }
 
 /* One per photograph. The buttons are wider than the marks inside them so a
-   finger has something to hit; seventeen of them still fit across the
-   narrowest phone. */
+   finger has something to hit, and they narrow with the window so the row
+   stays a single line: at a fixed 16px, twenty-three of them wanted 368px and
+   broke onto a ragged second row below 390px. The arrows are the full-sized
+   target that reaches every photograph; these are the shortcut. */
 .album-dots {
   display: flex;
   flex-wrap: wrap;
@@ -1119,7 +1121,7 @@ body.is-revealing .std-card {
 .album-dot {
   display: grid;
   place-items: center;
-  width: 16px;
+  width: clamp(11px, 3.4vw, 16px);
   height: 24px;
   padding: 0;
   background: none;
@@ -1149,7 +1151,7 @@ body.is-revealing .std-card {
    ones it stands out from is backwards, and wax against this sand is 3.08:1
    where the quiet ink beside it is 3.06 -- no difference to see. */
 .album-dot[aria-selected="true"]::before {
-  width: 12px;
+  width: clamp(8px, 2.6vw, 12px);
   background: var(--wax-deep);
   opacity: 1;
 }
