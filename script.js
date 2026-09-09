@@ -443,11 +443,22 @@ if (albumRail) {
   const count = source.length;
   const prev = document.getElementById("albumPrev");
   const next = document.getElementById("albumNext");
-  const index = document.getElementById("albumIndex");
-  const total = document.getElementById("albumTotal");
-  const pad = (n) => String(n).padStart(2, "0");
+  const dotRow = document.getElementById("albumDots");
 
-  if (total) total.textContent = pad(count);
+  /* One mark per photograph, built here rather than written out: the rail is
+     the only place the count is declared, and a hand-kept row of seventeen
+     would drift the first time a photograph is added. */
+  const dots = source.map((_, n) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "album-dot";
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-selected", n === 0 ? "true" : "false");
+    dot.setAttribute("aria-label", `Ảnh ${n + 1}`);
+    dot.addEventListener("click", () => goTo(n));
+    if (dotRow) dotRow.appendChild(dot);
+    return dot;
+  });
 
   /* A copy of the run before and after the real one. The clones are scenery:
      they carry no alt text and are hidden from assistive technology, so the
@@ -535,7 +546,7 @@ if (albumRail) {
     const n = ((at % count) + count) % count;
     if (n === current) return;
     current = n;
-    if (index) index.textContent = pad(n + 1);
+    dots.forEach((dot, i) => dot.setAttribute("aria-selected", i === n ? "true" : "false"));
   };
 
   /* Step to the plate physically next door, not to that photograph's copy in
@@ -568,6 +579,17 @@ if (albumRail) {
     } else {
       glideTimer = window.setTimeout(done, prefersReducedMotion ? 30 : 600);
     }
+  };
+
+  /* A mark is a jump of several plates, and the shorter way round is not
+     always forwards. The rail repeats every run, so both directions reach the
+     photograph; taking the nearer one keeps the glide short and never crosses
+     the whole album to arrive one place away. */
+  const goTo = (n) => {
+    let by = n - current;
+    if (by > count / 2) by -= count;
+    else if (by < -count / 2) by += count;
+    if (by) step(by);
   };
 
   if (prev) prev.addEventListener("click", () => step(-1));
@@ -626,7 +648,6 @@ if (albumRail) {
     if (current < 0) {
       albumRail.scrollLeft = centreOf(middle(0));
       current = 0;
-      if (index) index.textContent = pad(1);
     } else {
       albumRail.scrollLeft = centreOf(middle(current));
     }

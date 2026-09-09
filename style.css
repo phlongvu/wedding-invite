@@ -940,15 +940,22 @@ body.is-revealing .std-card {
   margin-inline: calc(-1 * var(--section-pad));
 }
 
+/* Holds the rail and the two arrows together, so the arrows can be centred on
+   the photographs rather than on the block that also carries the dots. */
+.album-deck {
+  position: relative;
+}
+
 .album-rail {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 2vw, 1.25rem);
   list-style: none;
   margin: 0;
   /* No end padding: the rail is endless, so there is always a photograph on
-     both sides and never a bare margin to pad away. */
-  padding: 0;
+     both sides and never a bare margin to pad away. The block padding is for
+     the shadow under the front photograph, which a scrolling box would
+     otherwise crop. */
+  padding: 1.5rem 0;
   cursor: grab;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -977,65 +984,99 @@ body.is-revealing .std-card {
   outline-offset: 4px;
 }
 
+/* The overlap is a negative margin rather than a gap, because gap cannot go
+   negative. */
 .album-plate {
   flex: 0 0 auto;
+  margin-inline: clamp(-3rem, -4vw, -1rem);
   scroll-snap-align: center;
 }
-
 
 /* Intrinsic width and height are declared on every plate, so the rail knows
    how wide each photograph will be before any of them arrive. Without that the
    rail measured zero-width plates, padded itself wrongly and re-laid out as
-   the pictures landed. */
+   the pictures landed. Positioned so the keyframes can lift the front
+   photograph above its neighbours: without that the one after it, being later
+   in the markup, paints over the edge it is meant to be behind. */
 .album-plate img {
   display: block;
-  height: clamp(300px, 46vw, 460px);
+  position: relative;
+  height: clamp(360px, 58vw, 520px);
   width: auto;
   max-width: 88vw;
   object-fit: cover;
-  border-radius: var(--radius);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(58, 43, 30, 0.22);
 }
 
-/* The photograph the guest has landed on stands forward and the rest sit
-   back, driven by the rail's own scroll position rather than by script. */
+/* The photograph the guest has landed on stands square to them and the rest
+   turn away, driven by the rail's own scroll position rather than by script.
+   The perspective is per photograph, not on the rail: a scrolling box flattens
+   whatever 3D its children declare, so a shared perspective there would be
+   thrown away.
+
+   The turn is on the image and not on the plate around it because a snap area
+   is the *transformed* border box. Turning the plate itself narrowed the very
+   box the browser snaps to, and since the turn is driven by the scroll
+   position that made the two chase each other: the photograph came to rest
+   eight pixels off centre on every desktop width. The plate stays square and
+   holds the snap; the picture inside it turns. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .album-plate {
-      animation: plate-focus linear both;
+    .album-plate img {
+      animation: plate-turn linear both;
       animation-timeline: view(inline);
-      animation-range: entry 10% exit 90%;
+      /* Held at the ends, so a photograph two along is turned as far as one
+         at the edge of the rail rather than easing all the way out to it. */
+      animation-range: cover 30% cover 70%;
     }
   }
 }
 
-@keyframes plate-focus {
-  0% { opacity: 0.3; transform: scale(0.88); }
-  44%, 56% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0.3; transform: scale(0.88); }
+@keyframes plate-turn {
+  0% {
+    z-index: 1;
+    opacity: 0.5;
+    transform: perspective(1100px) translateZ(-190px) rotateY(34deg);
+  }
+  50% {
+    z-index: 3;
+    opacity: 1;
+    transform: perspective(1100px) translateZ(0) rotateY(0deg);
+  }
+  100% {
+    z-index: 1;
+    opacity: 0.5;
+    transform: perspective(1100px) translateZ(-190px) rotateY(-34deg);
+  }
 }
 
-.album-bar[hidden] {
-  display: none;
-}
-
-.album-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1.75rem;
-}
-
+/* Over the deck rather than under it, which is where the photographs leave the
+   room for them: the ones at the edges are turned and receded, so the corners
+   of the rail are empty. */
 .album-step {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 4;
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
   color: var(--ink-quiet);
-  background: none;
+  background: rgba(255, 255, 255, 0.82);
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
+  box-shadow: 0 4px 14px rgba(58, 43, 30, 0.14);
   cursor: pointer;
+}
+
+.album-prev {
+  left: clamp(0.5rem, 3vw, 2.5rem);
+}
+
+.album-next {
+  right: clamp(0.5rem, 3vw, 2.5rem);
 }
 
 .album-step svg {
@@ -1047,14 +1088,10 @@ body.is-revealing .std-card {
   transform: scaleX(-1);
 }
 
-.album-step:hover:not(:disabled) {
+.album-step:hover {
   color: var(--ink);
   border-color: var(--tone-deep);
-}
-
-.album-step:disabled {
-  opacity: 0.35;
-  cursor: default;
+  background: #fff;
 }
 
 .album-step:focus-visible {
@@ -1062,21 +1099,64 @@ body.is-revealing .std-card {
   outline-offset: 3px;
 }
 
-.album-count {
+/* One per photograph. The buttons are wider than the marks inside them so a
+   finger has something to hit; seventeen of them still fit across the
+   narrowest phone. */
+.album-dots {
   display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  letter-spacing: 0.16em;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1.5rem;
 }
 
-.album-count i {
-  font-style: normal;
-  color: var(--ink-quiet);
+.album-dot {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* The unchosen marks are a control, not decoration: they are how a guest sees
+   there are seventeen photographs and somewhere to go. Set in the quiet ink at
+   three quarters rather than the tone, which against this sand read 1.25:1 and
+   was all but invisible. */
+.album-dot::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--ink-quiet);
+  opacity: 0.75;
+  transition: width 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.album-dot:hover::before {
+  opacity: 1;
+}
+
+/* Wider and darker, not wider alone: the chosen mark reading lighter than the
+   ones it stands out from is backwards, and wax against this sand is 3.08:1
+   where the quiet ink beside it is 3.06 -- no difference to see. */
+.album-dot[aria-selected="true"]::before {
+  width: 12px;
+  background: var(--wax-deep);
+  opacity: 1;
+}
+
+.album-dot:focus-visible {
+  outline: 2px solid var(--wax);
+  outline-offset: 1px;
+  border-radius: var(--radius-pill);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .album-dot::before {
+    transition: none;
+  }
 }
 
 /* Gift box */

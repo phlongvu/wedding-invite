@@ -48,20 +48,33 @@ desktops the 2000px one.
 - Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
-## `album-01-*.jpg` … `album-12-*.jpg`
+## `album-01-*.jpg` … `album-17-*.jpg`
 
-The twelve photographs in the Khoảnh khắc rail, each in a 900px and a 500px
-copy handed out by `srcset`. Twelve originals totalling 13.3 MB became 2.7 MB.
+The seventeen photographs in the Khoảnh khắc carousel, each in a 900px and a
+500px copy handed out by `srcset`. Seventeen originals totalling 15.1 MB became
+4.2 MB.
 
 - Order on the page follows the numbering. Renumber the files to reorder.
-- Only the first plate loads eagerly; the rest wait until the guest swipes, so
-  a guest who never opens the album pays for one photograph.
-- The rail keeps each photograph's own proportions, so a landscape can be
-  dropped in among these portraits without either being cropped.
+- **Portrait.** They are shown at their own proportions with no crop, so a
+  landscape one dropped in among these would sit shorter and break the row.
+- Every plate is lazy: the carousel is well below the fold, so a guest who
+  never scrolls that far pays for none of them.
 - The rail is endless. Script clones the run either side of the real one, so
-  there is always a photograph on both sides and the album never sits with a
+  there is always a photograph on both sides and the carousel never sits with a
   bare margin down one edge. Add or remove plates in `index.html` and the
-  clones, the count and the wrap-around all follow.
+  clones, the wrap-around and the row of marks under it all follow: the marks
+  are built from the rail, not written out, so they cannot fall out of step.
+- The photographs turn away from the one in front as the rail scrolls, driven
+  by the rail's own scroll position through a scroll-driven animation rather
+  than by script. Two things about that are load-bearing. The perspective is
+  declared on each photograph rather than on the rail, because a scrolling box
+  flattens whatever 3D its children declare. And the turn is on the `img`, not
+  on the `li` around it: a snap area is the *transformed* border box, so
+  turning the plate itself narrowed the very box the browser snaps to, and
+  because the turn is driven by the scroll position the two chased each other
+  and left the front photograph eight pixels off centre on every desktop width.
+- Where the browser has no scroll-driven animations, or the guest asks for
+  reduced motion, the photographs simply sit flat in a row. Nothing breaks.
 
 ## `intro-1000.jpg` and `intro-600.jpg`
 
