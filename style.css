@@ -34,6 +34,11 @@
      concentric frames sit one pixel inside their surface, and only the wax
      seal and ribbon loops use organic blob radii because they are objects. */
   --radius: 3px;
+  /* Only the carousel photographs, and deliberately: the coverflow was asked
+     for by reference, and a card turning in space with a 3px corner reads as a
+     sheet of paper rather than a photograph held up. Declared here so it is one
+     decision rather than a number left loose in the sheet. */
+  --radius-photo: 14px;
   --radius-inset: 2px;
   --radius-pill: 999px;
   --font-display: "Cormorant Garamond", Georgia, serif;
@@ -1005,7 +1010,7 @@ body.is-revealing .std-card {
   width: auto;
   max-width: 88vw;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: var(--radius-photo);
   box-shadow: 0 18px 40px rgba(58, 43, 30, 0.22);
 }
 
@@ -1063,11 +1068,13 @@ body.is-revealing .std-card {
   place-items: center;
   width: 44px;
   height: 44px;
-  color: var(--ink-quiet);
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid var(--line);
+  color: var(--wax-deep);
+  /* The site's own sand rather than plain white: these sit on the photographs
+     and a white disc read as browser furniture dropped on the page. */
+  background: rgba(241, 228, 214, 0.94);
+  border: 1px solid var(--tone);
   border-radius: var(--radius-pill);
-  box-shadow: 0 4px 14px rgba(58, 43, 30, 0.14);
+  box-shadow: 0 4px 14px rgba(58, 43, 30, 0.16);
   cursor: pointer;
 }
 
@@ -1090,8 +1097,8 @@ body.is-revealing .std-card {
 
 .album-step:hover {
   color: var(--ink);
-  border-color: var(--tone-deep);
-  background: #fff;
+  border-color: var(--wax);
+  background: var(--sand);
 }
 
 .album-step:focus-visible {
@@ -1781,7 +1788,13 @@ body.is-revealing .std-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: clamp(430px, 66svh, 620px);
+  /* The floor is what matters here, not the viewport share. The letter's
+     height does not shrink with the window but a band measured only in svh
+     does, so on a short one the letter climbed into their faces: it began at
+     26% of the band on a 667px-tall phone and 42% on a 1280x800 laptop, where
+     the faces reach 32% and 46%. The floor holds the band tall enough for the
+     letter to sit clear of them at every window this was measured at. */
+  min-height: clamp(530px, 68svh, 660px);
   padding: 3rem var(--section-pad) 3.5rem;
   text-align: center;
   background: rgb(var(--scrim));
@@ -1824,11 +1837,13 @@ body.is-revealing .std-card {
   height: 100%;
   object-fit: cover;
   /* The band is a wide strip out of a 3:2 picture, so on a desktop it throws
-     away three fifths of the height. At 32% it started below the groom's
-     hairline and took the top of his head off; 10% keeps both of them whole
-     with room above. On a phone the strip is taller than the picture is at
-     that width, so it crops the sides instead and this has no effect there. */
-  object-position: center 10%;
+     away much of the height, and this decides which part survives. It is a
+     narrow window: at 32% the strip began below the groom's hairline and took
+     the top of his head off, while at 10% the two of them sat so low in the
+     band that the letter met their faces. 18% clears his hair by a little and
+     lifts them both above the words. On a phone the strip is taller than the
+     picture is wide, so it crops the sides instead and this has no effect. */
+  object-position: center 18%;
 }
 
 /* Light where the couple are, heavy where the words sit. A flat wash over the
@@ -1859,11 +1874,17 @@ body.is-revealing .std-card {
    again and its opening climbs to where that gradient is still light, which
    read at 2.60:1 over the bride's dress. This follows the words instead, so
    the reading stays the same however they wrap. An ellipse feathered well past
-   the text on every side, so there is no edge to see. */
+   the text on every side, so there is no edge to see.
+
+   It reaches further above the words than below them. The greeting is the top
+   line of the letter, so with an even inset it sat out at three quarters of the
+   ellipse's radius where the shade had all but gone, and against the white
+   jacket behind it that read 2.40:1. Giving the top more room puts it back
+   near the middle, where the shade is. */
 .footer-inner::before {
   content: "";
   position: absolute;
-  inset: -3rem -34% -4rem;
+  inset: -5rem -34% -4rem;
   z-index: -1;
   pointer-events: none;
   /* closest-side, not the default farthest-corner: with the corner as the
@@ -1872,10 +1893,10 @@ body.is-revealing .std-card {
      Measured to the sides, it reaches nothing exactly at the edge. */
   background: radial-gradient(
     ellipse closest-side at center,
-    rgba(var(--scrim), 0.80) 0%,
-    rgba(var(--scrim), 0.74) 48%,
-    rgba(var(--scrim), 0.38) 74%,
-    rgba(var(--scrim), 0) 92%
+    rgba(var(--scrim), 0.82) 0%,
+    rgba(var(--scrim), 0.78) 58%,
+    rgba(var(--scrim), 0.40) 80%,
+    rgba(var(--scrim), 0) 95%
   );
 }
 

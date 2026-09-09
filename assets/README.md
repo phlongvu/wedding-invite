@@ -104,13 +104,20 @@ set over it. Two sizes of the same picture, handed out by `srcset`.
   photograph was.
 - **Landscape.** The current pair came from a 2560x1707 original of 0.8 MB,
   which became 355 KB and 142 KB.
-- The footer cuts a wide band out of it, between 340 and 520 pixels tall
-  depending on the window, which on a desktop throws away more than half the
-  height. `object-position: center 10%` in `style.css` decides which part
-  survives. That number is low for a reason: at 32% the band began below the
-  groom's hairline and took the top of his head off. On a phone the band is
-  taller than the picture is wide, so it crops the sides instead and the number
-  has no effect there.
+- The footer cuts a wide band out of it, between 530 and 660 pixels tall
+  depending on the window, which on a desktop throws away much of the height.
+  `object-position: center 18%` in `style.css` decides which part survives, and
+  it sits in a narrow window: at 32% the band began below the groom's hairline
+  and took the top of his head off, while at 10% the two of them sat so low in
+  the band that the letter met their faces. On a phone the band is taller than
+  the picture is wide, so it crops the sides instead and the number has no
+  effect there.
+- The band has a floor of 530px, not only a share of the window. The letter's
+  height does not shrink with the window but a band measured only in svh does,
+  so on a short one the letter climbed into their faces: it began at 26% of the
+  band on a 667px-tall phone and 42% on a 1280x800 laptop, where the faces
+  reach 32% and 46%. Across eight window sizes the letter now begins at 38-53%
+  and the faces end at 32-42%.
 - Keep the couple in the upper half, heads well clear of the top edge. The
   names and the thank-you sit along the bottom of the band under a scrim that
   is heaviest there, so faces belong above it. The band's own gradient is not
@@ -119,11 +126,16 @@ set over it. Two sizes of the same picture, handed out by `srcset`.
   a gradient measured in percentages is still light, which read at 2.60:1 over
   the bride's dress. The type sits on its own pool of shade instead, sized to
   the letter and feathered well past it, so the reading holds however the words
-  wrap. Worst measured 5.00:1 across four widths; if the photograph is replaced
-  with a much paler one, measure it again before shipping rather than assuming
-  it still passes.
+  wrap, and it reaches further above the words than below them because the
+  greeting is the top line and an even inset left it out at three quarters of
+  the ellipse's radius where the shade had gone. Worst measured 6.64:1 across
+  four widths, sampling only the runs the glyphs actually occupy: measuring the
+  whole paragraph box instead picks up whatever is brightest out in the margin
+  either side of a centred line and reports failures that are not there. If the
+  photograph is replaced with a much paler one, measure it again before shipping
+  rather than assuming it still passes.
 - Use a picture that is not already the countdown, the Lời ngỏ portrait or one
-  of the twelve in the album, or the same photograph appears twice on one page.
+  of the seventeen in the album, or the same photograph appears twice on one page.
 - Without these files the footer drops back to the plain one it replaced, dark
   type on sand with a hairline above it. It never shows white type on sand
   while the file is in the air: the band is painted the deep tone underneath

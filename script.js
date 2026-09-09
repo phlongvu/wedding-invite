@@ -483,7 +483,11 @@ if (albumRail) {
   let current = -1;
   let at = count;
   let gliding = false;
+  let glideId = 0;
   let glideTimer = 0;
+  let restTimer = 0;
+  // where the last press was headed, as a place in the whole cloned run; -1 at rest
+  let aim = -1;
 
   const measure = () => {
     runWidth = plates[count].offsetLeft - plates[0].offsetLeft;
@@ -514,7 +518,7 @@ if (albumRail) {
      at once, so a drag that outruns the observer cannot leave the rail
      stranded a run or two out. */
   const keepCentred = () => {
-    if (!runWidth) return;
+    if (!runWidth || gliding) return;
     const runs = Math.round((albumRail.scrollLeft - home()) / runWidth);
     if (runs) shift(-runs * runWidth);
   };
@@ -540,8 +544,11 @@ if (albumRail) {
   };
 
   const sync = () => {
-    // never mid-glide: moving the scroll position then cancels the animation
-    if (!gliding) keepCentred();
+    /* Reporting only. Carrying the run round from here meant doing it while the
+       guest's own scroll was still in flight, which cancels that scroll and
+       leaves the rail stopped between two photographs with nothing to snap it
+       back. The rail is only ever repositioned once it has come to rest. */
+    settled();
     at = settledOn();
     const n = ((at % count) + count) % count;
     if (n === current) return;
@@ -549,18 +556,54 @@ if (albumRail) {
     dots.forEach((dot, i) => dot.setAttribute("aria-selected", i === n ? "true" : "false"));
   };
 
+  /* The end of a glide, and the only place that lowers the flag. The token is
+     what makes it safe: a glide that has been overtaken by a later one no
+     longer matches, so its own timer cannot end the glide that replaced it.
+     Without that, every press left a live 1200ms timer behind -- reassigning
+     glideTimer overwrites the handle but does not cancel the timer -- and the
+     one left by the first press fired in the middle of the fourth, lowered the
+     flag and carried the run round, which cancelled that glide and stopped the
+     rail between two photographs. */
+  const landed = (id) => {
+    if (id !== glideId) return;
+    window.clearTimeout(glideTimer);
+    gliding = false;
+    aim = -1;
+    keepCentred();
+  };
+
+  /* The rail has stopped moving, whoever was moving it. scrollend says so
+     exactly where it exists; the timer is the fallback, fed by the observer
+     rather than by a scroll handler. */
+  const settled = () => {
+    window.clearTimeout(restTimer);
+    restTimer = window.setTimeout(keepCentred, 200);
+  };
+
+  if ("onscrollend" in albumRail) {
+    albumRail.addEventListener("scrollend", () => {
+      if (gliding) landed(glideId);
+      else keepCentred();
+    });
+  }
+
   /* Step to the plate physically next door, not to that photograph's copy in
-     the middle run. Aiming at the middle copy meant going on from the twelfth
-     ran the rail all the way back across the other eleven to reach the first,
-     which is the opposite of carrying on. */
+     the middle run. Aiming at the middle copy meant going on from the last
+     photograph ran the rail all the way back across the other sixteen to reach
+     the first, which is the opposite of carrying on.
+
+     Counted from where the last press was headed rather than from where the
+     rail happens to be: mid-glide the nearest plate is still the one behind,
+     so six quick presses asked for the same two or three plates over and over
+     and only three of them landed. */
   const step = (by) => {
-    const plate = plates[settledOn() + by];
+    const from = aim >= 0 ? aim : settledOn();
+    const plate = plates[from + by];
     if (!plate) return;
 
-    /* The rail is repositioned by whole runs to fake the loop, and doing that
-       while a smooth scroll is in flight cancels it: the arrows did nothing at
-       all. Hold the reposition until the glide has landed. */
+    aim = from + by;
     gliding = true;
+    const id = ++glideId;
     window.clearTimeout(glideTimer);
 
     albumRail.scrollTo({
@@ -568,17 +611,7 @@ if (albumRail) {
       behavior: prefersReducedMotion ? "instant" : "smooth",
     });
 
-    const done = () => {
-      gliding = false;
-      keepCentred();
-    };
-
-    if ("onscrollend" in albumRail && !prefersReducedMotion) {
-      albumRail.addEventListener("scrollend", done, { once: true });
-      glideTimer = window.setTimeout(done, 1200);
-    } else {
-      glideTimer = window.setTimeout(done, prefersReducedMotion ? 30 : 600);
-    }
+    glideTimer = window.setTimeout(() => landed(id), prefersReducedMotion ? 30 : 900);
   };
 
   /* A mark is a jump of several plates, and the shorter way round is not
@@ -634,17 +667,19 @@ if (albumRail) {
     if (!holding) return;
     event.preventDefault();
     albumRail.scrollLeft = grabbedFrom - (event.clientX - grabbedAt);
-    // a drag can outrun the observer, so it carries the run round itself
-    const was = albumRail.scrollLeft;
-    keepCentred();
-    grabbedFrom += albumRail.scrollLeft - was;
   });
 
   albumRail.addEventListener("pointerup", release);
   albumRail.addEventListener("pointercancel", release);
 
+  /* Re-measuring is always safe; putting the rail back is not. This runs from a
+     ResizeObserver, and it writes the scroll position directly, so firing while
+     a hand is on the rail or a glide is in flight yanks it out from under them.
+     Measure either way, and only re-centre once nothing is moving. */
   const settle = () => {
     measure();
+    if (holding || gliding) return;
+
     if (current < 0) {
       albumRail.scrollLeft = centreOf(middle(0));
       current = 0;
