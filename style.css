@@ -1939,6 +1939,35 @@ body.is-revealing .std-card {
   text-wrap: pretty;
 }
 
+/* The honeypot. Not display:none and not hidden: a field neither of those can
+   be autofilled or focused, and some bots skip what the browser skips. This is
+   off screen and out of the tab order, which people never reach and a form
+   filler still finds. */
+.trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.rsvp-error {
+  margin: 0 0 0.25rem;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--wax-deep);
+  background: var(--sand-soft);
+  border: 1px solid var(--tone);
+  border-radius: var(--radius);
+  text-align: left;
+}
+
+.rsvp-error[hidden] {
+  display: none;
+}
+
 /* Scroll reveal */
 .reveal {
   opacity: 0;

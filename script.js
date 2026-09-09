@@ -1,3 +1,9 @@
+/* Where the RSVP answers go. Paste the web app URL from the Apps Script
+   deployment here; RSVP.md in the repository root walks through making it.
+   Left empty, the form still thanks the guest and their answer goes nowhere,
+   which is worth knowing before the invitations are sent. */
+const RSVP_ENDPOINT = "";
+
 /* The offset is not optional. Without it the browser reads the string in the
    guest's own timezone, so the same page counted down to 09:00 in Saigon, in
    Tokyo and in California alike. 09:00 +07:00 is the Lễ Vu Quy, the first
@@ -360,6 +366,67 @@ const guestCount = document.getElementById("guestCount");
 const guestMinus = document.getElementById("guestMinus");
 const guestPlus = document.getElementById("guestPlus");
 
+const rsvpError = document.getElementById("rsvpError");
+const rsvpTrap = document.getElementById("rsvpWebsite");
+let sending = false;
+
+/* crypto.randomUUID is not there over plain http or on older phones, and this
+   only has to be unlikely to repeat, not unguessable. */
+function newId() {
+  if (window.crypto && typeof window.crypto.randomUUID === "function") {
+    return window.crypto.randomUUID();
+  }
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function showRsvpError(message) {
+  if (!rsvpError) return;
+  rsvpError.textContent = message;
+  rsvpError.hidden = false;
+}
+
+function setSending(on) {
+  sending = on;
+  if (rsvpError) rsvpError.hidden = true;
+  if (!rsvpSubmit) return;
+  rsvpSubmit.disabled = on;
+  rsvpSubmit.textContent = on ? "Đang gửi…" : "Gửi xác nhận";
+}
+
+/* Two goes at the same answer, and the sheet ignores the second.
+
+   A web app on Apps Script answers through a redirect, and whether the browser
+   is then allowed to read that answer varies by deployment. So the first
+   request asks for the reply: when it arrives the answer is confirmed written.
+   When it does not, the request itself still left and the row was still
+   written, but there is no way to tell that apart from a script that fell
+   over -- so it goes again in a mode where the browser never expects to read
+   anything, which cannot be blocked for that reason.
+
+   That second send is what the id is for. Both carry the same one, the sheet
+   writes an id once, and the row cannot be duplicated. Only a request that
+   never reached the network at all throws out of here. */
+async function sendRsvp(answer) {
+  if (!RSVP_ENDPOINT) {
+    console.warn(
+      "RSVP: chưa đặt RSVP_ENDPOINT trong script.js, câu trả lời không được lưu ở đâu cả. Xem RSVP.md."
+    );
+    return "unsent";
+  }
+
+  const body = new URLSearchParams(answer);
+
+  try {
+    const reply = await fetch(RSVP_ENDPOINT, { method: "POST", body, redirect: "follow" });
+    const said = await reply.json();
+    if (said && said.ok) return "confirmed";
+    throw new Error(said && said.error ? said.error : "sheet refused");
+  } catch (err) {
+    await fetch(RSVP_ENDPOINT, { method: "POST", body, mode: "no-cors" });
+    return "sent";
+  }
+}
+
 function attendingChoice() {
   return rsvpForm ? rsvpForm.querySelector('input[name="attending"]:checked') : null;
 }
@@ -411,18 +478,48 @@ if (rsvpForm) {
   syncRsvpState();
   syncStepper();
 
-  /* Nowhere to post yet. The form closes and the thank you takes its place. */
-  rsvpForm.addEventListener("submit", (event) => {
+  rsvpForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (sending) return;
 
     const choice = attendingChoice();
     const coming = Boolean(choice) && choice.value === "yes";
+
+    const answer = {
+      // One per press. The sheet drops a repeat of an id it has already
+      // written, which is what makes sending twice safe (see sendRsvp).
+      id: newId(),
+      fullname: rsvpName ? rsvpName.value.trim() : "",
+      attending: coming ? "yes" : "no",
+      guests: coming ? String(Number(guestCount && guestCount.value) || 1) : "0",
+      website: rsvpTrap ? rsvpTrap.value : "",
+    };
+
+    setSending(true);
+
+    try {
+      await sendRsvp(answer);
+    } catch (err) {
+      /* Only a request that never left lands here. The guest's answers are
+         still in the form, so the press can simply be repeated. */
+      setSending(false);
+      showRsvpError(
+        "Không gửi được, có vẻ mạng đang trục trặc. Bạn thử bấm lại giúp mình nhé."
+      );
+      return;
+    }
+
+    setSending(false);
 
     if (thanksText) {
       thanksText.textContent = coming
         ? "Chúng mình đã nhận được xác nhận của bạn. Rất mong được gặp bạn trong ngày trọng đại!"
         : "Chúng mình đã nhận được phản hồi của bạn. Cảm ơn bạn đã cho chúng mình biết.";
     }
+
+    rsvpForm.reset();
+    syncRsvpState();
+    syncStepper();
 
     if (rsvpDialog) rsvpDialog.close();
     if (thanksDialog) openDialog(thanksDialog);

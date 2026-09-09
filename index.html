@@ -686,6 +686,16 @@
           </div>
         </div>
 
+        <!-- Left empty by anyone with eyes. Off the tab order and hidden from
+             screen readers, so only something filling every field it finds will
+             put anything here, and the script drops those. -->
+        <div class="trap" aria-hidden="true">
+          <label for="rsvpWebsite">Để trống ô này</label>
+          <input type="text" id="rsvpWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <p class="rsvp-error" id="rsvpError" role="alert" hidden></p>
+
         <button type="submit" class="btn-primary rsvp-submit" id="rsvpSubmit" disabled>Gửi xác nhận</button>
       </form>
     </div>
