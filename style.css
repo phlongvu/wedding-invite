@@ -923,63 +923,6 @@ body.is-revealing .std-card {
 
 /* The couple, cut out and standing beside the schedule. The list is 460px wide
    inside a 1080px container, so on a wide screen they take the empty right
-   margin and the list does not move: every heading on the page stays on its
-   centre line, which one asymmetric block would break. */
-.timeline-section {
-  position: relative;
-}
-
-/* The width and height attributes give the box its shape before the file is
-   fetched, so the space is already held and revealing it moves nothing. On a
-   phone this sits in the flow, and hiding it outright made the page grow by
-   its whole height the moment it arrived. */
-.timeline-cutout {
-  display: block;
-  width: min(70%, 290px);
-  height: auto;
-  opacity: 0;
-  margin: 2.5rem auto 0;
-  /* The cut-out ends mid-calf, where the mask ran out against the road. A hard
-     edge there reads as a mistake; dissolving into the ground reads as intent. */
-  mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
-}
-
-.timeline-cutout.is-ready {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .timeline-cutout {
-    transition: opacity 0.5s ease;
-  }
-}
-
-/* Only a file that never arrives collapses the space it was holding */
-.timeline-cutout[hidden] {
-  display: none;
-}
-
-/* Only from 1024px: the schedule is a fixed 460px column in the middle of the
-   section, so the room beside it is whatever the window has spare. Below this
-   there is not enough of it, and a figure sized to fit would be a thumbnail --
-   worse than the full-width one the flow already gives. */
-@media (min-width: 1024px) {
-  .timeline-cutout {
-    position: absolute;
-    /* 5.5rem is the section's own block padding, so they stand on the bottom
-       of the last row rather than on the section below. */
-    bottom: 5.5rem;
-    right: var(--section-pad);
-    /* Sized off that spare room rather than guessed at: half the window, less
-       the padding, less half the schedule column, less the gutter that keeps
-       them clear of the two addresses. Guessing left them lapping over "Đón
-       khách" just above 900px and a hair from the addresses on a laptop. */
-    width: min(420px, calc(50vw - var(--section-pad) - 262px));
-    margin: 0;
-  }
-}
-
 /* Gallery */
 .gallery {
   text-align: center;

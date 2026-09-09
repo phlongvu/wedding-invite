@@ -37,12 +37,14 @@ desktops the 2000px one.
 
 - These are generated, not uploaded. Upload the original at any size and it
   gets resized and compressed into this pair. The current one came from a
-  5410x3606 original of 13.3 MB, which became 512 KB and 225 KB.
+  2560x1707 original of 1.0 MB, which became 446 KB and 186 KB.
 - **Landscape**, roughly 3:2. The band crops to a wide strip, so the top and
   bottom of the original are cut.
 - Keep the couple in the upper half. The countdown sits along the bottom of
   the band, under a scrim that is heaviest there, so faces belong above it.
-  `object-position: center 28%` in `style.css` is what decides that crop.
+  `object-position: center 28%` in `style.css` is what decides that crop. On a
+  desktop that takes the top off a raised arm in the current picture, which a
+  wide band does and is not worth chasing; both faces sit well inside it.
 - Without these files the countdown stays the plain section it was, with dark
   text on sand. Nothing breaks.
 
@@ -64,32 +66,20 @@ copy handed out by `srcset`. Twelve originals totalling 13.3 MB became 2.7 MB.
 ## `intro-1000.jpg` and `intro-600.jpg`
 
 The portrait photograph beside the Lời ngỏ text, in a 1000px and a 600px copy
-handed out by `srcset`. Generated from a 10.2 MB upload.
+handed out by `srcset`. Generated from a 1707x2560 upload of 1.0 MB.
 
-- **Portrait.** The slot is 3:4 and the source is 2:3, so a little comes off
-  the top and bottom. Keep faces away from the very top and bottom edges.
+- **Portrait.** The slot is 3:4. The current source is 2:3 and was cropped to
+  3:4 before resizing, at `(69, 450, 1531, 2400)`, rather than left to the
+  browser: the frame it came in is a full-length shot with an orange light leak
+  across the top, and letting `object-fit` take equal slices off both ends kept
+  the leak and left the couple small in a 360px mount. The crop drops the leak
+  and holds their feet. Do the same for a replacement rather than assuming the
+  numbers still fit: they are particular to that frame.
+- Keep faces away from the very top and bottom edges.
 - It sits mounted and centred above the words at every width, inside a sand
   mat and a hairline rule, like a photograph mounted on the invitation.
 - Use a different photograph from the three in the gallery, or the same
   picture appears twice on one page.
-
-## `couple-cutout.webp`
-
-The couple cut out of their background, standing beside the day's schedule.
-
-- Generated, not uploaded: the original `couple.jpg` was cut with rembg and
-  saved as WebP with alpha, 59 KB against 547 KB for the same picture as PNG.
-- The mask ran out mid-calf against the road, so the CSS fades the bottom of
-  the image into the ground. A hard edge there would read as a mistake.
-- From 1024px it stands in the margin beside the schedule, sized off the room
-  actually left over rather than a guessed clamp: the schedule is a fixed
-  460px column in the middle of the section, so the space beside it is
-  whatever the window has spare. Below 1024px there is not enough of that
-  room, and it drops into the flow under the last row instead.
-- To replace it, upload a new original and it gets cut and converted again.
-  A plain, contrasting background cuts cleanly; a translucent veil against
-  busy foliage does not.
-- Without the file the schedule stays exactly as it was.
 
 ## `closing-2000.jpg` and `closing-1200.jpg`
 
@@ -99,9 +89,8 @@ set over it. Two sizes of the same picture, handed out by `srcset`.
 - These are generated, not uploaded. Upload the original at any size and it
   gets resized and compressed into this pair, the same way the countdown
   photograph was.
-- **Landscape.** The current pair came from a 5398x3599 original of 11.2 MB,
-  which became 415 KB and 187 KB. The original is not kept, the same as the
-  album and the cut-out: it is in the history if it is ever wanted again.
+- **Landscape.** The current pair came from a 2560x1707 original of 0.8 MB,
+  which became 355 KB and 142 KB.
 - The footer cuts a wide band out of it, between 340 and 520 pixels tall
   depending on the window, which on a desktop throws away more than half the
   height. `object-position: center 10%` in `style.css` decides which part
@@ -112,7 +101,7 @@ set over it. Two sizes of the same picture, handed out by `srcset`.
 - Keep the couple in the upper half, heads well clear of the top edge. The
   names and the thank-you sit along the bottom of the band under a scrim that
   is heaviest there, so faces belong above it. That scrim is what carries the
-  white type to 5.91:1 at its worst against the brightest thing behind it; if
+  white type to 6.29:1 at its worst against the brightest thing behind it; if
   the photograph is replaced with a much paler one, measure it again before
   shipping rather than assuming it still passes.
 - Use a picture that is not already the countdown, the Lời ngỏ portrait or one
@@ -129,7 +118,9 @@ pasted into a chat. Generated, not uploaded: the intro photograph on the left,
 the monogram, names, date and venue set in the site's own typefaces on the
 right.
 
-- Regenerated whenever the names, date or venue change. The meta tags in
+- Regenerated whenever the names, date or venue change, and whenever the intro
+  photograph is replaced: it carries that picture, so leaving it alone puts a
+  photograph in the link preview that is nowhere on the page. The meta tags in
   `index.html` point at it by absolute URL, which those services require.
 - Chat previews are cached hard. After replacing it, re-scrape the link with
   Facebook's Sharing Debugger, or the old card keeps appearing.

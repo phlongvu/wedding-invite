@@ -155,21 +155,6 @@ if (countdownSection && countdownPhoto) {
   whenLoaded(countdownPhoto, usePhoto);
 }
 
-/* Held back like the countdown photograph, and for the same reason: it is
-   hidden until it loads, and a lazy image inside a display:none box never
-   enters the viewport, so it would wait for a scroll that can never reach it. */
-const timelineCutout = document.getElementById("timelineCutout");
-
-if (timelineCutout) {
-  whenLoaded(timelineCutout, () => {
-    timelineCutout.classList.add("is-ready");
-  });
-
-  timelineCutout.addEventListener("error", () => {
-    timelineCutout.hidden = true;
-  });
-}
-
 /* The band is painted the deep tone underneath, so the white names are legible
    from the first paint rather than flashing white on sand while the bytes are
    in the air. If the file never arrives at all, the footer drops back to the
@@ -218,7 +203,6 @@ function unlockPage() {
   window.scrollTo({ top: 0, behavior: "instant" });
 
   loadDeferred(countdownPhoto);
-  loadDeferred(timelineCutout);
 
   const firstSection = document.querySelector(".save-the-date");
   if (firstSection) {
