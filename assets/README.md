@@ -83,7 +83,8 @@ a 500px copy handed out by `srcset`. The originals totalled 17.5 MB and became
 
 ## `hoi-*.jpg` and `bien-*.jpg`
 
-The two sets in Our Story, three photographs each, in a 1200px and a 600px copy.
+The two sets under Our Engagement Ceremony, three photographs each, in a 1200px
+and a 600px copy.
 `hoi-01`, `hoi-05`, `hoi-06` for the engagement and `bien-01`, `bien-04`,
 `bien-05` for the beach.
 
@@ -102,8 +103,12 @@ The two sets in Our Story, three photographs each, in a 1200px and a 600px copy.
   and drop the page a step as each picture arrived.
 - Replacing one means regenerating both copies at that photograph's own ratio
   and correcting its `width` and `height`. Measure, do not guess.
-- A set whose lead plate is missing takes its chapter off the page, and the last
-  chapter takes the heading with it. That only happens once the section scrolls
+- The section carries one heading and one quote, and the two rows have no labels
+  of their own, so the gap between them is the only thing separating a pink
+  indoor ceremony from a blue-hour beach. Keep that gap if the compositions are
+  ever reworked.
+- A set whose lead plate is missing takes its row off the page, and the last row
+  takes the heading with it. That only happens once the section scrolls
   into view, because the plates are lazy and a picture that is never fetched
   never fails.
 
