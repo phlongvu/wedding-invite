@@ -948,13 +948,26 @@ body.is-revealing .std-card {
   margin: 0 0 0.6rem;
 }
 
-.chapter-line {
-  max-width: 46ch;
-  margin: 0 auto clamp(1.5rem, 3vw, 2.25rem);
-  color: var(--ink-quiet);
-  font-size: 0.98rem;
-  line-height: 1.75;
-  text-wrap: pretty;
+/* A quote, so it is set in the display italic like the names on the card and
+   the closing signature, not in the body face a caption would use. One line of
+   italic can carry that; the fifty words in the footer could not.
+
+   The line-height and the reserve under it are for the descenders: "promise",
+   "people", "just" all drop below the baseline, and italic drops them further
+   than the roman does. */
+.chapter-quote {
+  max-width: 34ch;
+  margin: 0 auto clamp(1.75rem, 3.5vw, 2.5rem);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  line-height: 1.55;
+  padding-bottom: 0.12em;
+  color: var(--ink);
+  /* balance, not pretty: these are two lines, and pretty only guards the last
+     one. Both quotes were breaking after an article, leaving "surrounded by
+     the" and "the last of" hanging at the end of a line. */
+  text-wrap: balance;
 }
 
 /* Three plates a chapter. Both grids are two columns on a phone with one plate
@@ -1043,45 +1056,12 @@ body.is-revealing .std-card {
   }
 }
 
-/* A link, not a button in a box. The section already has one primary action in
-   the invitation; this one should not compete with it. The rule under it is the
-   wax rather than the tone: the tone measured 1.60:1 against this sand, and a
-   rule nobody can see is not an invitation to press anything. */
-.chapter-more {
-  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
-  padding: 0.35rem 0.15rem;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: var(--wax-deep);
-  background: none;
-  border: 0;
-  border-bottom: 1px solid var(--wax);
-  cursor: pointer;
-  transition: color 0.25s ease, border-color 0.25s ease;
-}
-
-.chapter-more:hover {
-  color: var(--ink);
-  border-color: var(--wax-deep);
-}
-
-.chapter-more:focus-visible {
-  outline: 2px solid var(--wax);
-  outline-offset: 3px;
-}
-
 /* A chapter whose photographs are not there yet takes itself off the page, and
    the section goes with the last of them. Same as the music, the seal and the
    closing photograph: a missing file is never a broken one. */
 .chapter[hidden],
 .story[hidden] {
   display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .chapter-more {
-    transition: none;
-  }
 }
 
 /* Gallery */
@@ -2121,99 +2101,6 @@ body.is-revealing .std-card {
 }
 
 .rsvp-error[hidden] {
-  display: none;
-}
-
-/* The full set, one photograph under the next. Deliberately not a carousel:
-   the album down the page is already one, and a guest who opened this asked to
-   see everything rather than to be walked through it.
-
-   A panel, not a takeover. Same border, radius, ground and shadow as the gift
-   and the invitation, only wider, so opening a set reads as this site putting
-   something in front of you rather than as leaving it for a viewer of its own.
-   No margin of its own: a modal dialog is centred by the browser's own
-   margin:auto, and overriding it pinned the panel to the top left. */
-.album-viewer {
-  width: min(680px, 92vw);
-  max-height: 88svh;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--sand);
-  color: var(--ink);
-  box-shadow: 0 30px 70px rgba(58, 43, 30, 0.4);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.album-viewer::backdrop {
-  background: rgba(var(--scrim), 0.72);
-}
-
-.viewer-bar {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.9rem 1.25rem;
-  background: rgba(241, 228, 214, 0.94);
-  border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.viewer-title {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
-  margin: 0;
-}
-
-/* Sits in the bar rather than floating over a photograph, so it never lands on
-   a face and never needs a scrim of its own. */
-.viewer-close {
-  position: static;
-  flex: 0 0 auto;
-}
-
-.viewer-roll {
-  display: grid;
-  justify-items: center;
-  gap: 0.9rem;
-  padding: 0.9rem 1.25rem 1.5rem;
-}
-
-.viewer-roll img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-photo);
-}
-
-/* No bar at all on the panels, the same as the album rail below. Tinting it
-   was the first attempt and it is not a fix that can be trusted: the two ways
-   to style a scrollbar cancel each other out (Chrome ignores
-   ::-webkit-scrollbar entirely once scrollbar-width or scrollbar-color is
-   set), scrollbar-width: thin renders a two pixel sliver, and none of it
-   reaches an iPhone, where the bar is an overlay that is not there to style.
-   Taking it away lands the same everywhere.
-
-   What tells a guest there is more: the panel cuts the first photograph
-   mid-frame at its own bottom edge. The wheel, the trackpad, a finger and the
-   arrow keys all still scroll it. */
-.modal,
-.album-viewer,
-.viewer-roll {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.modal::-webkit-scrollbar,
-.album-viewer::-webkit-scrollbar,
-.viewer-roll::-webkit-scrollbar {
   display: none;
 }
 

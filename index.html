@@ -230,17 +230,15 @@
          quiet link. The two chapters are composed differently from each other
          as well, so the section does not read as one layout done twice. -->
     <section class="story" id="story" aria-labelledby="story-heading">
-      <h2 id="story-heading" class="section-heading reveal">Câu chuyện tình yêu</h2>
+      <h2 id="story-heading" class="section-heading reveal">Our Story</h2>
 
       <article class="chapter reveal" id="chapterHoi">
-        <h3 class="chapter-title">Lễ đám hỏi</h3>
-        <p class="chapter-line">Ngày hai gia đình gặp nhau, và chuyện của chúng mình
-          không còn là chuyện của riêng hai người nữa.</p>
+        <h3 class="chapter-title" lang="en">Our Engagement Ceremony</h3>
+        <p class="chapter-quote" lang="en">&ldquo;A promise of forever, surrounded by
+          the people we love.&rdquo;</p>
 
-        <!-- Three of the six. The other two are strips of several frames with
-             the film border showing, made to be seen whole, and an upright
-             plate would cut one in half and put a black bar across it. They
-             wait in the viewer at full height. -->
+        <!-- Plates at different heights, because this is the crowded half of
+             the story: family either side of the two of them. -->
         <div class="plates plates-lead">
           <img class="plate plate-lead" id="hoiLead"
                src="assets/hoi-01-1200.jpg"
@@ -261,15 +259,15 @@
                width="1200" height="1801"
                alt="" aria-hidden="true" loading="lazy" decoding="async">
         </div>
-
-        <button type="button" class="chapter-more" data-album="hoi">Xem cả bộ</button>
       </article>
 
       <article class="chapter reveal" id="chapterBien">
-        <h3 class="chapter-title">Ngày ra biển</h3>
-        <p class="chapter-line">Một buổi chiều muộn ở biển, chỉ có hai người và
-          bãi cát vắng.</p>
+        <h3 class="chapter-title" lang="en">Our Day by the Sea</h3>
+        <p class="chapter-quote" lang="en">&ldquo;Just the two of us, and the last
+          of the light.&rdquo;</p>
 
+        <!-- Level along the bottom, like the horizon in all three of them.
+             The quiet half, answering the crowded one above. -->
         <div class="plates plates-trio">
           <img class="plate"
                src="assets/bien-01-600.jpg"
@@ -290,8 +288,6 @@
                width="1200" height="1599"
                alt="Phi Long và Kim Chi ở biển" loading="lazy" decoding="async">
         </div>
-
-        <button type="button" class="chapter-more" data-album="bien">Xem cả bộ</button>
       </article>
     </section>
 
@@ -772,17 +768,6 @@
     </div>
   </dialog>
 
-
-  <!-- The whole of one set, built on first open so no photograph is fetched
-       until a guest asks for it. Sand like every other panel on this site: a
-       viewer that went black would be the page changing theme mid-visit. -->
-  <dialog class="album-viewer" id="albumViewer" aria-labelledby="viewer-heading">
-    <div class="viewer-bar">
-      <h3 class="viewer-title" id="viewer-heading"></h3>
-      <button type="button" class="modal-close viewer-close" id="closeViewer" aria-label="Đóng">&times;</button>
-    </div>
-    <div class="viewer-roll" id="viewerRoll"></div>
-  </dialog>
 
   <dialog class="modal thanks-dialog" id="thanksDialog" aria-labelledby="thanks-heading">
     <div class="modal-inner">

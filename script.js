@@ -347,99 +347,25 @@ if (openGift) {
 
 /* ---------- Câu chuyện tình yêu ---------- */
 
-/* How many photographs each set holds, and nothing else: the files are named
-   by number, so the count is the whole manifest. Raise a count and the viewer
-   picks the new photographs up; leave one at zero and that chapter takes
-   itself off the page. */
-/* Each set, and the pixel size of each photograph in it. The count is the
-   length of the list, so the two can never disagree, and the sizes are real
-   rather than assumed: this shoot mixes 2:3 with one landscape frame and the
-   beach set is 3:4, so one ratio for all of them would reserve the wrong box
-   and drop the page a step as each picture landed. */
-const ALBUMS = {
-  hoi: { title: "Lễ đám hỏi", shots: [[1200, 1801], [1200, 1801], [1200, 800], [1200, 1801], [1200, 1801], [1200, 1801]] },
-  bien: { title: "Ngày ra biển", shots: [[1200, 1600], [1200, 1600], [1200, 1599], [1200, 1599], [1200, 1599], [1200, 1600], [1200, 1600], [1200, 1600]] },
-};
-
-const albumViewer = document.getElementById("albumViewer");
-const viewerRoll = document.getElementById("viewerRoll");
-const viewerTitle = document.getElementById("viewer-heading");
-
-/* Built on first open, then kept. Writing forty image tags into the page would
-   have the browser fetch them the moment the dialog opened even if the guest
-   only wanted the first few; building them here means the roll costs nothing
-   until it is asked for, and nothing again on a second visit. */
-const built = new Set();
-
-function fillViewer(key) {
-  const album = ALBUMS[key];
-  if (!album || !viewerRoll) return;
-
-  if (viewerTitle) viewerTitle.textContent = album.title;
-
-  if (!built.has(key)) {
-    const roll = document.createDocumentFragment();
-    album.shots.forEach(([w, h], i) => {
-      const n = i + 1;
-      const pad = String(n).padStart(2, "0");
-      const image = document.createElement("img");
-      image.src = `assets/${key}-${pad}-1200.jpg`;
-      image.srcset = `assets/${key}-${pad}-600.jpg 600w, assets/${key}-${pad}-1200.jpg 1200w`;
-      image.sizes = "(max-width: 760px) 88vw, 640px";
-      image.width = w;
-      image.height = h;
-      image.decoding = "async";
-      // the first is what the guest is looking at; the rest can wait
-      if (n > 1) image.loading = "lazy";
-      image.alt = n === 1 ? `${album.title}, ảnh của Phi Long và Kim Chi` : "";
-      if (n > 1) image.setAttribute("aria-hidden", "true");
-      roll.appendChild(image);
-    });
-    viewerRoll.replaceChildren(roll);
-    built.add(key);
-  } else {
-    viewerRoll.scrollIntoView({ block: "start", behavior: "instant" });
-  }
-
-  if (albumViewer) albumViewer.scrollTop = 0;
-}
-
-if (albumViewer) {
-  wireDialog(albumViewer, null, document.getElementById("closeViewer"));
-
-  document.querySelectorAll(".chapter-more").forEach((button) => {
-    const key = button.dataset.album;
-    button.addEventListener("click", () => {
-      fillViewer(key);
-      openDialog(albumViewer);
-    });
-  });
-}
-
-/* A chapter with no photographs yet is not a chapter with broken pictures in
-   it. The lead plate is the test: if the file is not there, the chapter goes,
-   and when the last chapter goes the heading goes with it. */
-function wireChapter(key, chapterId, leadId) {
+/* A chapter with no photographs is not a chapter with broken pictures in it.
+   The lead plate is the test: if the file is not there, the chapter goes, and
+   when the last chapter goes the heading goes with it. It happens the moment
+   the plate is asked for, which is when the section scrolls into view, since
+   the plates are lazy and a picture that is never fetched never fails. */
+function wireChapter(chapterId, leadId) {
   const chapter = document.getElementById(chapterId);
   const lead = document.getElementById(leadId);
-  const button = chapter && chapter.querySelector(".chapter-more");
   if (!chapter || !lead) return;
 
-  const drop = () => {
+  lead.addEventListener("error", () => {
     chapter.hidden = true;
     const story = document.getElementById("story");
     if (story && !story.querySelector(".chapter:not([hidden])")) story.hidden = true;
-  };
-
-  lead.addEventListener("error", drop);
-  if (!ALBUMS[key] || ALBUMS[key].shots.length < 1) drop();
-  else if (button) {
-    button.textContent = `Xem cả bộ, ${ALBUMS[key].shots.length} ảnh`;
-  }
+  });
 }
 
-wireChapter("hoi", "chapterHoi", "hoiLead");
-wireChapter("bien", "chapterBien", "bienLead");
+wireChapter("chapterHoi", "hoiLead");
+wireChapter("chapterBien", "bienLead");
 
 const rsvpDialog = document.getElementById("rsvpDialog");
 const thanksDialog = document.getElementById("thanksDialog");

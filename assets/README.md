@@ -81,39 +81,31 @@ a 500px copy handed out by `srcset`. The originals totalled 17.5 MB and became
 - Where the browser has no scroll-driven animations, or the guest asks for
   reduced motion, the photographs simply sit flat in a row. Nothing breaks.
 
-## `hoi-01-*.jpg` … and `bien-01-*.jpg` …
+## `hoi-*.jpg` and `bien-*.jpg`
 
-The two sets behind Câu chuyện tình yêu, each in a 1200px and a 600px copy.
-Six from the đám hỏi, 3.6 MB of originals down to 2.0 MB; eight from the beach,
-1.3 MB down to 1.2 MB.
+The two sets in Our Story, three photographs each, in a 1200px and a 600px copy.
+`hoi-01`, `hoi-05`, `hoi-06` for the engagement and `bien-01`, `bien-04`,
+`bien-05` for the beach.
 
-- Named by number, and the number is the order. Rename to reorder.
-- **The sizes are declared per photograph, not per set**, in `ALBUMS` at the top
-  of the story block in `script.js`. This shoot needed that: the đám hỏi set is
-  2:3 except for one landscape frame, and the beach set is 3:4. One assumed
-  ratio for all of them would reserve the wrong box and drop the page a step as
-  each picture arrived. Regenerate that list whenever photographs are added,
-  from the real pixel sizes rather than by eye.
-- Three of each set are shown on the page and the rest wait in the viewer. Which
-  three is decided in `index.html`, and it is a real choice, not the first three:
-  `hoi-02` and `hoi-03` are strips of several frames with the film border
-  showing, made to be seen whole, so an upright plate would cut one in half and
-  put a black bar across it. Pick single frames for the page, and prefer
-  upright ones: the plates are all portrait by design, because a landscape
-  source cropped upright loses whoever was standing in it.
-- A set with no files takes its chapter off the page, and the last chapter takes
-  the heading with it. That only happens once the section scrolls into view,
-  because the plates are lazy and a picture that never loads never fails.
-- The viewer is built the first time it is opened and kept after that, so none
-  of these is fetched until a guest asks for the set. It is a panel the same
-  width as the invitation's own dialogs, not a full screen: the photographs are
-  shown at about 640px, so there is no point generating anything wider than the
-  1200px copy already here. It carries no scrollbar, the same as the album rail:
-  tinting one cannot be relied on (Chrome ignores ::-webkit-scrollbar the moment
-  scrollbar-width or scrollbar-color is set, thin renders a two pixel sliver,
-  and on an iPhone the bar is an overlay with nothing to style), while taking it
-  away lands the same everywhere. The panel cutting the first photograph
-  mid-frame is what says there is more.
+- **The numbers are gaps on purpose.** Fourteen were uploaded and eleven are
+  gone, because the section shows three a set and nothing else: there is no
+  viewer behind it any more. The numbers that survived are the ones chosen, and
+  the ones that went are in the git history if any of them is ever wanted back.
+- The three were a real choice, not the first three. `hoi-02` and `hoi-03` were
+  strips of several frames with the film border showing, made to be seen whole,
+  so an upright plate cut one in half and put a black bar across it. Pick single
+  frames, and prefer upright ones: the plates are all portrait by design,
+  because a landscape source cropped upright loses whoever was standing in it.
+- **The sizes are declared per photograph, not per set**, in the `width` and
+  `height` on each plate in `index.html`. The engagement set is 2:3 and the
+  beach set is 3:4, and one assumed ratio for both would reserve the wrong box
+  and drop the page a step as each picture arrived.
+- Replacing one means regenerating both copies at that photograph's own ratio
+  and correcting its `width` and `height`. Measure, do not guess.
+- A set whose lead plate is missing takes its chapter off the page, and the last
+  chapter takes the heading with it. That only happens once the section scrolls
+  into view, because the plates are lazy and a picture that is never fetched
+  never fails.
 
 ## `intro-1000.jpg` and `intro-600.jpg`
 
