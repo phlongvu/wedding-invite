@@ -108,7 +108,12 @@ Six from the đám hỏi, 3.6 MB of originals down to 2.0 MB; eight from the bea
   of these is fetched until a guest asks for the set. It is a panel the same
   width as the invitation's own dialogs, not a full screen: the photographs are
   shown at about 640px, so there is no point generating anything wider than the
-  1200px copy already here.
+  1200px copy already here. It carries no scrollbar, the same as the album rail:
+  tinting one cannot be relied on (Chrome ignores ::-webkit-scrollbar the moment
+  scrollbar-width or scrollbar-color is set, thin renders a two pixel sliver,
+  and on an iPhone the bar is an overlay with nothing to style), while taking it
+  away lands the same everywhere. The panel cutting the first photograph
+  mid-frame is what says there is more.
 
 ## `intro-1000.jpg` and `intro-600.jpg`
 

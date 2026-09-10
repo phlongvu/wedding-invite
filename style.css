@@ -2193,6 +2193,30 @@ body.is-revealing .std-card {
   border-radius: var(--radius-photo);
 }
 
+/* No bar at all on the panels, the same as the album rail below. Tinting it
+   was the first attempt and it is not a fix that can be trusted: the two ways
+   to style a scrollbar cancel each other out (Chrome ignores
+   ::-webkit-scrollbar entirely once scrollbar-width or scrollbar-color is
+   set), scrollbar-width: thin renders a two pixel sliver, and none of it
+   reaches an iPhone, where the bar is an overlay that is not there to style.
+   Taking it away lands the same everywhere.
+
+   What tells a guest there is more: the panel cuts the first photograph
+   mid-frame at its own bottom edge. The wheel, the trackpad, a finger and the
+   arrow keys all still scroll it. */
+.modal,
+.album-viewer,
+.viewer-roll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal::-webkit-scrollbar,
+.album-viewer::-webkit-scrollbar,
+.viewer-roll::-webkit-scrollbar {
+  display: none;
+}
+
 /* Scroll reveal */
 .reveal {
   opacity: 0;
