@@ -928,6 +928,162 @@ body.is-revealing .std-card {
 
 /* The couple, cut out and standing beside the schedule. The list is 460px wide
    inside a 1080px container, so on a wide screen they take the empty right
+/* Câu chuyện tình yêu */
+
+.story {
+  text-align: center;
+}
+
+/* Two chapters, and the gap between them does the separating. No rules, no
+   cards: the photographs are the only thing that needs a boundary. */
+.chapter + .chapter {
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.chapter-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+  letter-spacing: 0.01em;
+  margin: 0 0 0.6rem;
+}
+
+.chapter-line {
+  max-width: 46ch;
+  margin: 0 auto clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--ink-quiet);
+  font-size: 0.98rem;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+/* Three plates a chapter. Both grids are two columns on a phone with one plate
+   spanning both, but they put the wide one at opposite ends, so scrolling from
+   one chapter to the next changes rhythm rather than repeating it. */
+.plates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.5rem, 1.6vw, 1rem);
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
+.plate {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  /* The same corner the carousel photographs use. One radius for a photograph
+     on this page, not one per section. */
+  border-radius: var(--radius-photo);
+}
+
+.plates-lead > .plate-lead {
+  grid-column: 1 / -1;
+  aspect-ratio: 4 / 5;
+}
+
+.plates-trio > .plate-lead {
+  grid-column: 1 / -1;
+  aspect-ratio: 5 / 4;
+}
+
+/* From 721px the two chapters part company: the first is one tall plate with a
+   pair stacked beside it, the second an uneven triptych. */
+@media (min-width: 721px) {
+  .plates > .plate {
+    aspect-ratio: auto;
+  }
+
+  /* Three columns, the tall one in the middle, and the two smaller plates hung
+     at different heights either side. Every cell stays upright: a two-row
+     stack beside a tall plate made each small cell half the lead's height and
+     twice its width, which cropped a standing couple into a strip of
+     background. */
+  .plates-lead {
+    grid-template-columns: 1fr 1.8fr 1fr;
+    grid-auto-rows: auto;
+    align-items: start;
+  }
+
+  .plates-lead > .plate-lead {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    aspect-ratio: 3 / 4;
+  }
+
+  .plates-lead > .plate:not(.plate-lead) {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* The first sits high in its column, the second low in the other. */
+  .plates-lead > .plate:not(.plate-lead):first-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .plates-lead > .plate:not(.plate-lead):last-child {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: end;
+  }
+
+  .plates-trio {
+    grid-template-columns: 1.15fr 0.85fr 1.3fr;
+  }
+
+  .plates-trio > .plate {
+    aspect-ratio: 3 / 4;
+  }
+
+  .plates-trio > .plate-lead {
+    grid-column: 3;
+    aspect-ratio: 3 / 4;
+  }
+}
+
+/* A link, not a button in a box. The section already has one primary action in
+   the invitation; this one should not compete with it. The rule under it is the
+   wax rather than the tone: the tone measured 1.60:1 against this sand, and a
+   rule nobody can see is not an invitation to press anything. */
+.chapter-more {
+  margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding: 0.35rem 0.15rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--wax-deep);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--wax);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.chapter-more:hover {
+  color: var(--ink);
+  border-color: var(--wax-deep);
+}
+
+.chapter-more:focus-visible {
+  outline: 2px solid var(--wax);
+  outline-offset: 3px;
+}
+
+/* A chapter whose photographs are not there yet takes itself off the page, and
+   the section goes with the last of them. Same as the music, the seal and the
+   closing photograph: a missing file is never a broken one. */
+.chapter[hidden],
+.story[hidden] {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-more {
+    transition: none;
+  }
+}
+
 /* Gallery */
 .gallery {
   text-align: center;
@@ -1966,6 +2122,71 @@ body.is-revealing .std-card {
 
 .rsvp-error[hidden] {
   display: none;
+}
+
+/* The full set, one photograph under the next. Deliberately not a carousel:
+   the album down the page is already one, and a guest who opened this asked to
+   see everything rather than to be walked through it. */
+.album-viewer {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--sand);
+  color: var(--ink);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.album-viewer::backdrop {
+  background: rgba(var(--scrim), 0.72);
+}
+
+.viewer-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem var(--section-pad);
+  background: rgba(241, 228, 214, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.viewer-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+  margin: 0;
+}
+
+/* Sits in the bar rather than floating over a photograph, so it never lands on
+   a face and never needs a scrim of its own. */
+.viewer-close {
+  position: static;
+  flex: 0 0 auto;
+}
+
+.viewer-roll {
+  display: grid;
+  justify-items: center;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  padding: clamp(0.75rem, 2vw, 1.25rem) var(--section-pad) clamp(3rem, 8vw, 5rem);
+}
+
+.viewer-roll img {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  border-radius: var(--radius-photo);
 }
 
 /* Scroll reveal */

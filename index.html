@@ -382,6 +382,77 @@
       </ol>
     </section>
 
+    <!-- Two chapters, not a third carousel. The album further down is already a
+         coverflow, so this section earns its place by being a different shape:
+         a few large plates per chapter, and the rest of each set behind one
+         quiet link. The two chapters are composed differently from each other
+         as well, so the section does not read as one layout done twice. -->
+    <section class="story" id="story" aria-labelledby="story-heading">
+      <h2 id="story-heading" class="section-heading reveal">Câu chuyện tình yêu</h2>
+
+      <article class="chapter reveal" id="chapterHoi">
+        <h3 class="chapter-title">Lễ đám hỏi</h3>
+        <p class="chapter-line">Ngày hai gia đình gặp nhau, và chuyện của chúng mình
+          không còn là chuyện của riêng hai người nữa.</p>
+
+        <!-- Three of the six. The other two are strips of several frames with
+             the film border showing, made to be seen whole, and an upright
+             plate would cut one in half and put a black bar across it. They
+             wait in the viewer at full height. -->
+        <div class="plates plates-lead">
+          <img class="plate plate-lead" id="hoiLead"
+               src="assets/hoi-01-1200.jpg"
+               srcset="assets/hoi-01-600.jpg 600w, assets/hoi-01-1200.jpg 1200w"
+               sizes="(max-width: 720px) 92vw, 40vw"
+               width="1200" height="1801"
+               alt="Lễ đám hỏi của Phi Long và Kim Chi" loading="lazy" decoding="async">
+          <img class="plate"
+               src="assets/hoi-06-600.jpg"
+               srcset="assets/hoi-06-600.jpg 600w, assets/hoi-06-1200.jpg 1200w"
+               sizes="(max-width: 720px) 45vw, 28vw"
+               width="1200" height="1801"
+               alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <img class="plate"
+               src="assets/hoi-05-600.jpg"
+               srcset="assets/hoi-05-600.jpg 600w, assets/hoi-05-1200.jpg 1200w"
+               sizes="(max-width: 720px) 45vw, 28vw"
+               width="1200" height="1801"
+               alt="" aria-hidden="true" loading="lazy" decoding="async">
+        </div>
+
+        <button type="button" class="chapter-more" data-album="hoi">Xem cả bộ</button>
+      </article>
+
+      <article class="chapter reveal" id="chapterBien">
+        <h3 class="chapter-title">Ngày ra biển</h3>
+        <p class="chapter-line">Một buổi chiều muộn ở biển, chỉ có hai người và
+          bãi cát vắng.</p>
+
+        <div class="plates plates-trio">
+          <img class="plate"
+               src="assets/bien-01-600.jpg"
+               srcset="assets/bien-01-600.jpg 600w, assets/bien-01-1200.jpg 1200w"
+               sizes="(max-width: 720px) 45vw, 26vw"
+               width="1200" height="1600"
+               alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <img class="plate"
+               src="assets/bien-04-600.jpg"
+               srcset="assets/bien-04-600.jpg 600w, assets/bien-04-1200.jpg 1200w"
+               sizes="(max-width: 720px) 45vw, 22vw"
+               width="1200" height="1599"
+               alt="" aria-hidden="true" loading="lazy" decoding="async">
+          <img class="plate plate-lead" id="bienLead"
+               src="assets/bien-05-1200.jpg"
+               srcset="assets/bien-05-600.jpg 600w, assets/bien-05-1200.jpg 1200w"
+               sizes="(max-width: 720px) 92vw, 30vw"
+               width="1200" height="1599"
+               alt="Phi Long và Kim Chi ở biển" loading="lazy" decoding="async">
+        </div>
+
+        <button type="button" class="chapter-more" data-album="bien">Xem cả bộ</button>
+      </article>
+    </section>
+
     <section class="gallery band" aria-labelledby="gallery-heading">
       <h2 id="gallery-heading" class="section-heading reveal">Khoảnh khắc</h2>
 
@@ -701,6 +772,17 @@
     </div>
   </dialog>
 
+
+  <!-- The whole of one set, built on first open so no photograph is fetched
+       until a guest asks for it. Sand like every other panel on this site: a
+       viewer that went black would be the page changing theme mid-visit. -->
+  <dialog class="album-viewer" id="albumViewer" aria-labelledby="viewer-heading">
+    <div class="viewer-bar">
+      <h3 class="viewer-title" id="viewer-heading"></h3>
+      <button type="button" class="modal-close viewer-close" id="closeViewer" aria-label="Đóng">&times;</button>
+    </div>
+    <div class="viewer-roll" id="viewerRoll"></div>
+  </dialog>
 
   <dialog class="modal thanks-dialog" id="thanksDialog" aria-labelledby="thanks-heading">
     <div class="modal-inner">
