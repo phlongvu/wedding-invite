@@ -105,7 +105,10 @@ Six from the đám hỏi, 3.6 MB of originals down to 2.0 MB; eight from the bea
   the heading with it. That only happens once the section scrolls into view,
   because the plates are lazy and a picture that never loads never fails.
 - The viewer is built the first time it is opened and kept after that, so none
-  of these is fetched until a guest asks for the set.
+  of these is fetched until a guest asks for the set. It is a panel the same
+  width as the invitation's own dialogs, not a full screen: the photographs are
+  shown at about 640px, so there is no point generating anything wider than the
+  1200px copy already here.
 
 ## `intro-1000.jpg` and `intro-600.jpg`
 

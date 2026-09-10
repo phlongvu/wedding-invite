@@ -2126,17 +2126,22 @@ body.is-revealing .std-card {
 
 /* The full set, one photograph under the next. Deliberately not a carousel:
    the album down the page is already one, and a guest who opened this asked to
-   see everything rather than to be walked through it. */
+   see everything rather than to be walked through it.
+
+   A panel, not a takeover. Same border, radius, ground and shadow as the gift
+   and the invitation, only wider, so opening a set reads as this site putting
+   something in front of you rather than as leaving it for a viewer of its own.
+   No margin of its own: a modal dialog is centred by the browser's own
+   margin:auto, and overriding it pinned the panel to the top left. */
 .album-viewer {
-  width: 100%;
-  max-width: none;
-  height: 100%;
-  max-height: none;
-  margin: 0;
+  width: min(680px, 92vw);
+  max-height: 88svh;
   padding: 0;
-  border: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   background: var(--sand);
   color: var(--ink);
+  box-shadow: 0 30px 70px rgba(58, 43, 30, 0.4);
   overflow-y: auto;
   overscroll-behavior: contain;
 }
@@ -2153,7 +2158,7 @@ body.is-revealing .std-card {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1rem var(--section-pad);
+  padding: 0.9rem 1.25rem;
   background: rgba(241, 228, 214, 0.94);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(8px);
@@ -2177,14 +2182,13 @@ body.is-revealing .std-card {
 .viewer-roll {
   display: grid;
   justify-items: center;
-  gap: clamp(0.75rem, 2vw, 1.25rem);
-  padding: clamp(0.75rem, 2vw, 1.25rem) var(--section-pad) clamp(3rem, 8vw, 5rem);
+  gap: 0.9rem;
+  padding: 0.9rem 1.25rem 1.5rem;
 }
 
 .viewer-roll img {
   display: block;
   width: 100%;
-  max-width: 720px;
   height: auto;
   border-radius: var(--radius-photo);
 }

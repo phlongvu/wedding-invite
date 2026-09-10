@@ -385,7 +385,7 @@ function fillViewer(key) {
       const image = document.createElement("img");
       image.src = `assets/${key}-${pad}-1200.jpg`;
       image.srcset = `assets/${key}-${pad}-600.jpg 600w, assets/${key}-${pad}-1200.jpg 1200w`;
-      image.sizes = "(max-width: 800px) 92vw, 720px";
+      image.sizes = "(max-width: 760px) 88vw, 640px";
       image.width = w;
       image.height = h;
       image.decoding = "async";
