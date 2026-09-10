@@ -140,19 +140,20 @@ dẫn cũ chết ngay, và triển khai bản mới lấy đường dẫn khác.
 
 ## 4. Nối vào trang
 
-Mở `script.js`, dòng đầu tiên, dán đường dẫn vào:
+**Đã xong.** `RSVP_ENDPOINT` ở đầu `script.js` đang trỏ tới bản triển khai
+hiện tại. Nếu sau này triển khai lại và lấy đường dẫn khác, sửa đúng chỗ đó:
 
 ```javascript
-const RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycb…/exec";
+const RSVP_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycb…/exec";
 ```
-
-Commit và push. Xong.
 
 ## 5. Kiểm tra (đừng bỏ bước này)
 
 1. Mở đường dẫn web app thẳng trên trình duyệt. Phải thấy
    `RSVP đang chạy. Số dòng đã nhận: 0`. Nếu thấy trang lỗi thì bản triển khai
-   sai, quay lại bước 3.
+   sai, quay lại bước 3. Bước này phải do bạn làm: máy dựng trang không ra
+   được `script.google.com`, nên nó chưa từng gọi thử đường dẫn này lần nào.
 2. Mở trang thiệp thật, gửi một xác nhận thử.
 3. Mở bảng tính. Phải có một dòng mới.
 4. Xoá dòng thử đó đi.

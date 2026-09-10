@@ -2,7 +2,8 @@
    deployment here; RSVP.md in the repository root walks through making it.
    Left empty, the form still thanks the guest and their answer goes nowhere,
    which is worth knowing before the invitations are sent. */
-const RSVP_ENDPOINT = "";
+const RSVP_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbwLoydBGCen58_RmEt1N392zPTEtjkTpQPjSihuYXEVCmyWB9LulxDtjqFtrBhzYmGRcQ/exec";
 
 /* The offset is not optional. Without it the browser reads the string in the
    guest's own timezone, so the same page counted down to 09:00 in Saigon, in
