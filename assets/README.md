@@ -85,13 +85,17 @@ a 500px copy handed out by `srcset`. The originals totalled 17.5 MB and became
 
 The two sets under Our Engagement Ceremony, three photographs each, in a 1200px
 and a 600px copy.
-`hoi-01`, `hoi-05`, `hoi-06` for the engagement and `bien-04`, `bien-05`,
+`hoi-01`, `hoi-05`, `hoi-06` for the engagement and `bien-02`, `bien-07`,
 `bien-01` for the beach, in that order across the row.
 
-- **The numbers are gaps on purpose.** Fourteen were uploaded and eleven are
+- **The numbers are gaps on purpose.** Fourteen were uploaded and eight are
   gone, because the section shows three a set and nothing else: there is no
   viewer behind it any more. The numbers that survived are the ones chosen, and
   the ones that went are in the git history if any of them is ever wanted back.
+  `bien-02` and `bien-07` were brought back out of it exactly that way:
+  `git checkout c070aa8~1 -- assets/bien-02-1200.jpg`. Take the derivatives
+  from history rather than rebuilding from the original, which is two commits
+  further back and would have to go through the same resize again.
 - The three were a real choice, not the first three. `hoi-02` and `hoi-03` were
   strips of several frames with the film border showing, made to be seen whole,
   so an upright plate cut one in half and put a black bar across it. Pick single
@@ -102,10 +106,16 @@ and a 600px copy.
   beach set is 3:4, and one assumed ratio for both would reserve the wrong box
   and drop the page a step as each picture arrived.
 - Replacing one, or reordering the row, means the `width`, the `height` and the
-  `sizes` hint travel with the slot rather than with the file. The two beach
-  photographs in the first two columns are a pixel apart in height and sit in
-  columns of different widths, so swapping the files alone would leave both
-  declarations wrong. Measure, do not guess.
+  `sizes` hint travel with the slot rather than with the file: the two small
+  beach plates sit in columns of different widths, and the beach files are not
+  all the same height to the pixel, so moving a file without redeclaring it
+  leaves the box wrong. Measure, do not guess.
+- **`plate-low` is on the two small beach plates.** On a phone those plates are
+  cropped to a square, and both of those photographs put the couple down at the
+  very bottom under a whole sky, so a centred crop took their legs off. The
+  class crops from the bottom instead. It does nothing on desktop, where the
+  plate is 3/4 like the file and nothing is cut. A photograph whose subject is
+  centred should not carry it.
 - The section carries one heading and one quote, and the two rows have no labels
   of their own, so the gap between them is the only thing separating a pink
   indoor ceremony from a blue-hour beach. Keep that gap if the compositions are

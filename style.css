@@ -990,6 +990,15 @@ body.is-revealing .std-card {
   border-radius: var(--radius-photo);
 }
 
+/* Two of the beach frames put the couple down at the very bottom edge, under
+   a whole sky. The phone crops these plates to a square, and a centred crop
+   took their legs off, so these two crop from the bottom instead. Desktop is
+   untouched: there the plate is 3/4, the same as the file, so nothing is cut
+   and there is nothing to position. */
+.plate-low {
+  object-position: center bottom;
+}
+
 .plates-lead > .plate-lead {
   grid-column: 1 / -1;
   aspect-ratio: 4 / 5;
