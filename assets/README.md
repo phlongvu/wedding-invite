@@ -95,7 +95,10 @@ and a 600px copy.
   `bien-02` and `bien-07` were brought back out of it exactly that way:
   `git checkout c070aa8~1 -- assets/bien-02-1200.jpg`. Take the derivatives
   from history rather than rebuilding from the original, which is two commits
-  further back and would have to go through the same resize again.
+  further back and would have to go through the same resize again. Both
+  originals were re-uploaded by hand at the same time and turned out
+  byte-identical to the ones already in the history, so nothing was rebuilt;
+  they were then removed again, because no set here keeps its original.
 - The three were a real choice, not the first three. `hoi-02` and `hoi-03` were
   strips of several frames with the film border showing, made to be seen whole,
   so an upright plate cut one in half and put a black bar across it. Pick single
