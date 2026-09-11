@@ -113,12 +113,31 @@ and a 600px copy.
   beach plates sit in columns of different widths, and the beach files are not
   all the same height to the pixel, so moving a file without redeclaring it
   leaves the box wrong. Measure, do not guess.
-- **`plate-low` is on the two small beach plates.** On a phone those plates are
-  cropped to a square, and both of those photographs put the couple down at the
-  very bottom under a whole sky, so a centred crop took their legs off. The
-  class crops from the bottom instead. It does nothing on desktop, where the
-  plate is 3/4 like the file and nothing is cut. A photograph whose subject is
-  centred should not carry it.
+- **The 3/4 in the stylesheet is a minimum, not the plate's ratio.** `.plate`
+  sets `height: 100%`, which beats `aspect-ratio`, so every plate in a row is as
+  tall as the tallest and its real ratio is its own column width over that
+  height. In the beach trio the columns are 1.15 / 0.85 / 1.3, so only the lead
+  is really 3/4: the first plate renders 0.66 and loses a tenth of the file's
+  width, and the narrow middle one renders 0.49, a 1:2 sliver that throws away a
+  third of it. Before assuming a photograph is shown whole, read the real ratio
+  off the page rather than off the rule: in the browser console,
+  `[...document.querySelectorAll('#chapterBien .plate')].map(e => {const r =
+  e.getBoundingClientRect(); return [e.currentSrc.split('/').pop(),
+  (r.width/r.height).toFixed(2), (e.naturalWidth/e.naturalHeight).toFixed(2)]})`
+  prints the box ratio beside the file's own. Where they differ, that much of
+  the width or height is being cut.
+- **`plate-low` and `plate-subject-left` are on the small beach plates.** On a
+  phone these plates crop to a square and both photographs put the couple at the
+  very bottom under a whole sky, so a centred crop took their legs off:
+  `plate-low` crops from the bottom. On desktop nothing is cut vertically and the
+  horizontal half of that same declaration is what acts, which is where
+  `plate-subject-left` comes in: `bien-07`'s couple sits at 34-43% of the file
+  with a tree at the right edge, and the middle column keeps only 65% of the
+  width, so a centred crop pushed them a third of the way in and looked broken.
+  17% slides the surviving window left until they land in the middle. Both
+  numbers are measured, not chosen. Re-measure whenever the file, the column
+  widths or the row height change, and leave both classes off a photograph whose
+  subject is already centred, as `bien-02`'s is.
 - The section carries one heading and one quote, and the two rows have no labels
   of their own, so the gap between them is the only thing separating a pink
   indoor ceremony from a blue-hour beach. Keep that gap if the compositions are
