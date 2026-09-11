@@ -85,13 +85,17 @@ a 500px copy handed out by `srcset`. The originals totalled 17.5 MB and became
 
 The two sets under Our Engagement Ceremony, three photographs each, in a 1200px
 and a 600px copy.
-`hoi-01`, `hoi-05`, `hoi-06` for the engagement and `bien-02`, `bien-07`,
-`bien-01` for the beach, in that order across the row.
+`hoi-01`, `hoi-06`, `hoi-04` for the engagement and `bien-02`, `bien-07`,
+`bien-01` for the beach, in the order they appear in `index.html`. That is not
+left-to-right: each set's lead plate carries `plate-lead` and the stylesheet
+puts it in the middle column of the engagement row and the last column of the
+beach one, so `hoi-01` renders between the other two.
 
-- **The numbers are gaps on purpose.** Fourteen were uploaded and eight are
-  gone, because the section shows three a set and nothing else: there is no
-  viewer behind it any more. The numbers that survived are the ones chosen, and
-  the ones that went are in the git history if any of them is ever wanted back.
+- **The numbers are gaps on purpose.** Fourteen were uploaded and the section
+  shows three a set and nothing else: there is no viewer behind it any more.
+  Whatever is not in the six listed above is either still sitting in the folder
+  unused, from a plate that has been swapped while the rows are being settled,
+  or gone and recoverable from the git history.
   `bien-02` and `bien-07` were brought back out of it exactly that way:
   `git checkout c070aa8~1 -- assets/bien-02-1200.jpg`. Take the derivatives
   from history rather than rebuilding from the original, which is two commits
