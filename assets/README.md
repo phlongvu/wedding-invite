@@ -85,8 +85,8 @@ a 500px copy handed out by `srcset`. The originals totalled 17.5 MB and became
 
 The two sets under Our Engagement Ceremony, three photographs each, in a 1200px
 and a 600px copy.
-`hoi-01`, `hoi-05`, `hoi-06` for the engagement and `bien-01`, `bien-04`,
-`bien-05` for the beach.
+`hoi-01`, `hoi-05`, `hoi-06` for the engagement and `bien-04`, `bien-01`,
+`bien-05` for the beach, in that order across the row.
 
 - **The numbers are gaps on purpose.** Fourteen were uploaded and eleven are
   gone, because the section shows three a set and nothing else: there is no
@@ -101,8 +101,11 @@ and a 600px copy.
   `height` on each plate in `index.html`. The engagement set is 2:3 and the
   beach set is 3:4, and one assumed ratio for both would reserve the wrong box
   and drop the page a step as each picture arrived.
-- Replacing one means regenerating both copies at that photograph's own ratio
-  and correcting its `width` and `height`. Measure, do not guess.
+- Replacing one, or reordering the row, means the `width`, the `height` and the
+  `sizes` hint travel with the slot rather than with the file. The two beach
+  photographs in the first two columns are a pixel apart in height and sit in
+  columns of different widths, so swapping the files alone would leave both
+  declarations wrong. Measure, do not guess.
 - The section carries one heading and one quote, and the two rows have no labels
   of their own, so the gap between them is the only thing separating a pink
   indoor ceremony from a blue-hour beach. Keep that gap if the compositions are
